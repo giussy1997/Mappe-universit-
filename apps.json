@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "id": "cardiologia",
+      "name": "Cardiologia",
+      "icon": "🫀",
+      "color": "#e05b6b"
+    },
+    {
+      "id": "pneumologia",
+      "name": "Pneumologia",
+      "icon": "🫁",
+      "color": "#5b8dee"
+    },
+    {
+      "id": "altro",
+      "name": "Altro",
+      "icon": "📁",
+      "color": "#7a7f99"
+    }
+  ],
+  "apps": [
+    {
+      "id": "esempio",
+      "label": "Schema di esempio",
+      "file": "apps/esempio.html",
+      "categoryId": "altro"
+    }
+  ]
+}
