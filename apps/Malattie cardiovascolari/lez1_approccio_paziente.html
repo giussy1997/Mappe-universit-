@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 1 — Approccio al paziente</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 1</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Anamnesi</button>
+    <button class="s2"        onclick="show('s2',this)">Fattori di rischio</button>
+    <button class="s3"        onclick="show('s3',this)">Il dolore</button>
+    <button class="s4"        onclick="show('s4',this)">Esame obiettivo</button>
+    <button class="s5"        onclick="show('s5',this)">Toni & soffi</button>
+    <button class="s6"        onclick="show('s6',this)">Prolasso & caso clinico</button>
+  </nav>
+</header>
+
+<!-- S1: Anamnesi -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Prof. Parati</div>
+    <div class="lesson-title">Approccio al paziente</div>
+    <div class="lesson-meta">27/09/2022 · Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il percorso diagnostico</div>
+    <div class="highlight">
+      <strong>Sintomi</strong> (riferiti dal paziente) → <strong>segni</strong> (rilevati all'esame obiettivo) → <strong>esami</strong> (confermano i sospetti) → <strong>diagnosi</strong> (unisce i dati con fisiopatologia, metodologia ed epidemiologia). La medicina ha una forte componente <strong>statistica</strong>: più elementi precisi si raccolgono, più alta è la probabilità diagnostica. Le informazioni vengono anche dai parenti (utile in giovani e anziani).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I tipi di anamnesi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Prossima</div>
+        <div class="card-content">Motivo della visita: sintomatologia, tempo e modalità d'insorgenza, durata, localizzazione, qualità e intensità del dolore, fattori modificanti. "Rompe il ghiaccio".</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Familiare</div>
+        <div class="card-content">Patologie ereditarie (ipertensione, diabete) e predisposizione CV. Importanti i <strong>decessi precoci</strong> (forme genetiche). Alcune cardiomiopatie genetiche restano mute fino a una FV fatale sotto stress. Fino al 2° grado.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fisiologica</div>
+        <div class="card-content">Abitudini e fattori di rischio (vedi tab dedicato). Cruciale per la prevenzione precoce delle malattie cronico-degenerative.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Remota</div>
+        <div class="card-content">Malattie pregresse: un infarto pregresso → prevenzione secondaria ("alto rischio"). Interventi, terapie, allergie (vaccini, mezzi di contrasto).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Fattori di rischio -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Anamnesi fisiologica</div>
+    <div class="lesson-title">Fattori di rischio e abitudini</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sostanze</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fumo</div>
+        <div class="card-content">La nicotina è vasocostrittrice: ↑ pressione per ~16 min e ↑ FC. Le e-cig hanno più nicotina ma meno irritazione da combustione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stupefacenti</div>
+        <div class="card-content">La <strong>cocaina</strong> dà attivazione simpatica e vasocostrizione → squilibrio richiesta/apporto di O₂ → ischemia. Causa rilevante di eventi coronarici negli <strong>under-35</strong>. Spesso non riferita.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Alcol</div>
+        <div class="card-content">Vasodilatatore a basse dosi (vino rosso), ma a dosi maggiori potente attivatore simpatico (↑ pressione). Consumo frequente → ↑ rischio tumori, CV, ictus.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Stile di vita</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Attività fisica</div>
+        <div class="card-content">La sua assenza ↑ il rischio di malattie cronico-degenerative. Molte forme precoci di ipertensione sono correggibili col solo stile di vita.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sonno</div>
+        <div class="card-content">6-7 ore: ripara i tessuti, fissa la memoria, abbassa il simpatico. Chiedere se <strong>russa</strong> (al partner) → apnee notturne → attivazione simpatica, aritmie, ischemie.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diuresi & alvo</div>
+        <div class="card-content">Nicturia: ipertrofia prostatica o riassorbimento di edemi declivi in clinostatismo. Regolarità dell'alvo per patologie GI.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Lavoro & viaggi</div>
+        <div class="card-content">Stress (↑ rischio CV e sindrome metabolica), esposizioni (es. <strong>amianto</strong> → microcitoma). Viaggi → diffusione di patologie.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Specificità di genere</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Disfunzione erettile</div>
+        <div class="card-content">Nell'uomo può precedere di <strong>5 anni</strong> una malattia coronarica (è una malattia endoteliale precoce).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gravidanza</div>
+        <div class="card-content">La <strong>pre-eclampsia</strong> (ipertensione + proteinuria nella 2ª metà) può evolvere in eclampsia (convulsioni). Aborti e gravidanze vanno indagati.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Menopausa</div>
+        <div class="card-content">Dopo la menopausa il rischio CV femminile eguaglia quello maschile (vengono meno gli estrogeni protettivi).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Il dolore -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Dolore</div>
+    <div class="lesson-title">Il dolore toracico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratteristiche del dolore anginoso</div>
+    <div class="highlight">
+      Il dolore anginoso è <strong>viscerale</strong>: diffuso, non puntorio. Sede ampia: retrosternale, precordiale, interscapolare, superficie volare del braccio sinistro (irradiazione). Il <strong>diabetico</strong> può non percepirlo (neuropatia). In donne e anziani le sedi possono differire.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratterizzazione (esempio: l'uomo al ristorante)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Modalità d'insorgenza</div>
+        <div class="card-content">Dopo esposizione al freddo (vasocostrizione), sforzo, digestione (circolo splancnico) → tutti aumentano la richiesta cardiaca.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Durata</div>
+        <div class="card-content">Dolore <strong>persistente</strong> → infarto; dolore <strong>breve</strong> → angina.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Qualità & intensità</div>
+        <div class="card-content">Oppressivo, gravativo, puntorio, urente. L'infartuale è molto oppressivo, con sudorazione e nausea (confondibile con indigestione).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori modificanti</div>
+        <div class="card-content">Fermarsi può alleviare l'angina; <strong>piegarsi in avanti allevia la pericardite</strong> (sposta il liquido e i foglietti non sfregano).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Esame obiettivo -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Esame obiettivo</div>
+    <div class="lesson-title">L'esame obiettivo per distretti</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le 4 fasi & il torace</div>
+    <div class="highlight">
+      Quattro fasi: <strong>ispezione, palpazione, percussione, auscultazione</strong>. Torace: ispezione (espansibilità), palpazione del <strong>fremito vocale tattile</strong> ("trentatré" — perso in tumori/versamenti, amplificato nelle polmoniti a bronchi aperti), percussione (ottusità = masse solide), auscultazione (murmure vescicolare, crepitii, rantoli, sfregamenti).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Addome e arti</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Addome</div>
+        <div class="card-content"><strong>Ascite</strong> e fegato ingrandito/dolente → segni di scompenso cardiaco. Addome globoso → alterazioni metaboliche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arti — edemi</div>
+        <div class="card-content">Segno della <strong>fovea</strong> (edema) vs linfedema (terapie diverse). Dita a <strong>bacchetta di tamburo</strong>: infezioni croniche, scompenso cronico, amiloidosi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arti — polsi</div>
+        <div class="card-content">Caratteristiche (veloci/lenti/ampi/piccoli) e valutazione <strong>simultanea dx/sx</strong> per cogliere asimmetrie (ostruzioni).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il collo & le giugulari</div>
+    <div class="highlight">
+      Tiroide (se ipertrofica) e soprattutto le <strong>giugulari</strong>: normalmente visibili da sdraiati, scompaiono verso i <strong>30°</strong>. Nello scompenso (↑ pressione venosa centrale) restano visibili ad angoli maggiori, fino alla posizione seduta. Il polso giugulare stima la pressione dell'atrio destro. Utili anche le sonde eco <strong>pocket</strong> (eco da cellulare) in PS.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Toni e soffi -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Auscultazione</div>
+    <div class="lesson-title">Toni e soffi cardiaci</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I toni cardiaci</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">S1 e S2</div>
+        <div class="card-content">S1 si identifica col polso radiale; S2 è il successivo. Pausa S2→S1 più lunga di S1→S2. Lo <strong>sdoppiamento</strong> (asincronia valvole dx/sx) è fisiologico, varia col respiro (in inspirazione il tono polmonare e aortico si allontanano).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">S3</div>
+        <div class="card-content">Segue S2: rumore del cuore <strong>rigido</strong> che si distende a inizio diastole. Segno di <strong>scompenso</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">S4</div>
+        <div class="card-content">Precede S1: cuore rigido che si comprime prima di eiettare.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I soffi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Origine</div>
+        <div class="card-content">Moto turbolento del sangue: <strong>stenosi</strong> (restringimento) o <strong>insufficienza</strong> (chiusura incompleta).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sistolico (eiettivo)</div>
+        <div class="card-content">Tra S1 e S2, forte e aspro: stenosi semilunare (aortica) o insufficienza AV (mitrale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diastolico</div>
+        <div class="card-content">Dopo S2, più dolce: stenosi AV o insufficienza semilunare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Soffi innocenti</div>
+        <div class="card-content">Frequenti in pediatria (asimmetria crescita camere/vasi). Dolci, ≤ 3/6, variano con respiro e posizione (scompaiono in ortostatismo e inspirazione profonda).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Focolai di auscultazione</div>
+    <div class="highlight">
+      <strong>Aortico</strong>: II spazio IC dx parasternale (+ focolaio di Erb, III IC sx); irradia al collo. <strong>Polmonare</strong>: II IC sx parasternale. <strong>Tricuspidale</strong>: IV IC sx al margine sternale. <strong>Mitralico</strong>: itto puntale, V IC sx emiclaveare, irradia all'ascella sx. Auscultare sempre anche i vasi (placche).
+    </div>
+  </div>
+</div>
+
+<!-- S6: Prolasso e caso clinico -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Applicazioni</div>
+    <div class="lesson-title">Prolasso mitralico e caso clinico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Prolasso della mitrale</div>
+    <div class="highlight">
+      Quando le corde tendinee diventano lasse o i lembi sono <strong>mixomatosi</strong> (congenito), la valvola non tiene e i lembi protrudono verso l'atrio in sistole → lieve insufficienza. All'auscultazione: <strong>click mesosistolico</strong> seguito da un piccolo soffio. Molto comune, associato a ↑ aritmie; le forme su lassità congenita degenerano più rapidamente → spesso insufficienza mitralica, oggi corretta con <strong>riparazione</strong> (non sostituzione).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caso clinico — l'importanza dell'EO</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Il ragazzo con "epilessia"</div>
+        <div class="card-content">
+          Giovane in PS dopo <strong>sincope con convulsioni</strong>. Il neurologo diagnostica epilessia (EEG) e lo dimette con terapia. Dopo altri 4 attacchi, il dr. Parati lo ausculta e sente un <strong>soffio sistolico aspro irradiato al collo</strong>: era una <strong>stenosi aortica</strong> così grave da ridurre la gittata cerebrale → sincope ed epilessia secondaria. Sostituita la valvola, gli attacchi cessano.
+        </div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Lezione</strong>: anche con tutta la diagnostica strumentale disponibile, un esame obiettivo accurato (qui una semplice auscultazione) può essere determinante e cambiare radicalmente la diagnosi.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezioni 5-6 — Scompenso cardiaco</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezioni 5-6</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & cause</button>
+    <button class="s2"        onclick="show('s2',this)">Fisiopatologia & compenso</button>
+    <button class="s3"        onclick="show('s3',this)">Classificazioni</button>
+    <button class="s4"        onclick="show('s4',this)">Sintomi & segni</button>
+    <button class="s5"        onclick="show('s5',this)">Diagnosi</button>
+    <button class="s6"        onclick="show('s6',this)">Terapia & acuto</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione e cause -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezioni 5-6 · Prof.ssa Muraru</div>
+    <div class="lesson-title">Scompenso cardiaco</div>
+    <div class="lesson-meta">25/10/2022 · argomento ad alta frequenza d'esame</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione</div>
+    <div class="highlight">
+      Condizione in cui il cuore non riesce a <strong>riempirsi adeguatamente</strong> ed <strong>espellere</strong> sangue sufficiente alle esigenze dell'organismo. È una <strong>sindrome clinica</strong>, non una malattia: va sempre identificata la causa per la terapia eziologica. Non è sinonimo di disfunzione ventricolare sinistra (può esserci SC a funzione sistolica preservata).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Importanza</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Prognosi</div>
+        <div class="card-content">Mortalità <strong>6-7 volte</strong> superiore alla popolazione sana di pari età (si avvicina a quella di un cancro).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Epidemiologia</div>
+        <div class="card-content"><strong>Prima causa di ricovero</strong> oltre i 65 anni. In aumento per invecchiamento e migliore sopravvivenza post-infarto.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sistolico vs diastolico</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sistolico</div>
+        <div class="card-content">Il cuore è debole e non genera portata sufficiente; oppure le richieste aumentano oltre la capacità (anemia grave, tireotossicosi).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diastolico</div>
+        <div class="card-content">Contrattilità preservata ma servono pressioni cavitarie aumentate per espellere il sangue. Terminologia oggi sostituita dalla classificazione per FE.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause principali</div>
+    <div class="highlight">
+      Le più frequenti e da ricordare: <strong>1. Cardiopatia ischemica</strong> (la principale), <strong>2. Ipertensione arteriosa</strong>, <strong>3. Valvulopatie</strong>, <strong>4. Aritmie</strong>, <strong>5. Cardiomiopatie</strong> (ipertrofica, aritmogena…), <strong>6. Miocardite</strong>. Altre: farmaci cardiotossici (oncologici), malattie infiltrative/da accumulo, pericardiche, metaboliche, congenite, neuromuscolari.
+    </div>
+  </div>
+</div>
+
+<!-- S2: Fisiopatologia -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezioni 5-6 · Fisiopatologia</div>
+    <div class="lesson-title">Meccanismi di compenso</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compenso a breve termine</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Frank-Starling</div>
+        <div class="card-content">↓ gittata → ↑ volume telesistolico → ↑ telediastolico → ↑ forza di contrazione (fino al plateau, poi declina nel sovraccarico).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Attivazione adrenergica (+)</div>
+        <div class="card-content">↑ contrattilità, effetto cronotropo positivo, ↑ PA (vasocostrizione α), reclutamento del sangue agli organi vitali.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Attivazione adrenergica (−)</div>
+        <div class="card-content"><strong>Pro-aritmica</strong> (rischio morte improvvisa), durata limitata, ↑ consumo di O₂.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sistema RAAS</div>
+        <div class="card-content">↓ perfusione renale → RAAS → ritenzione idrosalina (↑ volemia). L'angiotensina II ↑ precarico e consumo O₂ → effetto deleterio. Il simpatico promuove apoptosi, ipertrofia, fibrosi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Peptidi natriuretici</div>
+        <div class="card-content"><strong>ANP e BNP</strong>: ↑ diuresi e vasodilatazione (controregolatori). Il <strong>BNP</strong> è dosato come marker nello scompenso.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compenso a medio-lungo termine</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Effetto Anrep</div>
+        <div class="card-content">↑ contrattilità in risposta all'aumento del postcarico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Effetto Bowditch (Treppe)</div>
+        <div class="card-content">↑ FC → ↑ forza (più calcio disponibile). Nel cuore scompensato però oltre una certa FC la forza scende → si tende a mantenere la FC bassa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rimodellamento</div>
+        <div class="card-content">↑ volume e massa del VS. Legge di <strong>Laplace</strong>: stress parietale ∝ pressione × raggio → il cuore dilatato ispessisce la parete per compensare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fibrosi & infiammazione</div>
+        <div class="card-content">Sostituzione fibrotica → rigidità → disfunzione diastolica e congestione. TNF-α → cachessia nelle fasi avanzate.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ipertrofia cardiaca</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Concentrica</div>
+        <div class="card-content">Sarcomeri in <strong>parallelo</strong> → ispessimento verso la cavità (sovraccarico di pressione, es. ipertensione/stenosi aortica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Eccentrica</div>
+        <div class="card-content">Sarcomeri in <strong>serie</strong> → dilatazione della cavità (sovraccarico di volume).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Classificazioni -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezioni 5-6 · Classificazioni</div>
+    <div class="lesson-title">Classificazioni dello scompenso</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Per frazione di eiezione (ESC 2021)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">HFrEF</div>
+        <div class="card-content">FE <strong>≤ 40%</strong> (ridotta). Causa principale: <strong>cardiopatia ischemica</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HFmrEF</div>
+        <div class="card-content">FE <strong>41-49%</strong> (lievemente ridotta).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HFpEF</div>
+        <div class="card-content">FE <strong>≥ 50%</strong> (conservata). Causa principale: <strong>ipertensione arteriosa</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HFimpEF</div>
+        <div class="card-content">(LG americane) FE "migliorata": resta ridotta ma migliorata dalla terapia → proseguirla.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione NYHA (per sintomi)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classe I</div>
+        <div class="card-content">Nessuna limitazione delle attività ordinarie. Sintomi solo per sforzo eccessivo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classe II</div>
+        <div class="card-content">Lieve limitazione: sintomi con attività ordinaria.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classe III</div>
+        <div class="card-content">Marcata limitazione: sintomi con attività meno che ordinaria.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classe IV</div>
+        <div class="card-content">Sintomi <strong>a riposo</strong>, incapacità di qualsiasi attività (es. dispnea parossistica notturna).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione ACC/AHA (per stadi)</div>
+    <div class="highlight">
+      <strong>Stage A</strong>: ad alto rischio (dislipidemia, obesità, ipertensione) ma senza sintomi né alterazioni. <strong>Stage B</strong>: anomalie strutturali ma asintomatico ("pre heart failure"). <strong>Stage C</strong>: scompenso conclamato (≈ NYHA). <strong>Stage D</strong>: refrattario, richiede interventi specialistici fino al trapianto.
+    </div>
+  </div>
+</div>
+
+<!-- S4: Sintomi e segni -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezioni 5-6 · Clinica</div>
+    <div class="lesson-title">Sintomi e segni</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cosa cercare</div>
+    <div class="highlight">
+      Tre quadri chiave: <strong>congestione polmonare</strong>, <strong>ipertensione venosa sistemica</strong> e <strong>bassa portata</strong>. Lo scompenso "anterogrado" dà segni di bassa portata (astenia, ipoperfusione); il "retrogrado" segni di aumentate pressioni di riempimento (dispnea, edemi).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintomi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Da bassa portata</div>
+        <div class="card-content">Affaticamento, astenia, ridotta prontezza intellettiva (ipoperfusione cerebrale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Respiratori</div>
+        <div class="card-content">Dispnea (sintomo più comune), tachipnea, tosse, <strong>ortopnea</strong>, respiro di Cheyne-Stokes (non patognomonico).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Da congestione sistemica</div>
+        <div class="card-content"><strong>Nicturia</strong>, edemi declivi/scrotali, ↑ circonferenza addominale, dolore al QSD (stiramento della capsula di Glisson epatica), sazietà precoce, calo/aumento ponderale (acqua).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tipi di dispnea</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Da sforzo → a riposo</div>
+        <div class="card-content">Progressione: da sforzo, ingravescente, fino all'<strong>ortopnea</strong> (fatica da sdraiato).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Parossistica notturna (DPN)</div>
+        <div class="card-content">Episodi notturni acuti di dispnea.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bendopnea</div>
+        <div class="card-content">Dispnea piegandosi in avanti (es. allacciare le scarpe), opposto dell'ortopnea.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Platipnea / Trepopnea</div>
+        <div class="card-content">Platipnea: dispnea in piedi/seduto, meglio sdraiato. Trepopnea: in decubito laterale (segno di versamento pleurico).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Forme avanzate</div>
+    <div class="highlight">
+      Nello <strong>stage D</strong> refrattario può comparire <strong>cachessia</strong> (consunzione delle masse muscolari): DD con neoplasia. L'edema iniziale lascia spazio alla consunzione nelle fasi terminali.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Diagnosi -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezioni 5-6 · Diagnosi</div>
+    <div class="lesson-title">Iter diagnostico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Approccio</div>
+    <div class="highlight">
+      Si parte <strong>sempre</strong> dalla valutazione clinica (fattori di rischio, segni, sintomi). Poi si conferma, si classifica per FE e si risale all'<strong>eziologia</strong>. L'anamnesi ha limiti (variabilità tra pazienti attivi/sedentari) → spesso serve la valutazione oggettiva (funzione VS, test da sforzo).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esami</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Peptidi natriuretici</div>
+        <div class="card-content"><strong>BNP / NT-proBNP</strong>: marcatori di scompenso, utili per diagnosi e follow-up.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecocardiogramma</div>
+        <div class="card-content">Esame chiave: misura la <strong>FE</strong>, valuta cinesi, volumi, valvole, pressioni di riempimento → classifica e orienta sull'eziologia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG & RX torace</div>
+        <div class="card-content">ECG (segni di ischemia/ipertrofia/aritmie); RX: congestione, edema interstiziale, cardiomegalia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Test da sforzo</div>
+        <div class="card-content">Valuta oggettivamente la riduzione della capacità d'esercizio.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori precipitanti (da indagare)</div>
+    <div class="highlight">
+      Un compenso cronico può scompensarsi acutamente per: eccesso di <strong>sodio</strong> nella dieta, mancata aderenza ai farmaci, evento ischemico, <strong>FA ad elevata risposta</strong>, infezioni (influenza, polmonite), farmaci controindicati.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Terapia e acuto -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezioni 5-6 · Trattamento</div>
+    <div class="lesson-title">Terapia dello scompenso</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I "4 pilastri" dell'HFrEF</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1 · ARNI / ACE-i / sartani</div>
+        <div class="card-content"><strong>Sacubitril-valsartan</strong> (ARNI) superiore agli ACE-i (−20% mortalità). Attenzione all'angioedema (lasciare 36h dall'ACE-i); no in IRC severa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2 · Beta-bloccanti</div>
+        <div class="card-content">Riducono FC e consumo di O₂, migliorano la sopravvivenza.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3 · Antialdosteronici</div>
+        <div class="card-content"><strong>Spironolattone/eplerenone</strong>: deboli diuretici ma riducono molto la mortalità (FEVS &lt; 35%). Controllare potassiemia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4 · SGLT2-inibitori</div>
+        <div class="card-content"><strong>Dapagliflozin/empagliflozin</strong>: classe I. Eliminano sodio e glucosio (utili anche nel diabetico). Rischio: infezioni urinarie/fungine.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Il <strong>5° pilastro</strong> spesso citato è la <strong>riabilitazione cardiologica</strong> (attività fisica controllata in pazienti stabili, previo test da sforzo).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diuretici & altri farmaci</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diuretici dell'ansa</div>
+        <div class="card-content"><strong>Furosemide</strong>: prima scelta per la congestione. Agiscono sui <strong>sintomi</strong> ma NON sulla mortalità. Titolare lentamente, monitorare peso e K⁺.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Digossina / Ivabradina</div>
+        <div class="card-content">Digossina nella FA; <strong>ivabradina</strong> se la FC resta alta nonostante i beta-bloccanti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anticoagulanti</div>
+        <div class="card-content">Nel paziente con FA, terapia anticoagulante cronica.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Dispositivi & supporto avanzato</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ICD (defibrillatore)</div>
+        <div class="card-content">Sintomatici con aspettativa &gt; 1 anno e <strong>FE &lt; 35%</strong> → in prevenzione primaria; secondaria se eventi pregressi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">CRT (risincronizzazione)</div>
+        <div class="card-content">Pacemaker biventricolare se sintomatico + <strong>QRS slargato/BBS</strong> → ristabilisce la sincronia del VS.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">LVAD & trapianto</div>
+        <div class="card-content">Nell'advanced HF: supporto meccanico (LVAD, pompa che aspira dal VS e immette in aorta) o trapianto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HFpEF / HFmrEF</div>
+        <div class="card-content">Controllo dei fattori di rischio (PA, colesterolo, alcol, fumo, esercizio) + diuretici se congesti. Altri farmaci in classe II.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Emergenze correlate</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Edema polmonare acuto</div>
+        <div class="card-content">Dispnea grave, no ortopnea, congestione bilaterale "<strong>a farfalla</strong>" all'RX. Scatenato da ipertensione, aritmia, <strong>stenosi aortica severa</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Shock cardiogeno</div>
+        <div class="card-content">Ipotensione marcata + ipoperfusione → disfunzione d'organo e confusione mentale. Da disfunzione cardiaca (DD con shock settico/ipovolemico).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

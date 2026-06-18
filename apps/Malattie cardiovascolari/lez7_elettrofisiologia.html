@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 7 — Elettrofisiologia e aritmie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 7</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Meccanismi</button>
+    <button class="s2"        onclick="show('s2',this)">Cateteri & dipolo</button>
+    <button class="s3"        onclick="show('s3',this)">Posizioni & mappaggio</button>
+    <button class="s4"        onclick="show('s4',this)">AVNRT & AVRT</button>
+    <button class="s5"        onclick="show('s5',this)">Flutter & atriale</button>
+    <button class="s6"        onclick="show('s6',this)">Fibrillazione atriale</button>
+  </nav>
+</header>
+
+<!-- S1: Meccanismi -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Prof. Perego</div>
+    <div class="lesson-title">Elettrofisiologia e aritmie</div>
+    <div class="lesson-meta">Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I meccanismi delle tachiaritmie</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Accentuato automatismo</div>
+        <div class="card-content">Cellule con attività pacemaker che si depolarizzano spontaneamente più del normale, prendendo il sopravvento sul nodo del seno.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Attività trigger</div>
+        <div class="card-content">Post-depolarizzazioni (precoci o tardive) che innescano nuovi battiti, agganciate al potenziale d'azione precedente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rientro</div>
+        <div class="card-content">Il meccanismo più frequente: un <strong>cortocircuito</strong> con un circuito anatomico/funzionale che si autoperpetua. Richiede un blocco unidirezionale e una conduzione lenta.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">A cosa serve l'elettrofisiologia</div>
+    <div class="highlight">
+      Lo <strong>studio elettrofisiologico (SEP)</strong> registra l'attività elettrica direttamente all'interno del cuore per localizzare con precisione l'origine/il circuito di un'aritmia e trattarla con l'<strong>ablazione</strong> (radiofrequenza). È una registrazione <strong>sede-specifica</strong>, complementare all'ECG di superficie.
+    </div>
+  </div>
+</div>
+
+<!-- S2: Cateteri e dipolo -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Strumenti</div>
+    <div class="lesson-title">Cateteri e dipolo di registrazione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I cateteri</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Struttura</div>
+        <div class="card-content">All'estremità hanno conduttori ravvicinati (da 4 fino a &gt;20). Raggiungono i distretti per via venosa o arteriosa; a curva fissa o flessibili.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipi di registrazione</div>
+        <div class="card-content"><strong>Unipolare</strong> (rispetto alla massa corporea) o, più spesso, <strong>dipolo</strong> (tra due punti distinti).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il dipolo</div>
+    <div class="highlight">
+      In ogni punto c'è un <strong>fronte d'onda</strong> di depolarizzazione: la zona già depolarizzata è più positiva (+), quella ancora da raggiungere è negativa (−) → dipolo. La registrazione dipende da posizione e tempi. È lo stesso principio dell'ECG: se il dipolo è <strong>parallelo</strong> all'asse elettrico legge ampiezza massima, se <strong>perpendicolare</strong> non legge nulla.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Registrazione endocavitaria vs superficie</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sede-specifica</div>
+        <div class="card-content">I piccoli dipoli sul tessuto registrano potenziali <strong>piccoli, veloci ed estremamente locali</strong>: raccontano solo cosa avviene in quel punto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Far field</div>
+        <div class="card-content">Attività "di campo lontano" da una cavità grossa (es. il ventricolo visto dall'atrio): segnale lento e a basso potenziale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Posizioni e mappaggio -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Posizioni tipiche</div>
+    <div class="lesson-title">Posizioni dei cateteri e mappaggio</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le posizioni standard</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">RVA (apice VD)</div>
+        <div class="card-content">Dalla femorale → cava → atrio dx → ventricolo dx. Registra attività ventricolare V (deflessione rapida, ampia); niente attività atriale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HRA (atrio dx alto)</div>
+        <div class="card-content">In sede del nodo del seno: attività atriale registrata <strong>per prima</strong> (è l'origine dell'impulso).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Seno coronarico (CS)</div>
+        <div class="card-content">Dalla giugulare nel solco AV sx: raccoglie segnali atriali e ventricolari. <strong>CS prossimale</strong> = più atrio; <strong>CS distale</strong> = più ventricolo. Reticolo molto variabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HBE (fascio di His)</div>
+        <div class="card-content">A cavallo di atrio e ventricolo: si vedono attività atriale A, hissiana <strong>H</strong> e ventricolare V. Segnale rapido e piccolo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Mappaggio</div>
+    <div class="highlight">
+      Il <strong>mappaggio tridimensionale</strong> ricostruisce l'anatomia e la sequenza di attivazione elettrica della camera, individuando il circuito dell'aritmia e il punto-bersaglio dell'ablazione. La <strong>TC coronarica</strong> nei tempi tardivi mostra in anticipo la distribuzione del sistema venoso (utile per i pacemaker biventricolari).
+    </div>
+  </div>
+</div>
+
+<!-- S4: AVNRT e AVRT -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Tachicardie da rientro</div>
+    <div class="lesson-title">AVNRT e AVRT</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">AVNRT — rientro nodale (micro-rientro)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Circuito</div>
+        <div class="card-content">Doppia via nel nodo AV: <strong>via lenta</strong> + <strong>via rapida</strong>. Un'extrasistole crea il loop. È un <strong>micro</strong>-rientro (circuito piccolo, nel nodo).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trattamento acuto</div>
+        <div class="card-content"><strong>Adenosina</strong> (Krenosin) 6-12 mg ev: blocca la via lenta, effetto 5-10 s. Può dare asistolia transitoria e "sensazione di morte imminente" → avvisare il paziente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ablazione</div>
+        <div class="card-content">Si abla la <strong>via lenta</strong> (non la rapida, che allungherebbe il PR). Si trova sotto l'His, anteriormente all'ostio del seno coronarico.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">AVRT — via accessoria (macro-rientro)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Circuito</div>
+        <div class="card-content"><strong>Macro</strong>-rientro: via accessoria anomala + miocardio atriale + nodo AV + miocardio ventricolare. Le vie accessorie residuano dallo sviluppo embrionale lungo il perimetro valvolare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Localizzazione</div>
+        <div class="card-content">Ovunque lungo l'anello tricuspidale; sulla mitrale dalla parete posteriore all'anterolaterale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ablazione</div>
+        <div class="card-content">Si mappa e si abla la via accessoria. Recidiva ~10% (ripresa funzionale di cellule non completamente devitalizzate).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Flutter e atriale -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Macro-rientri atriali</div>
+    <div class="lesson-title">Flutter e tachicardia atriale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Flutter atriale comune</div>
+    <div class="highlight">
+      Macro-rientro nell'atrio destro. Il punto critico è l'<strong>istmo cavo-tricuspidalico</strong>, facile da raggiungere e lontano dall'His. L'ablazione crea una <strong>barriera lineare</strong> (linea di lesione tra tricuspide e vena cava inferiore) → interrompe il circuito. Successo ~<strong>95%</strong>.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Mappaggio</div>
+        <div class="card-content">Cateteri su setto interatriale e parete laterale (davanti alla crista terminalis): si segue l'impulso che scende e gira; il seno coronarico è passivo, non fa parte del circuito.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tachicardia atriale (AT)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Caratteristiche</div>
+        <div class="card-content">Origina da un focus atriale ectopico. Onde P di morfologia simile alla sinusale, frequenza più contenuta del flutter.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Origine</div>
+        <div class="card-content">Sedi tipiche identificabili allo studio elettrofisiologico → bersaglio dell'ablazione focale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Fibrillazione atriale -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · FA</div>
+    <div class="lesson-title">Fibrillazione atriale — trattamento</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le due strategie ablative</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Isolamento delle vene polmonari</div>
+        <div class="card-content">Il <strong>trigger</strong> più frequente sono le extrasistoli all'origine delle <strong>vene polmonari</strong>. Si crea una cicatrice circonferenziale attorno all'ostio → l'impulso può nascere ma non esce → non innesca la FA. Approccio di prima scelta oggi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Azione sul substrato</div>
+        <div class="card-content">Linee di lesione nell'atrio (linea del tetto tra le vene superiori, istmo mitralico). Oggi meno usata da sola: rischio di <strong>macro-rientri iatrogeni</strong> se le lesioni sono incomplete.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tecnica dell'isolamento</div>
+    <div class="highlight">
+      Catetere mappante <strong>circolare</strong> nella vena: stimolando si vede l'impulso entrare in corrispondenza del dipolo e diffondersi. Si applicano punti di radiofrequenza attorno alla vena fino a <strong>cambiare la sequenza di attivazione</strong> e annullare il potenziale locale → la conduzione atrio-vena (e vena-atrio) è bloccata.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Attenzione alle lesioni incomplete</div>
+    <div class="highlight">
+      Lesioni <strong>incomplete</strong> che rallentano ma non bloccano la conduzione creano i presupposti per nuove aritmie da rientro/macro-rientro iatrogeno. Per questo si privilegia l'isolamento completo delle vene, zona meno esposta ai macro-rientri.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

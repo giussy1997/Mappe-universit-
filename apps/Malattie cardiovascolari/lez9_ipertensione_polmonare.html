@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 9 — Ipertensione polmonare</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 9</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Circolo polmonare</button>
+    <button class="s2"        onclick="show('s2',this)">Definizione & classi</button>
+    <button class="s3"        onclick="show('s3',this)">Clinica & diagnosi</button>
+    <button class="s4"        onclick="show('s4',this)">PAH & terapia</button>
+    <button class="s5"        onclick="show('s5',this)">Embolia polmonare</button>
+    <button class="s6"        onclick="show('s6',this)">Cardiopatie congenite</button>
+  </nav>
+</header>
+
+<!-- S1: Circolo polmonare -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Prof. Caravita</div>
+    <div class="lesson-title">Ipertensione polmonare e cardiopatie congenite</div>
+    <div class="lesson-meta">25/11/2022 · Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiologia del circolo polmonare</div>
+    <div class="highlight">
+      Il circolo polmonare è un sistema a <strong>bassa pressione, bassa resistenza e alta compliance</strong>. Accoglie tutta la gittata cardiaca a pressioni molto inferiori rispetto al circolo sistemico. Ha grande capacità di adattamento tramite <strong>reclutamento</strong> e <strong>distensione</strong> capillare (es. sotto sforzo accoglie più sangue senza alzare di molto la pressione).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il ventricolo destro</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Caratteristiche</div>
+        <div class="card-content">Parete sottile, adattato a un circolo a bassa pressione. Tollera bene i sovraccarichi di <strong>volume</strong>, male i sovraccarichi di <strong>pressione</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Risposta al post-carico</div>
+        <div class="card-content">Davanti a un ↑ post-carico non aumenta facilmente la gittata sistolica → ↑ la <strong>frequenza</strong> per mantenere la portata. È il grado di disfunzione del VD a determinare segni e sintomi.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Definizione e classi -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Definizione</div>
+    <div class="lesson-title">Definizione e classificazione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione emodinamica</div>
+    <div class="highlight">
+      Ipertensione polmonare = <strong>pressione polmonare media &gt; 20 mmHg</strong>. <strong>Pre-capillare</strong>: resistenze vascolari polmonari &gt; 2 WU (problema nel circolo polmonare). <strong>Post-capillare</strong>: PAWP (wedge, ≈ pressione atriale sx) &gt; 15 mmHg (problema oltre il circolo, a valle). Esiste anche la forma combinata pre + post.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Unità Wood (WU)</div>
+        <div class="card-content">Pressione (mmHg) / portata cardiaca (L/min).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pre-capillare</div>
+        <div class="card-content">↑ resistenze: rimodellamento/ostruzione/vasocostrizione arteriolare, perdita del letto vascolare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Post-capillare</div>
+        <div class="card-content">Disfunzione del cuore sinistro → ↑ pressione atriale sx → si ripercuote a monte sul circolo polmonare.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione clinica (5 gruppi)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Gruppo 1 — PAH</div>
+        <div class="card-content">Ipertensione <strong>arteriosa</strong> polmonare (l'unica detta "arteriosa"). Pre-capillare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 2 — cuore sx</div>
+        <div class="card-content">Secondaria a malattia del cuore sinistro (disfunzione sistolica/diastolica, valvulopatia). È una complicanza, non una malattia a sé.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 3 — respiratoria</div>
+        <div class="card-content">Da malattia respiratoria e/o ipossia (BPCO, fibrosi). Le <strong>più frequenti</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 4 — CTEPH</div>
+        <div class="card-content">Tromboembolica cronica (ostruzione delle arterie polmonari). Rara.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 5 — multifattoriale</div>
+        <div class="card-content">Meccanismi non chiari ("pattumiera della classificazione").</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Classificare correttamente è cruciale: i farmaci efficaci nelle forme rare (PAH) possono essere <strong>dannosi</strong> nelle forme frequenti (gruppi 2-3).
+    </div>
+  </div>
+</div>
+
+<!-- S3: Clinica e diagnosi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Clinica</div>
+    <div class="lesson-title">Segni, sintomi e diagnosi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintomi (aspecifici)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Da sforzo</div>
+        <div class="card-content">Dispnea da sforzo, affaticabilità, <strong>bendopnea</strong>, palpitazioni (↑ FC per compensare il VD).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Avanzati</div>
+        <div class="card-content">Distensione addominale e nausea post-sforzo (congestione venosa dinamica), emottisi (circoli collaterali), <strong>sincope da sforzo</strong> (segno grave).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Segni</div>
+    <div class="highlight">
+      <strong>Accentuazione del 2° tono polmonare</strong>, 3° tono ventricolare destro, soffio sistolico dolce da <strong>insufficienza tricuspidale</strong>. Nei casi avanzati: distensione giugulare, epatomegalia, ascite, edemi declivi (scompenso destro).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esami strumentali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ECG</div>
+        <div class="card-content">Sovraccarico destro: <strong>P polmonare</strong>, deviazione assiale destra, T negative in precordiali destre, R alta in V1-V2.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecocardiogramma</div>
+        <div class="card-content">Stima la pressione polmonare e la disfunzione del VD. Test di screening principale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cateterismo destro</div>
+        <div class="card-content"><strong>Gold standard</strong> per la diagnosi emodinamica: misura pressione polmonare, wedge e resistenze (conferma pre/post-capillare).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: PAH e terapia -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Gruppo 1</div>
+    <div class="lesson-title">Ipertensione arteriosa polmonare (PAH)</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Stratificazione del rischio</div>
+    <div class="highlight">
+      La valutazione completa serve anche a stratificare la prognosi e scegliere la terapia. Parametri: segni di scompenso destro, velocità di progressione, <strong>sincope</strong>, classe <strong>NYHA</strong>, test funzionali (CPET, 6MWT), biomarcatori (<strong>peptidi natriuretici</strong>), imaging, emodinamica. Si definiscono rischio basso (&lt; 5% mortalità a 1 anno), intermedio o alto (&gt; 20%).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le 3 vie patogenetiche bersaglio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Via dell'endotelina</div>
+        <div class="card-content">Potente vasocostrittore, alterata nella PAH → rimodellamento e vasocostrizione. Farmaci: <strong>antagonisti recettoriali dell'endotelina</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Via dell'NO</div>
+        <div class="card-content">Guanilato ciclasi/cGMP. Farmaci: <strong>inibitori della PDE5</strong>, stimolatori della guanilato ciclasi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Via della prostaciclina</div>
+        <div class="card-content"><strong>Prostacicline</strong> parenterali (infusione ev continua) o agonisti orali dei recettori.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Strategia & prognosi</div>
+    <div class="highlight">
+      Patologia grave e progressiva → terapia di <strong>combinazione</strong> (2-3 farmaci) fin da subito. Prima della moderna terapia l'aspettativa era ~3 anni; oggi la sopravvivenza supera l'<strong>80%</strong>. Nei refrattari: <strong>trapianto di polmone</strong> (non cuore-polmone: il VD recupera dopo il trapianto polmonare).
+    </div>
+  </div>
+</div>
+
+<!-- S5: Embolia polmonare -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Tromboembolismo</div>
+    <div class="lesson-title">Embolia polmonare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Inquadramento</div>
+    <div class="highlight">
+      Meglio parlare di <strong>tromboembolismo venoso</strong> (TEV): patologia sistemica che comprende embolia polmonare + TVP, la <strong>3ª patologia cardiovascolare più frequente</strong>. Il trombo (di solito da una vena della gamba) migra al cuore destro e al circolo polmonare. <strong>Triade di Virchow</strong>: danno endoteliale, ipercoagulabilità, stasi venosa.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori di rischio & conseguenze</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Forti (×10)</div>
+        <div class="card-content">Fratture e interventi ortopedici, immobilità prolungata, embolia pregressa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Moderati</div>
+        <div class="card-content">Cancro, scompenso, patologie autoimmuni/infiammatorie, terapia ormonale, contraccettivi orali, FIV.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Conseguenze</div>
+        <div class="card-content"><strong>Respiratorie</strong>: mismatch V/Q → ipossiemia. <strong>Emodinamiche</strong>: sovraccarico acuto del VD → ↓ gittata → fino allo <strong>shock cardiogeno/morte</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintomi & score</div>
+    <div class="highlight">
+      Sintomi molto variabili (dall'asintomatico allo shock): dispnea, dolore toracico/pleuritico, palpitazioni, presincope/sincope, raramente emottisi, ipotensione. Score di probabilità clinica: <strong>Wells</strong> e <strong>Ginevra</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi & ECG</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Imaging</div>
+        <div class="card-content"><strong>AngioTAC torace</strong> con contrasto (trombo fresco prossimale). Scintigrafia V/Q se controindicato il contrasto (IRC).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Algoritmo</div>
+        <div class="card-content"><strong>Paziente stabile</strong> + probabilità bassa/intermedia → <strong>D-dimero</strong> (se negativo esclude; se positivo → angioTAC). Paziente instabile → eco e angioTAC urgenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG</div>
+        <div class="card-content">Tachicardia sinusale; classico <strong>S1Q3T3</strong>; segni di sovraccarico destro (R alte V1-V4, T negative).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Eco</div>
+        <div class="card-content">Sofferenza del VD (pressioni &lt; 60 mmHg, il VD non genera di più); esclude tamponamento/dissezione/IMA.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Cardiopatie congenite -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Congenite</div>
+    <div class="lesson-title">Cardiopatie congenite</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Difetti interatriali (DIA)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tipi</div>
+        <div class="card-content"><strong>Ostium secundum</strong> (il più comune, nella fossa ovale); ostium primum (a livello delle valvole AV, cardiopatie gravi); tipo seno venoso (problema di attaccamento dei grossi vasi).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fisiopatologia</div>
+        <div class="card-content">Shunt <strong>sinistro→destro</strong> (le camere dx hanno maggiore compliance). L'entità dipende dalla dimensione del difetto → sovraccarico delle camere destre; raramente IP.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Difetti interventricolari (DIV)</div>
+    <div class="highlight">
+      Comunicazione tra ventricolo sinistro (pressione &gt; 100 mmHg) e ventricolo destro (bassa pressione). Un difetto ampio → <strong>iperafflusso polmonare</strong> rapido → ipertensione polmonare con rimodellamento vascolare.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sindrome di Eisenmenger</div>
+    <div class="highlight">
+      Quando una cardiopatia congenita con shunt <strong>sinistro→destro</strong> sviluppa ipertensione polmonare, le pressioni destre salgono fino a superare quelle sinistre → lo shunt si <strong>inverte</strong> (destro→sinistro). Compare cianosi: è l'evoluzione tardiva e grave dei difetti non corretti.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

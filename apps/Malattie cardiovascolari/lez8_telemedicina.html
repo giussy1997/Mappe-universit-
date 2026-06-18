@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 8 — Telemedicina</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 8</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & storia</button>
+    <button class="s2"        onclick="show('s2',this)">Applicazioni</button>
+    <button class="s3"        onclick="show('s3',this)">Pro & contro</button>
+    <button class="s4"        onclick="show('s4',this)">Rischio aritmico</button>
+    <button class="s5"        onclick="show('s5',this)">Scompenso</button>
+    <button class="s6"        onclick="show('s6',this)">Ipertensione & COVID</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione e storia -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Prof. Rella</div>
+    <div class="lesson-title">Telemedicina</div>
+    <div class="lesson-meta">03/11/2022 · Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione</div>
+    <div class="highlight">
+      Erogazione di servizi sanitari tramite <strong>ICT</strong> (Information and Communication Technologies), in situazioni in cui paziente e professionista (o due professionisti) <strong>non sono nello stesso luogo</strong>. Attori: paziente e operatore sanitario, con al centro la tecnologia che raccoglie e trasmette i dati (definizione OMS).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Storia — non è una pratica recente</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Bell & Watson</div>
+        <div class="card-content">Una delle prime telefonate fu una richiesta di aiuto sanitario (Bell si rovesciò acido solforico addosso).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Lancet 1879</div>
+        <div class="card-content">Un medico, ascoltando un bambino tossire al telefono, fece diagnosi di "non pertosse".</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Einthoven (1905)</div>
+        <div class="card-content"><strong>Telecardiogramma</strong>: trasmise tracciati ECG via telegrafo da un ospedale al laboratorio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Telognosis</div>
+        <div class="card-content">Trasferimento a distanza di immagini radiografiche.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Applicazioni -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Applicazioni</div>
+    <div class="lesson-title">Applicazioni odierne</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Campi principali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Follow-up cronici</div>
+        <div class="card-content">Monitoraggio da remoto dei parametri delle patologie croniche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Condizioni acute</div>
+        <div class="card-content">Più delicato: diagnosi e attivazione dell'emergenza (es. rilevare aritmie).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Prevenzione & educazione</div>
+        <div class="card-content">Correzione degli stili di vita; app collegate ai social possono incentivare pratiche salutari.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gravidanza & ricerca</div>
+        <div class="card-content">Monitoraggio in condizioni fisiologiche; raccolta dati continua in <strong>setting di vita reale</strong> (diversi dall'ospedale).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Nella pratica clinica quotidiana</div>
+    <div class="highlight">
+      Cartelle cliniche elettroniche, database condivisi in studi multicentrici, <strong>carta SIS</strong> e accesso alla cartella, fascicolo sanitario unico, certificati e ricette telematici.
+    </div>
+  </div>
+</div>
+
+<!-- S3: Pro e contro -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Bilancio</div>
+    <div class="lesson-title">Pro e contro</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Vantaggi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Accessibilità & equità</div>
+        <div class="card-content">Soprattutto nei paesi in via di sviluppo (es. app per le gravidanze in Africa, dove le strutture sono lontane).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Meno ospedalizzazioni</div>
+        <div class="card-content">Riduzione dei ricoveri e dei costi indiretti a lungo termine.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Più compliance</div>
+        <div class="card-content">Il paziente seguito e monitorato nel tempo aderisce meglio alle terapie.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sensori impiantati</div>
+        <div class="card-content">Raccolta continua e <strong>multiparametrica</strong> (pacemaker/ICD, sensori in arteria polmonare: pressione e impedenza toracica).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Svantaggi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Alti costi diretti</div>
+        <div class="card-content">Start-up, personale formato, dispositivi e piattaforme.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bias degli studi</div>
+        <div class="card-content">Follow-up corti, pochi pazienti, outcome difficili da valutare, popolazioni speciali escluse.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gestione dei dati</div>
+        <div class="card-content">Privacy e rischio di hackeraggio; aspetti legali.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Barriera culturale</div>
+        <div class="card-content">Resistenza, soprattutto negli anziani, verso un'alternativa alla visita in ambulatorio.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Per implementarla serve valutare il rapporto costi/benefici: la telemedicina deve essere <strong>cost-effective</strong> (costi che scendono ed effetto che aumenta).
+    </div>
+  </div>
+</div>
+
+<!-- S4: Rischio aritmico -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Cardiologia</div>
+    <div class="lesson-title">Pazienti con rischio aritmico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Contesto</div>
+    <div class="highlight">
+      Pazienti con cardiopatie strutturali o scompenso avanzato (rischio di aritmie maligne e morte improvvisa) ricevono <strong>pacemaker o defibrillatori (ICD)</strong>. Il <strong>telemonitoraggio</strong> dei dati raccolti dai device potrebbe seguirli meglio.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Requisiti perché sia utile</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Non inferiorità</div>
+        <div class="card-content">Il controllo remoto non deve essere inferiore alle visite in office.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Decisioni precoci</div>
+        <div class="card-content">I device trasmettono in tempo reale nuove aritmie, fibrillazioni, marker di congestione → interventi tempestivi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Outcome migliori</div>
+        <div class="card-content">Ridurre ospedalizzazioni, loro durata, ricorso a cure e mortalità.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Studio TRUST</div>
+    <div class="highlight">
+      Dimostrò efficacia e sicurezza del monitoraggio remoto nel follow-up dei portatori di defibrillatore: i pazienti in telemonitoraggio richiedono <strong>molti meno accessi ambulatoriali</strong> a parità di outcome (curve sovrapposte), e il tempo tra insorgenza dell'aritmia e diagnosi è <strong>pressoché azzerato</strong>. Altri trial: CONNECT, ECOST, ALTITUDE.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Scompenso -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Insufficienza cardiaca</div>
+    <div class="lesson-title">Telemedicina nello scompenso</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il razionale</div>
+    <div class="highlight">
+      Lo scompenso alterna pseudo-normalità e <strong>riacutizzazioni</strong>; ogni ricovero ↑ del <strong>50%</strong> il rischio di un nuovo ricovero nei 6 mesi successivi. I campanelli "classici" (3°/4° tono, giugulari distese, rantoli, edema) sono <strong>tardivi, poco sensibili e discontinui</strong>. Obiettivo: intercettare la <strong>fase proattiva</strong> asintomatica (alterazioni di pressioni intracardiache, impedenza toracica, FC) per anticipare lo scompenso acuto.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Strumenti non invasivi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Telefonate strutturate</div>
+        <div class="card-content">Contatti regolari (infermiere) su sintomi, compliance, educazione, peso. Riducono mortalità e ospedalizzazione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Telemonitoraggio strutturato</div>
+        <div class="card-content">Raccolta di dati (PA, peso) analizzati da un team; i valori fuori range innescano azioni del cardiologo/MMG. La <strong>combinazione</strong> dei due riduce significativamente mortalità e ricoveri.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Strumenti invasivi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Dispositivi impiantati</div>
+        <div class="card-content">ICD, pacemaker e <strong>CRT</strong> seguiti in remoto → migliore sopravvivenza.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Studio COMPASS-HF</div>
+        <div class="card-content">Monitoraggio emodinamico invasivo continuo (device sottocutaneo + catetere in VD che misura pressione, FC, temperatura, attività) in pazienti NYHA III-IV, per guidare la terapia sulla pressione intracardiaca.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Ipertensione e COVID -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Altri ambiti</div>
+    <div class="lesson-title">Ipertensione, COVID e altri esempi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ipertensione arteriosa</div>
+    <div class="highlight">
+      L'<strong>automisurazione domiciliare</strong> e il telemonitoraggio della pressione migliorano l'aderenza e il controllo pressorio, combattendo l'inerzia clinica e permettendo aggiustamenti terapeutici più tempestivi rispetto alle sole misure in ambulatorio.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Telemedicina e COVID-19</div>
+    <div class="highlight">
+      La pandemia ha accelerato l'adozione della telemedicina (teleconsulti, monitoraggio domiciliare dei pazienti) per ridurre gli accessi in ospedale e il rischio di contagio, mantenendo la continuità assistenziale nei pazienti cronici.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">In sintesi</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Il valore della telemedicina in cardiologia</div>
+        <div class="card-content">Le applicazioni variano con la patologia: monitoraggio remoto dei device nel rischio aritmico, gestione proattiva dello scompenso, controllo pressorio nell'ipertensione. Il filo comune è <strong>anticipare</strong> gli eventi acuti intercettando i segnali precoci, migliorando aderenza, ospedalizzazioni e, in casi selezionati, sopravvivenza.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

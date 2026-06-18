@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 3 — Il sonno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 3</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Funzioni del sonno</button>
+    <button class="s2"        onclick="show('s2',this)">Fasi NREM & REM</button>
+    <button class="s3"        onclick="show('s3',this)">Regolazione</button>
+    <button class="s4"        onclick="show('s4',this)">Sonno & pressione</button>
+    <button class="s5"        onclick="show('s5',this)">Polisonnografia</button>
+    <button class="s6"        onclick="show('s6',this)">Altri test</button>
+  </nav>
+</header>
+
+<!-- S1: Funzioni del sonno -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Prof. Lombardi</div>
+    <div class="lesson-title">Il sonno</div>
+    <div class="lesson-meta">03/10/2022 · Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Perché conta in cardiologia</div>
+    <div class="highlight">
+      L'<strong>American Heart Association</strong> ha inserito il sonno come <strong>8° pilastro</strong> della salute cardiovascolare (insieme a fumo, diabete, colesterolo, stile di vita…). Il sonno è un meccanismo <strong>complesso e attivo</strong> (non passivo, non "parente del coma"): l'organismo cambia modalità di funzionamento attraversando stadi diversi. La cardiologia ha introdotto per prima il monitoraggio 24h (Holter ECG).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le funzioni del sonno</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Termoregolazione</div>
+        <div class="card-content">Per addormentarsi serve un <strong>abbassamento</strong> della temperatura corporea (la doccia calda induce vasodilatazione → dispersione di calore).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sistema immunitario</div>
+        <div class="card-content">Durante il sonno ↑ molecole immunitarie; la privazione ↑ quelle pro-infiammatorie. IL-6 e <strong>TNF-α</strong> (pirogeni) favoriscono l'addormentamento (per questo si dorme con l'influenza).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">SNC & memoria</div>
+        <div class="card-content">Il <strong>REM</strong> consolida i ricordi (elimina gli inutili). Cattivo sonno → ↑ rischio di malattie neurodegenerative (Alzheimer).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sistema linfatico (glymphatic)</div>
+        <div class="card-content">Di notte avvengono scambi liquorali che eliminano proteine dannose (es. amiloide). Dormire male ne favorisce l'accumulo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riparazione & cancro</div>
+        <div class="card-content">Le <strong>turniste notturne</strong> hanno ↑ rischio di cancro alla mammella (dati anche per il polmone).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bilancio energetico</div>
+        <div class="card-content">Sonno e attività fisica si supportano a vicenda.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      L'<strong>insonnia fatale familiare</strong> (malattia da prioni, iperattivazione del simpatico) provoca degenerazione delle strutture del sonno → ipertermia, ipertensione, tachicardia, fino al decesso in 4-5 anni.
+    </div>
+  </div>
+</div>
+
+<!-- S2: Fasi NREM e REM -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Fisiologia</div>
+    <div class="lesson-title">Gli stadi del sonno</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Veglia e sonno NREM</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Veglia ad occhi chiusi</div>
+        <div class="card-content">Ritmo <strong>α</strong> (9-13 Hz).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stadio 1</div>
+        <div class="card-content">Addormentamento, ritmo <strong>θ</strong>; movimenti oculari lenti "a festone".</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stadio 2</div>
+        <div class="card-content">Sonno "consolidato": <strong>fusi del sonno</strong> (12-13 Hz) e <strong>complessi K</strong> (trifasici).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stadi 3-4</div>
+        <div class="card-content">Sonno profondo/molto profondo, ritmo <strong>δ</strong> (2-4 Hz). Massima regolarità: pressione, FC, FR più basse. Possibile <strong>sonnambulismo</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sonno REM</div>
+    <div class="highlight">
+      Molto impegnativo dal punto di vista metabolico: il cervello "lavora moltissimo" e produce i <strong>sogni</strong>. EEG <strong>desincronizzato a basso voltaggio</strong> (simile alla veglia), con onde "a dente di sega". Elementi tipici: <strong>movimenti oculari rapidi in burst</strong> e <strong>atonia muscolare</strong>. In coincidenza dei burst, oscillazioni marcate di FC e PA. Consolida la memoria e accresce il SNC.
+    </div>
+    <div class="highlight">
+      <strong>NB</strong>: il sonno diurno non è mai identico a quello notturno (non si innesca nel momento temporale "giusto").
+    </div>
+  </div>
+</div>
+
+<!-- S3: Regolazione -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Regolazione</div>
+    <div class="lesson-title">Regolazione e ritmi circadiani</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Centri del sonno (storia)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Von Economo</div>
+        <div class="card-content">Dall'encefalite letargica: ipotalamo <strong>anteriore</strong> = centro del sonno (sleep centre); <strong>posteriore</strong> = centro della veglia (wake centre).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Hess & Berger</div>
+        <div class="card-content">Hess confermò con stimolazioni selettive; Berger (1929) scoprì l'<strong>EEG</strong>, rivoluzionando lo studio del sonno.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ritmi circadiani nella vita</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Neonato</div>
+        <div class="card-content">Sonno <strong>polifasico</strong>, prevalentemente REM (sinaptogenesi).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bambino → adulto</div>
+        <div class="card-content">Da polifasico (un solo sonnellino diurno) a <strong>bifasico</strong> adulto (sonno notturno + veglia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anziano</div>
+        <div class="card-content">Può ricomparire il sonnellino diurno: "innocente" se dà ristoro, problema se diventa un'esigenza (sonno notturno inadeguato).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Norme di igiene del sonno</div>
+    <div class="highlight">
+      La <strong>routine di addormentamento</strong> è cruciale nel neonato; nell'adulto serve a chi ha difficoltà (disallinearsi dall'attività di veglia). Esistono <strong>insonnie da condizionamento ambientale</strong> (un oggetto/setting rievoca la difficoltà → a volte basta cambiare la stanza). Le norme di igiene del sonno sono più vantaggiose dei farmaci quando non c'è un disturbo organico primario.
+    </div>
+  </div>
+</div>
+
+<!-- S4: Sonno e pressione -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Cardiovascolare</div>
+    <div class="lesson-title">Sonno e pressione arteriosa</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il dipping</div>
+    <div class="highlight">
+      La PA è altamente variabile. Il fenomeno legato al sonno è il <strong>dipping</strong>: la caduta notturna della pressione di almeno il <strong>10%</strong> rispetto alla media diurna. Il monitoraggio <strong>battito-battito</strong> è il sistema più preciso per studiarla (prima invasivo, oggi anche metodi meno invasivi).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Variazioni per fase</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">NREM profondo</div>
+        <div class="card-content">Prevale il <strong>parasimpatico</strong> → PA e FC molto più basse della media, valori regolari.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">REM fasico</div>
+        <div class="card-content">Prevale il <strong>simpatico</strong> → FC e PA variano moltissimo (in coincidenza dei burst oculari).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Polisonnografia -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Diagnostica</div>
+    <div class="lesson-title">La videopolisonnografia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Setting</div>
+    <div class="highlight">
+      L'esame più approfondito, eseguito nella <strong>camera del sonno</strong> (insonorizzata, oscurabile, a temperatura costante, audio-video sorvegliata). Un centro prevede 3 stanze: preparazione del paziente, stanza sonno, sala di acquisizione col tecnico.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Parametri neurologici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">EEG</div>
+        <div class="card-content">Almeno 3 derivazioni → identifica le fasi del sonno.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">EOG (movimenti oculari)</div>
+        <div class="card-content">2 elettrodi attorno ai canti esterni: cornea/retina creano un dipolo → distingue movimenti lenti, assenti, rapidi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">EMG miloioideo</div>
+        <div class="card-content">Valuta l'<strong>atonia</strong> fisiologica del sonno REM.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Parametri respiratori e cardiaci</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Flusso aereo</div>
+        <div class="card-content"><strong>Termocoppia</strong> (differenza T inspirata/espirata) o <strong>naso-cannula</strong> (trasduttore di pressione, registra anche il russamento). Microfono tracheale per le vocalizzazioni.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Movimenti toraco-addominali</div>
+        <div class="card-content">Distinguono apnea ostruttiva (movimenti presenti) da centrale (assenti).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Saturimetro</div>
+        <div class="card-content">3 valori: <strong>SatO₂</strong>, tacogramma (FC), ampiezza dell'onda di polso (vasocostrizione periferica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG & sensore di posizione</div>
+        <div class="card-content">Le apnee possono manifestarsi solo in <strong>posizione supina</strong>: serve almeno il 10% del tempo in supino o l'esame non è affidabile.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Altri test -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Altri metodi</div>
+    <div class="lesson-title">Altri metodi di valutazione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Monitoraggio cardio-respiratorio</div>
+    <div class="highlight">
+      Il sistema domiciliare più semplice: <strong>senza EEG</strong>, movimenti oculari e tono muscolare. Studia il respiro durante la notte (flusso nasale, movimenti toraco-addominali, SatO₂, FC, posizione). Permette di riconoscere le <strong>apnee ostruttive</strong> (interruzione del flusso con movimenti presenti, calo di O₂ e FC, ripresa con tachicardia, tipicamente in supino).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Test della sonnolenza e dell'attività</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">MSLT (latenza multipla)</div>
+        <div class="card-content">Test oggettivo della sonnolenza diurna: 4-5 prove in condizioni favorenti. Normale 10-20 min; patologico 5-10 min. <strong>Patognomonico di narcolessia</strong> se si raggiunge subito il REM.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Actigrafia</div>
+        <div class="card-content">Accelerometro triassiale (tipo smartwatch) per ≥ 1 settimana: caratterizza il ritmo circadiano e l'attività motoria; spesso rileva anche la luce ambientale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scala di Epworth</div>
+        <div class="card-content">Scala <strong>soggettiva</strong> di propensione all'addormentamento (0-3). Obbligatoria nello screening della sonnolenza alla guida. Limite: facilmente falsificabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diario del sonno</div>
+        <div class="card-content">Fondamentale a corredo degli esami domiciliari: farmaci, episodi, risvegli → confronto con il dato strumentale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

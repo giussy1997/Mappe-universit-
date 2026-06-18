@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 2 — Fattori di rischio cardiovascolare</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 2</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Aterosclerosi & prevenzione</button>
+    <button class="s2"        onclick="show('s2',this)">Risk modifiers</button>
+    <button class="s3"        onclick="show('s3',this)">Classi & obiettivi</button>
+    <button class="s4"        onclick="show('s4',this)">Misurare la pressione</button>
+    <button class="s5"        onclick="show('s5',this)">Terapia ipertensione</button>
+    <button class="s6"        onclick="show('s6',this)">Sindrome metab. & LG</button>
+  </nav>
+</header>
+
+<!-- S1: Aterosclerosi e prevenzione -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Prof. Parati</div>
+    <div class="lesson-title">Fattori di rischio cardiovascolare</div>
+    <div class="lesson-meta">03/10/2022 · Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Aterosclerosi — il denominatore comune</div>
+    <div class="highlight">
+      L'<strong>aterosclerosi</strong> è la meta finale di tutti i fattori di rischio (fumo, ipertensione, diabete, colesterolo, stress). Sull'endotelio si depositano globuli bianchi, fibrina, calcio, colesterolo → <strong>placca</strong> + infiammazione → occlusione del vaso. Da qui le patologie ischemiche: <strong>infarto</strong> (cuore), <strong>ictus</strong> (cervello), <strong>arteriopatie periferiche</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Prevenzione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Quando iniziare</div>
+        <div class="card-content">Presto, a circa <strong>20 anni</strong>: una volta formata la placca servono procedure invasive (angioplastica, tromboendoarterectomia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Profilo, non singolo fattore</div>
+        <div class="card-content">I fattori <strong>interagiscono e si aggravano</strong> a vicenda → si valuta un "profilo di rischio", non un fattore isolato.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Risk modifiers -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Risk modifiers (LG 2016)</div>
+    <div class="lesson-title">I modificatori di rischio</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori ambientali e sociali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Stato socioeconomico</div>
+        <div class="card-content">Condizioni disagiate → peggioramento dei fattori (stress, alimentazione, lavoro).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Isolamento sociale</div>
+        <div class="card-content">Mancanza di supporto sociale e cattiva assistenza sanitaria.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Familiarità & obesità</div>
+        <div class="card-content">Storia familiare di malattie CV premature; obesità → infiammazione, disfunzione endoteliale, stress ossidativo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esami non invasivi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Calcium score</div>
+        <div class="card-content">TAC cardiaca <strong>senza contrasto</strong> → punteggio di <strong>Agatston</strong>: correla con la probabilità di malattia aterosclerotica. Semplice e non invasivo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Carotidi (ecodoppler)</div>
+        <div class="card-content">Ricerca di ispessimenti/placche. Stenosi &gt; <strong>80%</strong> → alto rischio di ictus; all'80-85% si interviene (angioplastica/endoarterectomia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ABI (Ankle-Brachial Index)</div>
+        <div class="card-content">Rapporto pressione caviglia/braccio. Normalmente &gt; 1; un valore <strong>≤ 1</strong> (alterato) indica aterosclerosi del percorso aorta→tibiale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Classi e obiettivi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Stratificazione</div>
+    <div class="lesson-title">Classi di rischio e obiettivi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tabelle SCORE</div>
+    <div class="highlight">
+      Tabelle a gradazione di colore (verde → rosso scuro) costruite per paesi ad alto e basso rischio. Combinano <strong>sesso, fumo, età (40-65), pressione sistolica e colesterolo</strong>. Per gli over-70 si usa lo <strong>SCORE2-OP</strong> (novità LG 2021).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le 4 classi di rischio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Molto alto</div>
+        <div class="card-content">Malattia CV documentata, diabete con danno d'organo, IRC severa (GFR &lt; 30), score &gt; 10%.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Alto</div>
+        <div class="card-content">Singoli fattori marcati: colesterolo &gt; 310, PA &gt; 180/110, diabete T2, GFR 30-59, score 5-10%.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Moderato</div>
+        <div class="card-content">Score 1-5%: mezza età con qualche problema (fuma, PA un po' alta). Rischio già aumentato.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Basso</div>
+        <div class="card-content">Score &lt; 1%: PA bassa, no colesterolo alto, non fumatore.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Obiettivi da raggiungere</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fumo & dieta</div>
+        <div class="card-content">Zero tabacco (anche e-cig e passivo). Dieta mediterranea: ridurre grassi saturi, preferire vegetali e pesce.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Attività fisica</div>
+        <div class="card-content"><strong>150 min/settimana</strong> di attività aerobica moderata (~30 min × 5 giorni).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Peso</div>
+        <div class="card-content">BMI tra <strong>20 e 25</strong> kg/m². Attenzione alla circonferenza addominale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Misurare la pressione -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Pressione</div>
+    <div class="lesson-title">Misurazione della pressione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tecnica</div>
+    <div class="highlight">
+      A riposo, seduti con braccio e schiena appoggiati, <strong>bracciale adeguato</strong> (troppo piccolo → sovrastima; troppo grande → sottostima). Preferiti gli strumenti <strong>oscillometrici automatici</strong> (la colonna di mercurio è neurotossica). Sempre <strong>medie</strong>, mai valori isolati.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Soglie e cut-off</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Office (studio)</div>
+        <div class="card-content">Ipertensione ≥ <strong>140/90</strong> mmHg.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Holter 24h</div>
+        <div class="card-content">24h: <strong>130/80</strong>; giorno: 135/85; notte: 120/70 (calo notturno fisiologico).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Domiciliare</div>
+        <div class="card-content">Media di 7 giorni (1 misura al mattino + 2 alla sera): cut-off <strong>135/85</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Holter vs automisurazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Holter 24h — vantaggi</div>
+        <div class="card-content">Smaschera ipertensione mascherata ed effetto <strong>camice bianco</strong>; forte valore prognostico (predice eventi meglio della misura isolata); valuta la notte e la variabilità.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Holter — svantaggi</div>
+        <div class="card-content">Costo, disponibilità, fastidio (si gonfia ogni ~20 min).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Automisurazione</div>
+        <div class="card-content">Basso costo, ripetibile, migliora l'aderenza (il paziente "vede" l'effetto della terapia). Limiti: paziente statico, errori di tecnica (va educato), strumenti da validare.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Terapia ipertensione -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Ipertensione</div>
+    <div class="lesson-title">Trattamento dell'ipertensione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Stile di vita</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sale</div>
+        <div class="card-content">Max <strong>5 g/die</strong> (2,4 g di sodio). Esempio del Giappone (salsa di soia → ictus, poi ridotto).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Alcol</div>
+        <div class="card-content">≤ 14 unità/sett uomo, &lt; 8 donna (minore tolleranza metabolica). Evitare il <strong>binge drinking</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altro</div>
+        <div class="card-content">↑ vegetali/frutta, ↓ carne rossa e grassi animali, BMI 20-25, attività fisica, stop fumo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia farmacologica</div>
+    <div class="highlight">
+      Pressione normale-alta → solo stile di vita. Farmaci (+ stile di vita) negli <strong>alto rischio</strong> (evento pregresso, danno renale, diabete) anche con PA appena &gt; 140. Politica attuale: <strong>combinazioni</strong> di farmaci (es. diuretico + calcio-antagonista + beta-bloccante) → sinergia, dosi più basse, migliore tollerabilità.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Target pressori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sistolica</div>
+        <div class="card-content">Obiettivo ≤ <strong>130</strong> mmHg (&lt; 65 anni). Mai sotto <strong>120</strong> (flussi compromessi). Cautela negli anziani (barocettori/arterie rigide).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diastolica</div>
+        <div class="card-content">&lt; 80, ma mai &lt; 70.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipertensione resistente</div>
+        <div class="card-content">Cause: anzianità, obesità, etnia, eccesso di sale, calcificazioni, diabete, forme secondarie. Definizione di Geoffrey Rose: ipertensione = PA per cui trattare è più utile che dannoso.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Sindrome metabolica e LG -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Sintesi</div>
+    <div class="lesson-title">Sindrome metabolica e linee guida</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sindrome metabolica</div>
+    <div class="highlight">
+      Insieme di fattori che, singolarmente non patologici, in concomitanza creano una condizione patologica: <strong>obesità addominale</strong>, dislipidemia accennata, PA normale-alta/ipertensione lieve, alterazione glucidica borderline (non diabete). Parametri usati: BMI, trigliceridi, circonferenza addominale, PA, glicemia, microalbuminuria.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classi di evidenza (LG)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classe 1 / 2 / 3</div>
+        <div class="card-content"><strong>1</strong>: forte evidenza di efficacia (raccomandato). <strong>2</strong>: risultati conflittuali (2A maggioranza a favore, 2B contro). <strong>3</strong>: evidenza che NON va fatto (inutile/dannoso).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Livelli A / B / C</div>
+        <div class="card-content"><strong>A</strong>: molti trial randomizzati/metanalisi. <strong>B</strong>: un solo RCT o tanti osservazionali. <strong>C</strong>: opinione degli esperti/studi piccoli.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Nuovi fattori (LG 2021)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Salute mentale</div>
+        <div class="card-content"><strong>Depressione</strong> (soprattutto), ansia, disturbo bipolare → ↑ rischio CV.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Storia ostetrica</div>
+        <div class="card-content">Parto prematuro o nato morto (possibili problemi di regolazione del flusso placentare).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Malattie infiammatorie</div>
+        <div class="card-content">Es. artrite reumatoide: danno endoteliale e stress ossidativo → aterosclerosi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altri</div>
+        <div class="card-content">Inquinamento ambientale; emicrania con aura → considerare la sospensione della pillola anticoncezionale. (Evidenze 2B.)</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Approccio <strong>step by step</strong> e personalizzato. Trattare i fattori anche senza malattia conclamata: rischio soglia &gt; 5-7% (&lt;50 aa), 10% (50-69), 15% (anziani).
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

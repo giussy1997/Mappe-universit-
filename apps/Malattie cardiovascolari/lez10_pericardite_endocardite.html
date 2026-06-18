@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 10 — Pericardite ed endocardite</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie Cardiovascolari — Lezione 10</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Pericardite: cause</button>
+    <button class="s2"        onclick="show('s2',this)">Pericardite: clinica</button>
+    <button class="s3"        onclick="show('s3',this)">Tamponamento</button>
+    <button class="s4"        onclick="show('s4',this)">Endocardite: quadro</button>
+    <button class="s5"        onclick="show('s5',this)">Criteri di Duke</button>
+    <button class="s6"        onclick="show('s6',this)">Terapia & chirurgia</button>
+  </nav>
+</header>
+
+<!-- S1: Pericardite cause -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Prof.ssa Muraru</div>
+    <div class="lesson-title">Pericardite ed endocardite</div>
+    <div class="lesson-meta">Malattie apparato cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Generalità</div>
+    <div class="highlight">
+      La <strong>pericardite</strong> è l'infiammazione del pericardio (sacco che avvolge cuore e grandi vasi). Tra foglietto viscerale e parietale c'è un liquido lubrificante fisiologico. È <strong>acuta</strong> o <strong>cronica</strong> (&gt; 3 mesi); idiopatica o associata ad altre patologie. Affligge il <strong>5%</strong> dei dolori toracici non ischemici in PS.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">3 tipi di PC acuta</div>
+        <div class="card-content">Non complicata (la più frequente); complicata; <strong>associata a miocardite</strong> (perimiocardite/miopericardite — più pericolosa, rischio di disfunzione di pompa).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Idiopatica (83%)</div>
+        <div class="card-content">La grande maggioranza, spesso post-virale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Infettiva</div>
+        <div class="card-content">Virale (COVID, HIV), batterica, <strong>micobatterica</strong> (grave, rischio di costrizione).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Immuno-infiammatoria</div>
+        <div class="card-content">Lupus, artrite reumatoide, sclerodermia; farmaci (procainamide, idralazina, isoniazide); post cardio/toracotomia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Post-infarto</div>
+        <div class="card-content">Precoce (pochi giorni) o tardiva (<strong>sindrome di Dressler</strong>, 2-3 settimane, immunomediata).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Neoplastica</div>
+        <div class="card-content">Polmone, linfoma, mammella, mesotelioma → anche con tamponamento.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Emopericardio</div>
+        <div class="card-content">Trauma, rottura di parete post-IMA, dissezione aortica, perforazione da catetere (procedure).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Pericardite clinica -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Pericardite</div>
+    <div class="lesson-title">Clinica, ECG e terapia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il dolore della pericardite</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Carattere</div>
+        <div class="card-content"><strong>Pleuritico</strong>: cambia con il respiro, tosse, starnuto (si acuisce inspirando). Retrosternale, a volte precordiale/epigastrico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Posizione antalgica</div>
+        <div class="card-content"><strong>Diminuisce seduti, busto in avanti</strong>; si acuisce in supinazione. Insorgenza rapida, non progressiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Irradiazione</div>
+        <div class="card-content">Al <strong>margine del trapezio</strong>: quando presente è quasi patognomonica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Associati</div>
+        <div class="card-content">Tosse, dispnea, singhiozzo (irritazione frenica/vagale), spesso storia virale recente. A volte febbre.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esame obiettivo & ECG</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sfregamento pericardico</div>
+        <div class="card-content">Rumore "a neve calpestata", sul bordo inferiore sx dello sterno, meglio col busto in avanti. Intermittente → auscultare più volte. 3 componenti (sistole, riempimento rapido, contrazione atriale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG — ST diffuso</div>
+        <div class="card-content"><strong>Sopraslivellamento ST diffuso</strong> (tutte le derivazioni tranne aVR/V1) — mai in un infarto (territorio coronarico limitato). Forma <strong>concava</strong> ("tiene l'acqua").</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG — altri segni</div>
+        <div class="card-content"><strong>Sottoslivellamento PR</strong>. Nel tempo l'ST torna sull'isoelettrica e la T si negativizza (DD con ischemia più difficile col tempo).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecocardio</div>
+        <div class="card-content">Versamento <strong>circonferenziale</strong> anecogeno attorno a tutto il cuore (veduta sottocostale). Diagnosi immediata.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia & complicanze</div>
+    <div class="highlight">
+      Spesso autolimitante. <strong>FANS</strong> (ibuprofene 600-800 ×3, o ASA 2-4 g) + protezione gastrica; <strong>colchicina</strong> 0,5 mg ×2 (previene recidive ed evoluzione costrittiva, effetto antifibrotico); corticosteroidi solo in ultima scelta (↑ rischio recidiva). Complicanze: <strong>recidiva</strong> (15-30%), cronicizzazione, <strong>tamponamento</strong> e <strong>pericardite costrittiva</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- S3: Tamponamento -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Emergenza</div>
+    <div class="lesson-title">Tamponamento cardiaco</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia</div>
+    <div class="highlight">
+      Condizione di <strong>instabilità emodinamica</strong> (urgenza): la pressione intrapericardica supera quella di riempimento dei ventricoli → compressione delle camere → il cuore non si riempie → ↓ progressiva della gittata → collasso cardiocircolatorio. Non c'è una soglia fissa di liquido: conta soprattutto la <strong>velocità di accumulo</strong> (un riempimento rapido tampona con poco liquido).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Presentazione & segni</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Triade di Beck</div>
+        <div class="card-content">Ipotensione, <strong>turgore giugulare</strong>, toni cardiaci ovattati.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polso paradosso</div>
+        <div class="card-content">Caduta della sistolica &gt; 10 mmHg in inspirazione (interdipendenza ventricolare).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Quadro</div>
+        <div class="card-content">Shock <strong>ostruttivo</strong>: tachicardia, dispnea, ipotensione, segni di bassa portata.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG</div>
+        <div class="card-content"><strong>Bassi voltaggi</strong> e <strong>alternanza elettrica</strong> (il cuore "ondeggia" nel versamento).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi & terapia</div>
+    <div class="highlight">
+      <strong>Ecocardiogramma</strong>: versamento + collasso diastolico delle camere destre, interdipendenza ventricolare (M-mode). RX: ombra cardiaca "a fiasco". Terapia: <strong>pericardiocentesi</strong> urgente (drenaggio del liquido) — risolve l'emergenza riducendo la pressione intrapericardica.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Pericardite costrittiva</div>
+    <div class="highlight">
+      Pericardio rigido/fibrotico (esiti di PC cronica, micobatterica, post-radioterapia) che <strong>impedisce il riempimento</strong> diastolico. Segni di scompenso destro (giugulari distese, ascite, edemi). Terapia definitiva: <strong>pericardiectomia</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- S4: Endocardite quadro -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Endocardite</div>
+    <div class="lesson-title">Endocardite infettiva</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & patogenesi</div>
+    <div class="highlight">
+      Infiammazione dell'endocardio da infezione <strong>batterica o fungina</strong>: malattia <strong>sistemica</strong>, non solo cardiaca. Colpisce soprattutto le valvole, con <strong>vegetazioni</strong> (masserelle mobili che possono embolizzare). Patogenesi: l'<strong>endocardite trombotica abatterica</strong> (flusso turbolento → danno endoteliale → trombo di fibrina-piastrine → "nido" per i batteri in caso di batteriemia).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Germi tipici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Streptococcus viridans</div>
+        <div class="card-content">Flora del cavo orale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Staphylococcus aureus</div>
+        <div class="card-content">Cute → tipico nei <strong>tossicodipendenti</strong> (iniezioni).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HACEK</div>
+        <div class="card-content">Gruppo di batteri orofaringei: esordio subacuto, vegetazioni grosse che embolizzano facilmente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gram-negativi / funghi</div>
+        <div class="card-content">E. coli, Klebsiella; forme fungine.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Predisposizione & sedi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sedi</div>
+        <div class="card-content">Valvole native (72%), protesi (21%), dispositivi (CIED, 7%, in aumento). Quasi <strong>80% a sinistra</strong> (mitrale/aortica); la <strong>tricuspide</strong> nei tossicodipendenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cardiopatie a rischio</div>
+        <div class="card-content"><strong>Insufficienza</strong> &gt; stenosi; prolasso mitralico; <strong>bicuspidia aortica</strong>; difetti congeniti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altri fattori</div>
+        <div class="card-content">Endocardite pregressa, accessi venosi cronici, droghe ev, pacemaker, diabete, immunodepressione.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintomi & segni</div>
+    <div class="highlight">
+      <strong>Febbre alta</strong> (&gt; 38°, sintomo più frequente; può mancare in anziani/immunodepressi/già in antibiotico). <strong>Soffio</strong> nuovo o peggiorato. Complicanze emboliche: ictus (tipicamente <strong>bilaterale</strong> se cardioembolico), infarto. Segni periferici (mani/piedi). Dispnea/scompenso se la valvola è gravemente disfunzionante (raddoppia la mortalità).
+    </div>
+  </div>
+</div>
+
+<!-- S5: Criteri di Duke -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Diagnosi</div>
+    <div class="lesson-title">I criteri di Duke</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Regola diagnostica</div>
+    <div class="highlight">
+      Diagnosi <strong>certa</strong> con: <strong>2 criteri maggiori</strong>, oppure <strong>1 maggiore + 3 minori</strong>, oppure <strong>5 minori</strong>. Servono perché una struttura mobile all'eco non equivale a endocardite (DD: trombi, fibroelastomi, escrescenze di Lambl, prolassi).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Criteri maggiori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Emocoltura positiva</div>
+        <div class="card-content">Batteri tipici, con <strong>persistenza</strong>: 2 emocolture a 12h di distanza, o 3-4 separate (prima e ultima a &gt; 1h).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Interessamento endocardico</div>
+        <div class="card-content">Vegetazioni, deiscenze valvolari, <strong>insufficienza valvolare di nuova insorgenza</strong> (tipicamente all'ecocardio).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Criteri minori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Clinici</div>
+        <div class="card-content">Febbre, cardiopatia predisponente, manifestazioni vascolari/emboliche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Laboratorio</div>
+        <div class="card-content">Anemia, leucocitosi neutrofila (shift a sinistra), ↑ PCR/VES; troponina e BNP come biomarcatori prognostici.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Imaging</div>
+    <div class="highlight">
+      <strong>Ecocardiografia</strong> di elezione per le vegetazioni: la <strong>transtoracica</strong> ha sensibilità 85% (native) / 50% (protesi) → nei portatori di protesi è necessaria la <strong>transesofagea</strong>. <strong>AngioTC</strong> per l'estensione perivalvolare; <strong>PET/AngioTC</strong> per le zone a metabolismo intenso (infette) — poco affidabile nell'immediato post-operatorio.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Terapia e chirurgia -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Trattamento</div>
+    <div class="lesson-title">Terapia e indicazioni chirurgiche</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia medica</div>
+    <div class="highlight">
+      <strong>Antibioticoterapia</strong>: prima si identifica il germe (emocolture) per una terapia <strong>mirata</strong>; in urgenza si parte con terapia <strong>empirica</strong>. Durata prolungata. La presenza di materiale protesico favorisce la resistenza agli antibiotici.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quando inviare al cardiochirurgo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Vegetazione grande</div>
+        <div class="card-content">Tipicamente &gt; <strong>1 cm</strong>, molto mobile → rischio di embolizzazione (soprattutto nel giovane).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Embolizzazione avvenuta</div>
+        <div class="card-content">Ictus/embolia con vegetazioni ancora presenti → operare per evitare la recidiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Vegetazione in crescita</div>
+        <div class="card-content">Aumenta agli eco seriati nonostante l'antibiotico → non risponde, va rimossa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Disfunzione valvolare</div>
+        <div class="card-content"><strong>Insufficienza severa</strong> o scompenso non responsivo ai diuretici; <strong>perforazione</strong> (non si risolve da sola).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Infezione perivalvolare</div>
+        <div class="card-content">Ascessi/infezioni periannulari su protesi → rimuovere tutto il materiale protesico infetto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cateteri infetti</div>
+        <div class="card-content">L'unica terapia efficace è l'<strong>estrazione del catetere/dispositivo</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">In sintesi</div>
+    <div class="highlight">
+      Il <strong>cardiochirurgo</strong> tende ad attendere un ciclo di antibiotico (per sterilizzare e far tenere la protesi), il <strong>cardiologo</strong> ad anticipare l'intervento se il paziente è ad alto rischio. La decisione pesa sempre <strong>beneficio vs rischio operatorio</strong>.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
