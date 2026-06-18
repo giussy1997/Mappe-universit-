@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 9 — Sindromi coronariche acute</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 9</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Dolore toracico & DD</button>
+    <button class="s2"        onclick="show('s2',this)">ECG: STEMI & NSTEMI</button>
+    <button class="s3"        onclick="show('s3',this)">Eco & troponina</button>
+    <button class="s4"        onclick="show('s4',this)">Trattamento acuto</button>
+    <button class="s5"        onclick="show('s5',this)">Coronarografia & terapia post</button>
+    <button class="s6"        onclick="show('s6',this)">Tipi di infarto & degenza</button>
+  </nav>
+</header>
+
+<!-- S1: Dolore toracico e DD -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Prof. Maloberti (2022)</div>
+    <div class="lesson-title">Sindromi coronariche acute (SCA)</div>
+    <div class="lesson-meta">07/11/2022 · argomento non trattato nell'anno corrente</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & linee guida</div>
+    <div class="highlight">
+      Le <strong>SCA</strong> sono dovute alla <strong>rottura</strong> di una placca aterosclerotica. Riferimenti: LG 2017 (STEMI), LG 2020 (NSTE-ACS), <strong>quarta definizione universale di infarto</strong> (2018, l'unica condivisa da tutte le società).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Dolore toracico — diagnosi differenziale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cardiache</div>
+        <div class="card-content">SCA, CCS, pericardite.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Vascolari</div>
+        <div class="card-content"><strong>Dissecazione aortica</strong>, embolia polmonare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonari</div>
+        <div class="card-content">Pneumotorace, pleurite, infarto/polmonite (dolore che varia col respiro).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gastroenteriche</div>
+        <div class="card-content">Pancreatite, gastrite, ulcera, reflusso (varia con la pienezza gastrica, "acido che sale").</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Muscoloscheletriche / psicogene</div>
+        <div class="card-content">Costocondrite, mialgia, artrite; somatizzazione.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Solo <strong>3</strong> sono prognosticamente rilevanti nell'immediato: <strong>SCA</strong> (basta l'ECG per lo STEMI), <strong>dissecazione aortica</strong> ed <strong>embolia polmonare</strong> (serve la TAC torace). L'ECG è economico, rapido e senza controindicazioni → si fa a tutti già in PS.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Procedura davanti al dolore toracico</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Anamnesi del dolore</div>
+        <div class="card-content">Sede/irradiazione, intensità e tipo, tempistiche e rapporto con lo sforzo, modificazione con respiro/digitopressione, pirosi, <strong>similarità con episodi anginosi precedenti</strong> (alto rischio di recidiva).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Esami</div>
+        <div class="card-content">ECG, TAC torace, eco venoso arti inferiori (per TVP/EP), ecocardiografia, RX torace, <strong>troponina</strong>. Uno STEMI all'ECG va in emodinamica <strong>senza attendere</strong> la troponina.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: ECG STEMI e NSTEMI -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · ECG</div>
+    <div class="lesson-title">Lettura ECG: STEMI e NSTEMI</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Vicinanza funzionale & localizzazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pareti e derivazioni</div>
+        <div class="card-content">DII/DIII/aVF = inferiori/posteriori; aVL/V5/V6 = laterali; V1/V2 = anteriori; V3/V4 = tra anteriore e laterale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Infarti più frequenti</div>
+        <div class="card-content"><strong>Infero-posteriore</strong> (coronaria dx) e <strong>antero-laterale</strong> (IVA o circonflessa).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Derivazioni destre & posteriori</div>
+        <div class="card-content">V3R/V4R per il ventricolo dx; il sottoslivellamento in V1-V3 può essere l'immagine speculare di un infarto posteriore (V7-V9). Basta anche ½ mm di ST.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">STEMI</div>
+    <div class="highlight">
+      <strong>Sopraslivellamento ST</strong> nelle derivazioni della zona infartuata. Va localizzato (es. ST↑ in V2-V4 = antero-laterale). Dopo l'ECG: ecocardiografia per la <strong>FE</strong> e classificazione con l'<strong>indice di Killip</strong> (crepitii toracici = accumulo di acqua). Chiedere di insufficienza renale, allergie, farmaci.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">NSTEMI</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Quadri ECG variabili</div>
+        <div class="card-content"><strong>Sottoslivellamento ST</strong>, T invertita in 2 derivazioni vicine, oppure ECG <strong>normale</strong> (trombo subocclusivo → si attende la cinetica della troponina).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Perché muoiono cellule a vaso aperto</div>
+        <div class="card-content">Il trombo non occludente si <strong>disgrega ed embolizza</strong>: piccoli frammenti occludono il microcircolo terminale → morte cellulare periferica (territori piccoli, disfunzione di solito non rilevante) → rilascio di troponina.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Eco e troponina -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Diagnosi</div>
+    <div class="lesson-title">Ecocardiografia e troponina</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ecocardiografia nelle SCA</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Proiezioni apicali</div>
+        <div class="card-content"><strong>4 camere</strong> (parete antero-laterale, setto posteriore), <strong>2 camere</strong> (inferiore, laterale), <strong>3 camere</strong> (posteriore, setto anteriore). Ogni parete divisa in apicale/medio/distale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Obiettivo</div>
+        <div class="card-content">Individuare regioni <strong>ipocinetiche</strong> in modo standardizzato per refertare con precisione (linguaggio condiviso a segmenti).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Troponina</div>
+    <div class="highlight">
+      Proteina strutturale (non enzima) della contrazione muscolare: la sua presenza in circolo indica <strong>danno miocardico</strong>. Non si guarda al valore assoluto ma alla <strong>variazione</strong>.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Protocollo 0 → 3 ore</div>
+        <div class="card-content">Si confronta il valore all'accesso (t0) con quello a 3h. Variazione grande → NSTEMI; nessuna variazione → non era un NSTEMI.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Variazioni negative</div>
+        <div class="card-content">Anche un calo può indicare NSTEMI: il paziente può essere arrivato dopo il <strong>picco</strong> (es. evento 24h prima).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Trattamento acuto -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Terapia acuta</div>
+    <div class="lesson-title">Trattamento acuto dell'infarto</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Riaprire l'arteria</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Angioplastica (prima scelta)</div>
+        <div class="card-content">In sala di emodinamica, presente in molti ospedali e <strong>aperta 24/7</strong>. Migliore resa a lungo termine.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trombolisi (ultima scelta)</div>
+        <div class="card-content">rt-PA ev periferico; efficacia confermata dalla discesa dell'ST. Meno efficace, peggiore a lungo termine. Solo se non si raggiunge l'emodinamica entro <strong>2 ore</strong>, seguita da "angioplastica di salvataggio".</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tempi di ritardo</div>
+    <div class="highlight">
+      <strong>Patient delay</strong> (dal sintomo alla chiamata), tempo dell'ambulanza, tempo in PS (dovrebbe essere &lt; 10 min per la diagnosi), tempo per attivare la sala/trasporto. Molti infarti avvengono di mattina, quando la sala è già attiva.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia di attesa</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Aspirina</div>
+        <div class="card-content">Non fa trombolisi ma previene nuovi trombi (blocca le piastrine).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Morfina</div>
+        <div class="card-content">Per il dolore. <strong>Niente nitrati</strong>: in caso di infarto dx la vasodilatazione riduce il ritorno venoso → ipotensione grave.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ossigeno-terapia</div>
+        <div class="card-content">Solo se SatO₂ &lt; <strong>92%</strong>: un eccesso di O₂ in zona infartuata causa <strong>danno da riperfusione</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Eparina</div>
+        <div class="card-content">Non frazionata, di solito in sala (scopo peri-procedurale: evitare trombosi sui cateteri).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Coronarografia e terapia post -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Procedura</div>
+    <div class="lesson-title">Coronarografia e terapia post-intervento</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Coronarografia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Accesso vascolare</div>
+        <div class="card-content">Oggi <strong>radiale</strong> (prima femorale): meno complicanze perché il radio fa da appoggio (la femorale rischia pseudoaneurismi). Cateteri di calibro minore (5 french).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Procedura</div>
+        <div class="card-content">Mezzo di contrasto + raggi X da varie angolazioni per individuare le placche. Si valica il trombo (friabile), si posiziona lo <strong>stent</strong>, si gonfia il palloncino che schiaccia la placca.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Stent & terapia post</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">DES (drug-eluting stent)</div>
+        <div class="card-content">Rilasciano farmaci immunosoppressivi che controllano l'infiammazione → meno <strong>restenosi</strong> intra-stent rispetto agli stent metallici "a barra".</div>
+      </div>
+      <div class="card">
+        <div class="card-label">DAPT nella SCA</div>
+        <div class="card-content">Doppia antiaggregazione: <strong>aspirina</strong> (trombossano) + <strong>ticagrelor</strong> (o prasugrel), per <strong>1 anno</strong>. Riduce trombosi intra-stent e recidive.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">DAPT nella CCS</div>
+        <div class="card-content">Aspirina + <strong>clopidogrel</strong> (glicoproteina IIb/IIIa), per <strong>6 mesi</strong>. Prasugrel/ticagrelor più potenti ma più sanguinamento → solo SCA.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Triplice terapia (FA)</div>
+        <div class="card-content">DAPT + anticoagulante (es. <strong>rivaroxaban</strong> 2,5 mg). Durata in base al rischio emorragico.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Tipi di infarto e degenza -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Classificazione & percorso</div>
+    <div class="lesson-title">Tipi di infarto, angina instabile, degenza</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tipi di infarto (4ª definizione universale)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tipo 1</div>
+        <div class="card-content">Classico, da rottura di placca con trombosi coronarica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo 2</div>
+        <div class="card-content">Da <strong>squilibrio domanda/offerta</strong> di O₂: vasospasmo, dissezione coronarica, tachiaritmie, ipertensione severa, insufficienza respiratoria, ipotensione/shock, anemia. Il COVID dà infarto tipo 2 (via insufficienza respiratoria). Cura: <strong>ri-ossigenare</strong> (anche ECMO), non riaprire le coronarie.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipi 3, 4, 5</div>
+        <div class="card-content"><strong>3</strong>: morte cardiaca improvvisa. <strong>4</strong>: da angioplastica. <strong>5</strong>: da bypass (CABG).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Angina instabile — "la tomba del cardiologo"</div>
+    <div class="highlight">
+      Dolore toracico <strong>senza morte cellulare</strong> (troponina stabile, di solito bassa) ma con alto rischio di evoluzione a infarto. Nessun esame la distingue dal reflusso → diagnosi clinica o TAC coronarica; se si ricovera, conferma con coronarografia. Può essere di nuova insorgenza o peggioramento di angina stabile (soglia che si abbassa, episodi più frequenti).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Iter di degenza</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Percorso</div>
+        <div class="card-content">1. Emodinamica → 2. Unità di Terapia Intensiva Coronarica → 3. Reparto (5-7 giorni). Il giovane con FE conservata e vaso riaperto può non passare per la TI.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riabilitazione cardiologica</div>
+        <div class="card-content">Riduce la mortalità dell'<strong>8%</strong>. 4 elementi: educazione alla salute, esercizio fisico, counseling psicologico, dieta.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

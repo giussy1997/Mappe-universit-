@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 4 — Esame obiettivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 4 (Parte 1)</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Ruolo & semeiotica</button>
+    <button class="s2"        onclick="show('s2',this)">Perfusione: CRT, PP, FR</button>
+    <button class="s3"        onclick="show('s3',this)">Respiro & edemi</button>
+    <button class="s4"        onclick="show('s4',this)">Mottling, T° & shock</button>
+    <button class="s5"        onclick="show('s5',this)">Addome, neuro & tosse</button>
+    <button class="s6"        onclick="show('s6',this)">Anamnesi & esami (2022)</button>
+  </nav>
+</header>
+
+<!-- S1: Ruolo e semeiotica -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Prof. Pengo (2025) + Prof. Giannattasio (2022)</div>
+    <div class="lesson-title">Esame obiettivo cardiologico</div>
+    <div class="lesson-meta">03/11/2025 · integrata con Anamnesi e semeiotica del 28/09/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il ruolo dell'esame obiettivo oggi</div>
+    <div class="highlight">
+      Nonostante metodiche invasive, ecografiche ed ecoscopia bedside, l'esame obiettivo resta <strong>insostituibile</strong>. Limite chiave: un segno positivo suggerisce la patologia, ma la sua <strong>assenza non la esclude</strong>. Va sempre <strong>integrato</strong>, mai trascurato.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Semeiotica <span style="font-weight:400;font-size:.7rem;">(2022)</span></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione</div>
+        <div class="card-content">Disciplina che rileva e interpreta sintomi, segni, dati di laboratorio e strumentali. Si divide in <strong>anamnesi</strong> ed <strong>esame obiettivo</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Le 4 manovre</div>
+        <div class="card-content"><strong>Ispezione, palpazione, percussione, auscultazione</strong> (vista, tatto, udito).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Manifestazioni delle malattie</div>
+        <div class="card-content"><strong>Sintomi</strong> (soggettivi: dispnea, dolore), <strong>segni</strong> (obiettivi: febbre, lesioni), <strong>sindrome</strong> (complesso di sintomi/segni).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Procedimento diagnostico <span style="font-weight:400;font-size:.7rem;">(2022)</span></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Metodo per associazione</div>
+        <div class="card-content">Si parte dal <strong>problema</strong> (sintomo/segno/dato) → ipotesi diagnostiche (anche per epidemiologia) → anamnesi+EO+esami → valutazione → diagnosi o nuove ipotesi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Parametri di un test</div>
+        <div class="card-content"><strong>Sensibilità</strong> (falsi negativi), <strong>specificità</strong> (falsi positivi), potere predittivo positivo/negativo. Es. la TAC coronarica si usa per <strong>escludere</strong> la coronaropatia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scelta dell'indagine</div>
+        <div class="card-content">Criteri: <strong>semplicità</strong> (fondamentale), invasività, costo. Risorse limitate nel sistema welfare → non sprecarle.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Perfusione - CRT, PP, FR -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parametri di perfusione</div>
+    <div class="lesson-title">CRT, pulse pressure e frequenza respiratoria</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Capillary Refill Time (CRT)</div>
+    <div class="highlight">
+      Pressione su un dito per 10 s, poi si contano i secondi per il <strong>ritorno del colore</strong>. Un CRT prolungato = ridotta perfusione periferica → segnale d'allarme, correla con instabilità emodinamica, disfunzione d'organo e mortalità. Costo zero.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Utilità</div>
+        <div class="card-content">Triage, shock, monitoraggio terapie (diuretici, vasodilatatori, amine). Nato in ambito <strong>pediatrico</strong> (molto sensibile all'età).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Limiti</div>
+        <div class="card-content">Poco specifico. Influenzato da temperatura ambiente/cutanea, modalità di esecuzione, pelle scura, arteriopatia periferica, ipotermia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gravità dello shock</div>
+        <div class="card-content">Si stima dal livello a cui l'arto torna all'<strong>eutermia</strong>: arti freddi fino alla radice = prognosi peggiore rispetto a sole dita fredde.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Pulse pressure (pressione differenziale)</div>
+    <div class="highlight">
+      <strong>Sistolica − diastolica</strong> (non è la pressione media). Massima a livello aortico, si annulla a livello arteriolare/venoso. In TI si monitora con catetere in arteria radiale: cambia con la funzione di pompa e le resistenze.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fattori che la influenzano</div>
+        <div class="card-content">Stroke volume, elasticità/diametro aorta, <strong>stiffness</strong> vascolare (↑ con aterosclerosi), pulse wave velocity, resistenze, distanza di riflessione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">PP ridotta + CO ridotto</div>
+        <div class="card-content">Shock <strong>cardiogeno, ipovolemico, ostruttivo</strong> → problema "di pompa". ↑ SVR = vasocostrizione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">PP aumentata</div>
+        <div class="card-content">Shock <strong>distributivo/settico</strong> → vasodilatazione, ↓ resistenze.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Esempio: anziano 180/60</div>
+        <div class="card-content">PP ampia da <strong>rigidità arteriosa</strong> (ipertensione sistolica isolata). PP ampia ≠ buona emodinamica: va contestualizzata.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.2 Frequenza respiratoria</div>
+    <div class="highlight">
+      Parametro spesso dimenticato ma cruciale per il <strong>grado di compenso</strong>. La <strong>tachipnea</strong> è risposta a ipossia/acidosi; la sua <strong>scomparsa</strong> (quando attesa) segnala esaurimento delle riserve → peggioramento imminente. Es. respiro di <strong>Kussmaul</strong> (rapido e profondo) nell'acidosi.
+    </div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Valore prognostico (COVID-19)</div>
+        <div class="card-content">La FR correla con la mortalità più di temperatura o FC (inversamente alla saturazione). Veloce, a costo zero: da misurare e registrare sempre, anche manualmente nel triage.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Respiro e edemi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Meccanica respiratoria & edemi</div>
+    <div class="lesson-title">Muscoli accessori ed edemi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Meccanica inspiratoria e muscoli accessori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Muscoli coinvolti</div>
+        <div class="card-content">Diaframma + intercostali esterni. In esaurimento si reclutano <strong>sternocleidomastoideo, scaleni, retto addominale</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bilancia toraco-addominale</div>
+        <div class="card-content">Reclutare la muscolatura <strong>addominale</strong> in espirazione peggiora nettamente la prognosi. Segno visibile = lavoro respiratorio aumentato, compenso avanzato.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipossia senza muscoli accessori</div>
+        <div class="card-content">Suggerisce shunt/embolia (non problema meccanico), oppure malattie neuromuscolari (Duchenne, postumi di poliomielite) → trattate con NIV.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Asincronie con il ventilatore</div>
+        <div class="card-content">Il paziente "lotta" contro la macchina. Frequenti in <strong>BPCO, fibrotici, obesi</strong> → spesso serve aumentare le pressioni di supporto.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Decisione di intubare</strong> (insufficienza respiratoria acuta): ossigenazione, ventilazione, lavoro respiratorio, tosse/clearance. Integra dati strumentali (SpO2, pCO2) e osservazione del lavoro respiratorio.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Edemi — interpretazione</div>
+    <div class="highlight">
+      Errore comune: <strong>edema ≠ ipervolemia</strong>. In TVP è ostacolo al deflusso venoso; i <strong>calcio-antagonisti</strong> danno edemi periferici per tono vascolare. In questi casi il diuretico <strong>non</strong> è appropriato: capire la causa prima di trattare.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismi di edema</div>
+        <div class="card-content">↑ pressione idrostatica, ↑ volume plasmatico, ↓ pressione oncotica (ipoalbuminemia → terzo spazio), ↑ permeabilità capillare, ostruzione linfatica (es. post-linfadenectomia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Edema unilaterale</div>
+        <div class="card-content">Problema <strong>locale</strong>: TVP, neoplasie/compressioni, sindrome di May-Thurner (solo a sinistra). Diuretico inefficace.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Edema bilaterale</div>
+        <div class="card-content">Disordine <strong>sistemico</strong>: insufficienza cardiaca, nefropatie, epatopatie, farmaci, ipoproteinemie. Terapia mirata alla causa.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Mottling, temperatura, shock -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Perfusione & shock</div>
+    <div class="lesson-title">Mottling, temperatura corporea</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Mottling (livedo reticularis)</div>
+    <div class="highlight">
+      Aspetto cutaneo <strong>marmorizzato/reticolare</strong>, tipicamente agli arti inferiori, che correla con <strong>ipoperfusione tissutale</strong>. Compare in pre-shock/shock → segno d'allarme con forte valore prognostico.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Implicazioni operative</div>
+        <div class="card-content">In un paziente febbrile con PAS 90 mmHg, mottling esteso accelera gli accertamenti, intensifica il monitoraggio e orienta verso terapia intensiva/subintensiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mottling Score</div>
+        <div class="card-content">Quantifica l'estensione (intorno al ginocchio). Correla con <strong>mortalità a 14 giorni</strong>, lattati e necessità di vasopressori. Surrogato utile quando l'emogas non è disponibile.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Temperatura corporea & shock</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Distribuzione della T°</div>
+        <div class="card-content">Indice di gravità: correla con l'attivazione del SNA. Nello shock il corpo vasocostringe la periferia per salvare cuore/cervello/reni → <strong>estremità fredde</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Eutermia che risale</div>
+        <div class="card-content">Vasocostrizione che si fa sempre più <strong>prossimale</strong> = compenso disperato dell'ipoperfusione (SNA simpatico).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Implicazione terapeutica</div>
+        <div class="card-content">Arti freddi (vasocostrizione) → i vasocostrittori hanno poco senso. Cute calda (shock <strong>settico</strong>, vasodilatato) → i vasocostrittori funzionano bene.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Addome, neuro, tosse -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · EO per distretti</div>
+    <div class="lesson-title">Addome, esame neurologico e tosse</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Esame obiettivo addominale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Segni rilevanti</div>
+        <div class="card-content">Addome teso/disteso (occlusione, emergenze), <strong>masse pulsanti</strong> (aneurisma/dissecazione aortica — talvolta basta appoggiare la mano). Anche dolore viscerale riferito (es. torsione testicolare).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Integrazione con POCUS</div>
+        <div class="card-content">Individua liquido libero, misura il <strong>diametro della vena cava inferiore</strong> (disidratazione/ipovolemia), stabilisce priorità nello shock. Es. segno di Murphy + sonda nella colica biliare.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Esame obiettivo neurologico</div>
+    <div class="highlight">
+      Cruciale nei pazienti intubati/sedati. La <strong>finestra neurologica</strong> (sospensione temporanea della sedazione) valuta lo stato neurologico reale: importante per decisioni cliniche e prognosi.
+    </div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Step dell'esame</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Pupille (dimensione/reattività)</span>
+            <span class="pill">Occhi di bambola</span>
+            <span class="pill">Riflesso corneale</span>
+            <span class="pill">Stimolazione ATM e arti</span>
+            <span class="pill">Tosse con suzione</span>
+            <span class="pill">Tono muscolare</span>
+            <span class="pill">Riflesso patellare</span>
+            <span class="pill">Babinski</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">9. Tosse</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Riflesso protettivo</div>
+        <div class="card-content">Libera le vie aeree. Chi non tossisce ha perso parte del compenso respiratorio e non protegge le vie aeree.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Valutazione per estubazione</div>
+        <div class="card-content">Considerare il flusso respiratorio forzato. Guida l'uso di NIV come ponte, fisioterapia respiratoria, e dispositivi come il <strong>cuff assist</strong> (mima la tosse).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintesi: perché conta l'EO</div>
+    <div class="highlight">
+      Semplice, rapido, a costo zero. Integra dati anamnestici e strumentali (POCUS, monitor): edemi bilaterali non da sovraccarico → eco mirato; estremità fredde/mottling → tipo di shock; valutazione neuro/tosse → gestione della ventilazione. Resta la <strong>prima interfaccia</strong> con il paziente.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Anamnesi e esami strumentali (2022) -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Anamnesi cardiologica <span style="font-weight:400;text-transform:none;letter-spacing:0;">— Prof. Giannattasio 2022</span></div>
+    <div class="lesson-title">Anamnesi cardiologica e panoramica esami</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Anamnesi per organi & apparati</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fattori di rischio</div>
+        <div class="card-content">Fumo, sovrappeso, attività motoria, caffè (negativo se tachicardia basale). Indagare durata, modalità, rapporto con sforzi/freddo (es. angina da freddo/sforzo/defecazione).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Capo & occhi</div>
+        <div class="card-content">Cefalea in crisi ipertensive (feocromocitoma); emicrania come unico sintomo di PFO (~30% popolazione); diplopia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gastroenterico</div>
+        <div class="card-content">Dolore gastrico <strong>non</strong> legato al pasto, da sforzo/freddo → cuore. Ridotta diuresi → possibile scompenso (ritenzione di liquidi, ↑ peso).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cardio-respiratorio — scala MIA</div>
+        <div class="card-content">Dispnea/ortopnea (dormire con più cuscini). <strong>MIA 0</strong> = assente, <strong>MIA 1</strong> = solo sforzi intensi … <strong>MIA 4</strong> = a riposo. La tosse può essere scompenso, non solo BPCO.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esame obiettivo cardiaco classico</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Auscultazione torace</div>
+        <div class="card-content">Scompenso: <strong>fini rantoli crepitanti</strong> alle basi, bilaterali; versamento pleurico (assenza di murmure in un'area).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ispezione & palpazione</div>
+        <div class="card-content">Dal lato dx del paziente: <strong>itto della punta</strong> (mano a piatto). Itto forte → ipertrofia; aia cardiaca allargata → dilatazione ventricolare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Auscultazione cuore</div>
+        <div class="card-content">Foci della base, mesocardio e punta. Riconoscere il battito fisiologico per cogliere soffi e anomalie.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esami strumentali in cardiologia <span style="font-weight:400;font-size:.7rem;">(per invasività crescente)</span></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ECG & varianti</div>
+        <div class="card-content">Base (rapido, economico). <strong>Da sforzo</strong>: slatentizza l'ischemia (ST sottoslivellato &gt; 2 mm); controindicato con pacemaker, BBS, deficit motori. <strong>Holter</strong>/loop recorder: aritmie/blocchi intermittenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Lastra torace</div>
+        <div class="card-content">Poco specifica ma informativa: aia cardiaca, arco aortico, versamento, congestione ilare. Economica e veloce.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecocardiogramma</div>
+        <div class="card-content">Non invasivo, niente raggi. Volumi, valvole, cinesi, aorta. Sottolivelli: <strong>transesofageo</strong> (valvole 3D, pre-intervento, esclusione trombi pre-cardioversione), <strong>da stress</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scintigrafia</div>
+        <div class="card-content">Polmonare nella TEP se TAC controindicata (allergia contrasto/IRC). Cardiaca da sforzo per aree ipoperfuse (poco usata oggi).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">AngioTAC coronarica</div>
+        <div class="card-content">Esame di elezione nel paziente a <strong>basso rischio</strong> con dolore tipico: esclude l'origine coronarica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Coronarografia</div>
+        <div class="card-content">Da arteria radiale + contrasto: studia le coronarie e tratta nello stesso tempo (angioplastica + stent). Invasiva, carico radiologico.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

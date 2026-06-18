@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 13 — Il dolore per sede (PROVVISORIA)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .prov-banner { background: #c94040; color: #fff; font-size: .76rem; font-weight: 600; letter-spacing: .03em; padding: 9px 20px; text-align: center; line-height: 1.4; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 13</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Dolore toracico</button>
+    <button class="s2"        onclick="show('s2',this)">Toracico: DD per cause</button>
+    <button class="s3"        onclick="show('s3',this)">Dolore addominale</button>
+    <button class="s4"        onclick="show('s4',this)">Addominale: quadranti</button>
+    <button class="s5"        onclick="show('s5',this)">Dolore radicolare</button>
+    <button class="s6"        onclick="show('s6',this)">Cefalea</button>
+  </nav>
+</header>
+<div class="prov-banner">⚠ MAPPA PROVVISORIA — costruita su fonti mediche affidabili (Manuali MSD, ICHD-3, Società Italiana di Neurologia, classici di semeiotica), NON sulle sbobine ufficiali. Da sostituire appena reperisci il materiale del corso.</div>
+
+<!-- S1: Dolore toracico -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 13 · Dolore toracico</div>
+    <div class="lesson-title">Il dolore toracico, addominale, radicolare e della cefalea</div>
+    <div class="lesson-meta">Mappa provvisoria · fonti: MSD, ICHD-3, SIN, semeiotica medica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Inquadramento</div>
+    <div class="highlight">
+      Il dolore toracico è uno dei motivi più frequenti di accesso in PS: solo una minoranza ha una causa prognosticamente grave, ma queste vanno escluse <strong>rapidamente</strong>. Le <strong>3 emergenze</strong> da escludere subito: sindrome coronarica acuta (ECG), <strong>dissecazione aortica</strong> ed <strong>embolia polmonare</strong> (TAC torace).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratterizzazione (per la DD)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tipo "viscerale" cardiaco</div>
+        <div class="card-content">Retrosternale, oppressivo/costrittivo, <strong>non focale</strong>, non modificato da respiro o digitopressione, irradiato a braccio sx/collo/mandibola. Da sforzo/freddo/emozione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo pleuro-pericardico</div>
+        <div class="card-content">Puntorio, <strong>varia con il respiro</strong> e la posizione (migliora seduto in avanti nella pericardite).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo parietale</div>
+        <div class="card-content">Focale, riproducibile con la <strong>digitopressione</strong> e il movimento → osteomuscolare (costocondrite).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo gastroesofageo</div>
+        <div class="card-content">Bruciore, "acido che sale", correlato ai pasti e alla posizione supina.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Approccio in PS</div>
+    <div class="highlight">
+      Segni vitali → anamnesi del dolore e dei fattori di rischio CV → <strong>ECG</strong> (rapido, a tutti) → troponina → eventuale TAC torace / eco. Lo STEMI all'ECG va in emodinamica senza attendere altri esami.
+    </div>
+  </div>
+</div>
+
+<!-- S2: Toracico DD -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 13 · DD toracica</div>
+    <div class="lesson-title">Dolore toracico — cause per apparato</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause cardiovascolari</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ischemiche</div>
+        <div class="card-content">Angina stabile (da sforzo, regredisce a riposo), <strong>SCA</strong> (a riposo, prolungato). Vedi Lez 8-9.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pericardite</div>
+        <div class="card-content">Dolore che varia con respiro e posizione, sfregamenti, sopra-ST diffuso.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Dissecazione aortica</div>
+        <div class="card-content">Dolore <strong>lacerante</strong>, migrante verso il dorso, intensità massima all'esordio. Emergenza.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause polmonari</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Embolia polmonare</div>
+        <div class="card-content">Dolore pleurico improvviso + dispnea ± emottisi. Da escludere con TAC.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pneumotorace</div>
+        <div class="card-content">Dolore improvviso unilaterale + dispnea, riduzione del murmure.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pleurite / polmonite</div>
+        <div class="card-content">Dolore che varia con il respiro (interessamento pleurico), febbre.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause GI, parietali, psicogene</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Gastroenteriche</div>
+        <div class="card-content">Reflusso, spasmo esofageo, ulcera, <strong>pancreatite</strong> (epigastrico a barra → dorso).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Muscoloscheletriche</div>
+        <div class="card-content">Costocondrite, mialgia intercostale: dolore focale, riproducibile alla pressione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Psicogene</div>
+        <div class="card-content">Somatizzazione di malessere psicologico (diagnosi di esclusione).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Dolore addominale -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 13 · Dolore addominale</div>
+    <div class="lesson-title">Dolore addominale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I tre meccanismi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Viscerale</div>
+        <div class="card-content">Da distensione/contrazione, ischemia, infiammazione di un organo. <strong>Sordo, mal localizzato, mediano</strong>; corteo neurovegetativo; paziente irrequieto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Parietale (somatico)</div>
+        <div class="card-content">Da irritazione del <strong>peritoneo parietale</strong>. Intenso, ben localizzato, aggravato da tosse/movimento; <strong>Blumberg+</strong>; paziente immobile con cosce flesse.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riferito</div>
+        <div class="card-content">Percepito lontano dalla lesione (stesso neuromero). Es. spalla destra nella colica biliare, genitali nella colica renale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Addome acuto</div>
+    <div class="highlight">
+      Quadro di dolore addominale di gravità tale da <strong>richiedere o suggerire un trattamento chirurgico</strong>. Il passaggio da dolore viscerale vago a parietale localizzato (es. appendicite: periombelicale → fossa iliaca destra) segnala il coinvolgimento del peritoneo e la possibile emergenza chirurgica.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tipi di stimolo & caratterizzazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Stimoli</div>
+        <div class="card-content">Allungamento/tensione, infiammazione, ischemia, neoplasie.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Colica</div>
+        <div class="card-content">Dolore crampiforme intermittente da viscere cavo (intestino, vie biliari, uretere).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cautele anamnestiche</div>
+        <div class="card-content">Indagare interventi pregressi (aderenze) e <strong>analgesici assunti</strong> (mascherano il quadro).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Addominale quadranti -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 13 · Topografia</div>
+    <div class="lesson-title">Dolore addominale per quadrante</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quadranti superiori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ipocondrio destro</div>
+        <div class="card-content"><strong>Colecistite</strong>/colica biliare (Murphy+), epatite, ulcera duodenale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Epigastrio</div>
+        <div class="card-content">Gastrite, ulcera, <strong>pancreatite</strong> (a barra → dorso); attenzione all'<strong>IMA inferiore</strong> che può presentarsi come dolore epigastrico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipocondrio sinistro</div>
+        <div class="card-content">Patologia splenica, pancreatite (coda), patologia della flessura colica sinistra.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Regione centrale e quadranti inferiori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Periombelicale</div>
+        <div class="card-content">Fase iniziale dell'<strong>appendicite</strong>, gastroenterite, ischemia mesenterica, aneurisma aortico (dolore + shock + massa pulsante).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fossa iliaca destra</div>
+        <div class="card-content"><strong>Appendicite</strong> (McBurney), patologia ovarica/tubarica destra, calcolosi ureterale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fossa iliaca sinistra</div>
+        <div class="card-content"><strong>Diverticolite</strong>, patologia ovarica sinistra, colica ureterale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipogastrio</div>
+        <div class="card-content">Patologia vescicale (cistite, ritenzione), uterina, prostatica.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Segni semeiologici utili</div>
+    <div class="highlight">
+      <strong>Blumberg</strong> (dolore al rilascio = irritazione peritoneale), <strong>Murphy</strong> (arresto inspiratorio nella colecistite), punti appendicolari (<strong>McBurney, Lanz, Morris</strong>), <strong>Grey-Turner/Cullen</strong> (ecchimosi nella pancreatite emorragica). Una massa pulsante dolente + shock → sospetto aneurisma rotto.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Dolore radicolare -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 13 · Dolore radicolare</div>
+    <div class="lesson-title">Dolore radicolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & meccanismo</div>
+    <div class="highlight">
+      Dolore <strong>neuropatico</strong> da infiammazione e/o compressione di una <strong>radice nervosa spinale</strong> (la causa più comune è l'ernia del disco). Si distribuisce lungo il <strong>dermatomero</strong> corrispondente alla radice colpita.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratteristiche cliniche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Qualità</div>
+        <div class="card-content">Dolore a <strong>scossa elettrica</strong>/urente che si irradia lungo il decorso della radice (es. <strong>sciatica</strong> per L5-S1: dalla schiena alla gamba).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori aggravanti</div>
+        <div class="card-content">Movimenti del rachide, <strong>tosse, starnuto, Valsalva</strong> (aumentano la pressione sulla radice).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Deficit segmentari</div>
+        <div class="card-content">Distribuzione <strong>dermatomerica</strong> di parestesie/ipoestesia, debolezza dei muscoli innervati dalla radice, riflessi osteotendinei ridotti/assenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause</div>
+        <div class="card-content">Ernia discale, spondilosi; infiammatorie/infettive (<strong>Herpes zoster</strong>, Lyme, Guillain-Barré).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi & red flags</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">Clinica + <strong>neuroimaging</strong> (RM) e test <strong>elettrofisiologici</strong> (EMG/ENG). DD con dolore somatico riferito e neuropatie periferiche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sindrome della cauda equina</div>
+        <div class="card-content"><strong>Emergenza</strong>: sintomi radicolari bilaterali + alterazioni sfinteriche e della funzione sessuale → decompressione urgente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Livello sensitivo</div>
+        <div class="card-content">Brusco cambiamento di sensibilità sotto un dermatomero → sospetta <strong>compressione midollare</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Cefalea -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 13 · Cefalea</div>
+    <div class="lesson-title">Il dolore della cefalea</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione (ICHD-3)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Primarie</div>
+        <div class="card-content">La cefalea <strong>è</strong> la malattia: <strong>emicrania</strong>, cefalea <strong>tensiva</strong>, cefalea a <strong>grappolo</strong> (cluster). Prevalenza altissima (~50% della popolazione adulta).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Secondarie</div>
+        <div class="card-content">Sintomo di un'altra patologia (cefalee "di nuova insorgenza" in stretta correlazione temporale con un evento causale): vascolari, traumatiche, infettive, da ipertensione endocranica.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le primarie principali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Emicrania</div>
+        <div class="card-content">Attacchi 4-72 h, dolore <strong>unilaterale pulsante</strong>, intensità medio-forte, peggiora col movimento, con nausea/foto-fonofobia. Con o senza aura.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tensiva</div>
+        <div class="card-content">Dolore <strong>gravativo "a casco"</strong>, bilaterale, lieve-moderato, non pulsante, senza nausea; non peggiora col movimento.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">A grappolo (cluster)</div>
+        <div class="card-content">Dolore <strong>unilaterale</strong> periorbitario severissimo, attacchi brevi a grappolo, con segni <strong>autonomici</strong> ipsilaterali (lacrimazione, ptosi, rinorrea, miosi).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Red flags (→ sospetta secondaria)</div>
+    <div class="highlight">
+      <strong>Thunderclap</strong> (a rombo di tuono → emorragia subaracnoidea); febbre + rigidità nucale (meningite); <strong>deficit neurologici focali</strong>; papilledema; cefalea <strong>di nuova insorgenza &gt; 50 anni</strong>; peggioramento ingravescente; trauma recente.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Valutazione & imaging</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Clinica</div>
+        <div class="card-content">Anamnesi dettagliata (caratteristiche, trigger, pattern temporale, sintomi associati), esame neurologico, diario delle cefalee, scale (HIT-6, MIDAS).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Imaging</div>
+        <div class="card-content"><strong>Non necessario</strong> nelle primarie tipiche. RM/angio-RM se red flags o sospetta secondaria; <strong>TC urgente</strong> se thunderclap o trauma.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia (cenni)</div>
+        <div class="card-content">Attacco emicranico: <strong>triptani</strong>, FANS, analgesici, antiemetici. Profilassi nelle forme frequenti.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

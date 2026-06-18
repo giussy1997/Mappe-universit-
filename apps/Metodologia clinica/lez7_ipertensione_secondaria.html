@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 7 — Ipertensione secondaria</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 7</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Quadro & RAAS</button>
+    <button class="s2"        onclick="show('s2',this)">Farmaci del RAAS</button>
+    <button class="s3"        onclick="show('s3',this)">Forme renali</button>
+    <button class="s4"        onclick="show('s4',this)">Endocrine & esogene</button>
+    <button class="s5"        onclick="show('s5',this)">Iperaldosteronismo</button>
+    <button class="s6"        onclick="show('s6',this)">Diagnosi & danno d'organo</button>
+  </nav>
+</header>
+
+<!-- S1: Quadro e RAAS -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Prof. Maloberti (2022)</div>
+    <div class="lesson-title">Ipertensione arteriosa secondaria</div>
+    <div class="lesson-meta">02/11/2022 · argomento non trattato nell'anno corrente</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & epidemiologia</div>
+    <div class="highlight">
+      Il <strong>20%</strong> delle ipertensioni ha natura <strong>secondaria</strong> (causa identificabile e spesso curabile). L'ipertensione <strong>essenziale</strong> (~80%) è una diagnosi di esclusione: "essenziale" indica un meccanismo non noto. L'ipertensione colpisce circa il 60% degli italiani.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Distribuzione delle forme endocrine</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Essenziale</div>
+        <div class="card-content">~80% dei casi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iperaldosteronismo</div>
+        <div class="card-content">~12% — la causa secondaria più frequente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Renali</div>
+        <div class="card-content">~6%.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Feocromocitoma</div>
+        <div class="card-content">~1%, ma con clinica molto tipica → sempre da considerare ("ten percent tumor").</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il sistema Renina-Angiotensina-Aldosterone (RAAS)</div>
+    <div class="highlight">
+      Gestisce il <strong>volume dei liquidi</strong>. Le cellule <strong>iuxtaglomerulari</strong> (arteriola afferente) fanno da barocettori: ↓ volume circolante → ↑ <strong>renina</strong> → angiotensinogeno → <strong>angiotensina I</strong> → (enzima ACE) → <strong>angiotensina II</strong> → rilascio di <strong>aldosterone</strong>.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Azione dell'aldosterone</div>
+        <div class="card-content">Attiva l'antiporto renale che <strong>riassorbe sodio scambiandolo con potassio</strong>. Più sodio → più acqua per osmosi → ↑ volume e pressione. Scopo fisiologico: contrastare l'ipotensione/disidratazione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Conseguenza sul potassio</div>
+        <div class="card-content">Riassorbire Na col scambio Na/K → perdita di K → <strong>ipokaliemia</strong>. Niente ipernatriemia perché il Na è bilanciato dall'acqua riassorbita.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Recettori dell'angiotensina II</div>
+        <div class="card-content"><strong>AT1</strong> (rilascio di aldosterone, quello rilevante) e AT2. La realtà biologica è più complessa della semplificazione.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Farmaci del RAAS -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Farmacologia</div>
+    <div class="lesson-title">Farmacologia del sistema RAAS</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le tre classi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ACE-inibitori</div>
+        <div class="card-content">Riducono l'enzima ACE → meno angiotensina II. Inibiscono anche la degradazione della <strong>bradichinina</strong> → accumulo laringeo → <strong>tosse</strong> e angioedema.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sartani (ARB)</div>
+        <div class="card-content">Bloccano il recettore <strong>AT1</strong> lasciando degradare le bradichinine. Step successivo dopo la tosse da ACE-i (ma anche loro possono dare angioedema).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Antagonisti dell'aldosterone</div>
+        <div class="card-content">Bloccano/degradano l'aldosterone o ne impediscono la sintesi. Effetto collaterale: <strong>iperkaliemia</strong> iatrogena.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Regole di associazione</div>
+    <div class="highlight">
+      <strong>Mai ACE-inibitori + sartani insieme</strong> (rischio iperkaliemia). ACE-i e sartani si associano singolarmente a <strong>calcio-antagonisti e diuretici</strong> (potenziano l'efficacia e limitano la perdita di potassio). Nei casi gravi si aggiunge un anti-aldosteronico, monitorando la kaliemia.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ipertensione resistente</div>
+    <div class="highlight">
+      Si parla di ipertensione <strong>resistente</strong> quando, nonostante <strong>tre farmaci</strong> a dosaggio pieno (di cui un diuretico), la pressione non è controllata. È uno dei segnali che deve far sospettare una forma secondaria.
+    </div>
+  </div>
+</div>
+
+<!-- S3: Forme renali -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Forme renali</div>
+    <div class="lesson-title">Ipertensione di origine renale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Meccanismo</div>
+    <div class="highlight">
+      Iperaldosteronismo <strong>secondario</strong>: una causa riduce l'afflusso di sangue al rene, che interpreta il basso volume come sistemico → attiva il RAAS. Si distinguono forme <strong>nefrovascolari</strong> e <strong>nefroparenchimali</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.1 Cause nefrovascolari</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Placca arteria renale</div>
+        <div class="card-content">Tipica dell'<strong>anziano</strong> (sede atipica di placca). Riduce il flusso al rene.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Displasia fibromuscolare</div>
+        <div class="card-content">Tipica di <strong>giovani e bambini</strong>. Arterie renali "a corona di perle" (aneurismi + restringimenti) → deficit di flusso → secrezione di renina.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altre cause</div>
+        <div class="card-content">Infarto renale, dissecazione dell'arteria renale, vasculiti, tumori della testa del pancreas (compressione), fibrosi retroperitoneale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.2 Cause nefroparenchimali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismo (40% dei casi)</div>
+        <div class="card-content"><strong>Ritenzione di sodio</strong> per perdita di nefroni (es. malattia policistica) → ritenzione di liquidi → ipertensione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia</div>
+        <div class="card-content"><strong>Dialisi</strong> per rimuovere i liquidi in eccesso. In dialisi ciclica spesso non servono più antipertensivi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi delle forme renali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Campanelli d'allarme</div>
+        <div class="card-content"><strong>Soffi addominali</strong> (sopra l'ombelico), <strong>asimmetria dei reni</strong> (uno ipotrofico), ipokaliemia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Imaging & ecodoppler</div>
+        <div class="card-content">TC, RM, angiografia. L'ecodoppler delle arterie renali misura l'<strong>indice di resistenza</strong> (sistolico/diastolico): &gt; 0,7-0,8 = problema vascolare → probabile ipertensione nefrovascolare.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Endocrine ed esogene -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Cause endocrine</div>
+    <div class="lesson-title">Forme endocrine ed esogene</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il ruolo del surrene</div>
+    <div class="highlight">
+      Il <strong>surrene</strong> è il protagonista delle ipertensioni secondarie. Possono essere coinvolti la <strong>corticale</strong> (neoplasie/iperplasie nei 3 strati → aldosterone, cortisolo) o la <strong>midollare</strong> (feocromocitoma).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Feocromocitoma</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione</div>
+        <div class="card-content">Neoplasia delle cellule della <strong>midollare</strong> del surrene (ganglio simpatico modificato) con iperproduzione di <strong>catecolamine</strong> (adrenalina, noradrenalina). "Ten percent tumor".</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Effetti</div>
+        <div class="card-content">Vasocostrizione, ↑ frequenza e gittata → ipertensione + ↑ eccitabilità cellulare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">Dosaggio dell'<strong>acido vanilmandelico</strong> nelle urine (metabolita delle catecolamine).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Iperaldosteronismo da sostanze esogene</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Farmaci</div>
+        <div class="card-content"><strong>Inibitori MAO</strong> (feocromocitoma farmacologico), contraccettivi orali e ormoni sessuali (simil-aldosterone), steroidi/cortisolo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cushing</div>
+        <div class="card-content">Ipercortisolismo (eccessiva secrezione ipofisaria) → ipertensione + ipokaliemia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Liquirizia</div>
+        <div class="card-content">Azione <strong>aldosterone-like</strong>. Spesso non riferita dal paziente (ritenuta benefica) → da indagare in anamnesi.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Iperaldosteronismo -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Iperaldosteronismo</div>
+    <div class="lesson-title">Iperaldosteronismo primitivo</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Primario vs secondario</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Primario</div>
+        <div class="card-content">Causa che determina <strong>direttamente</strong> il rilascio di aldosterone (tipicamente tumore corticale). Renina <strong>bassa</strong> (per feedback negativo): aldosterone alto + renina bassa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Secondario</div>
+        <div class="card-content">Causa primariamente di <strong>volume</strong> (es. forma nefrovascolare). Aldosterone <strong>e</strong> renina entrambi <strong>alti</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Eziologia del primitivo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Adenoma di Conn (40%)</div>
+        <div class="card-content">Tumore benigno della zona glomerulosa (aldosterone-producing adenoma, APA). Raramente maligno.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iperplasia (60%)</div>
+        <div class="card-content">Iperplasia micro/macronodulare, mono o bilaterale (IHA).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia</div>
+    <div class="highlight">
+      <strong>Chirurgica</strong> (surrenalectomia laparoscopica monolaterale) se adenoma/iperplasia <strong>unilaterale</strong>. Inefficace nella bilateralità (l'altro surrene compenserebbe producendo di più) → in quel caso terapia medica con anti-aldosteronici.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Clinica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Triade</div>
+        <div class="card-content">Ritenzione di Na → ipernatriemia/ipervolemia/<strong>ipertensione</strong>; effetto <strong>profibrotico</strong> (cuore, carotidi → aterosclerosi rapida); <strong>ipokaliemia</strong> (solo nel 40-50%, diagnosi spesso precoce).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rischio cardiovascolare</div>
+        <div class="card-content">Rispetto ai non affetti: +77% infarto, +258% ictus, +352% <strong>FA</strong>, ×2 scompenso, +53% sindrome metabolica, +33% diabete. Causa: effetto pro-fibrotico → rigidità arteriosa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quando sospettarlo</div>
+    <div class="highlight">
+      Ipertensione + <strong>ipokaliemia</strong> (spontanea o da basse dosi di diuretico); ipertensione di grado 2-3; ≥ 3 farmaci (di cui un diuretico) o resistente con 4 farmaci; ipertensione <strong>giovanile</strong> (&lt;20 aa); incidentaloma surrenalico; familiarità; ictus, scompenso, coronaropatie, sindrome metabolica; <strong>FA non spiegata</strong> da cardiopatia strutturale (l'ipokaliemia altera i potenziali di membrana atriali).
+    </div>
+  </div>
+</div>
+
+<!-- S6: Diagnosi e danno d'organo -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Diagnosi</div>
+    <div class="lesson-title">Diagnosi e danno d'organo</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quando cercare la forma secondaria</div>
+    <div class="highlight">
+      Escludere le forme secondarie è <strong>lungo e costoso</strong> (sospensione terapie, washout ~1 mese, test endocrinologici e imaging). Non si fa in tutti: solo in casi selezionati (familiarità, segnali d'allarme, resistenza). Segnali: massa surrenalica in TC, <strong>ipokaliemia</strong> in chi assume farmaci RAAS (che dovrebbero dare iperkaliemia).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi funzionale dell'iperaldosteronismo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Rapporto PAC/PRC</div>
+        <div class="card-content">Dosaggio di <strong>aldosterone (PAC) e renina (PRC)</strong> e loro rapporto (aldosterone-renin ratio). Cut-off variabile per unità di misura del laboratorio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Influenza dei farmaci</div>
+        <div class="card-content">Gli anti-aldosteronici alzano falsamente l'aldosterone; ACE-i lo abbassano e alzano la renina. Diagnosi corretta in <strong>washout</strong>: anti-aldosteronici 6 settimane prima, diuretici/ACE-i/sartani 4 settimane prima. Unico ammesso: <strong>doxazosina</strong> (alfa-bloccante).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Test di conferma</div>
+        <div class="card-content">Dopo il rapporto indicativo, si inibisce/stimola il feedback per vedere se la secrezione è fisiologica o patologica (4 tipi di test).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Danno d'organo nell'ipertensione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ipertrofia ventricolare sx</div>
+        <div class="card-content">Adattamento al ↑ post-carico: prima <strong>concentrica</strong> (↑ spessore, ↓ cavità), poi <strong>eccentrica</strong> (dilatazione). Diagnosi: ECG + conferma ecografica (massa indicizzata cut-off <strong>115 g/m² uomo, 95 donna</strong>).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Valore prognostico</div>
+        <div class="card-content">Studio PAMELA (San Gerardo): chi ha ipertrofia VS ha rischio di evento 28% vs 5% e di morte 35% vs 8% dei non affetti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Calcio coronarico & carotidi</div>
+        <div class="card-content">Il calcium score (TC senza contrasto) dà un indice di rischio. Lo stato delle carotidi (stenosi, IMT) pesa molto: a parità di parametri, una stenosi impone un approccio più aggressivo.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

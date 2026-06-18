@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 2 — ECG e aritmie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 2</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Conduzione & derivazioni</button>
+    <button class="s2"        onclick="show('s2',this)">ECG fisiologico</button>
+    <button class="s3"        onclick="show('s3',this)">Bradiaritmie & blocchi</button>
+    <button class="s4"        onclick="show('s4',this)">Tachiaritmie</button>
+    <button class="s5"        onclick="show('s5',this)">Ischemia & ST</button>
+    <button class="s6"        onclick="show('s6',this)">Elettroliti & QT</button>
+  </nav>
+</header>
+
+<!-- S1: Conduzione e derivazioni -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Prof. Tognola (2025) + Prof. Maloberti (2022)</div>
+    <div class="lesson-title">Elettrocardiogramma e aritmie</div>
+    <div class="lesson-meta">17/10/2025 · integrata con la lezione del 05/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione</div>
+    <div class="highlight">
+      L'<strong>ECG</strong> è la registrazione su carta dell'attività elettrica cardiaca tramite elettrodi, costituita da onde/deflessioni che si ripetono a ogni ciclo. Dà informazioni <strong>funzionali e morfologiche</strong>, di significato attuale (ischemia acuta) o pregresso (infarto misconosciuto). È il <strong>primo strumento</strong> di diagnostica cardiologica dopo anamnesi ed esame obiettivo: ubiquitario, facile, a basso costo.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sistema di conduzione & gerarchia dei pacemaker</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Percorso dell'impulso</div>
+        <div class="card-content"><strong>NSA</strong> (atrio dx, presso la vena cava superiore) → vie internodali → <strong>NAV</strong> → fascio di His → branche dx/sx → fascicoli ant./post. → fibre di <strong>Purkinje</strong> → miocardio di lavoro.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Frequenze intrinseche</div>
+        <div class="card-content">NSA <strong>60–100 bpm</strong> (pacemaker dominante). Atrio 50–60, NAV/giunzione più basso, miocardio ventricolare <strong>30–35 bpm</strong>. Se il NSA tace, subentrano pacemaker accessori più lenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Convenzione dei vettori</div>
+        <div class="card-content">Vettore che si <strong>avvicina</strong> all'elettrodo → deflessione <strong>positiva</strong>; che si <strong>allontana</strong> → negativa. L'ampiezza è proporzionale alla massa miocardica che lo genera.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Derivazioni periferiche (piano frontale)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Bipolari & unipolari</div>
+        <div class="card-content">Bipolari: <strong>D1 (0°), D2 (60°), D3 (120°)</strong> → triangolo di Einthoven. Unipolari: <strong>aVF (90°)</strong> parete inferiore, <strong>aVR (-150°)</strong> sezioni destre, <strong>aVL (-30°)</strong> parete laterale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Elettrodi agli arti</div>
+        <div class="card-content">Codice colori mondiale: <strong>rosso</strong> braccio dx, <strong>giallo</strong> braccio sx, <strong>verde</strong> gamba sx, <strong>nero</strong> gamba dx (messa a terra). Chiari sopra, scuri sotto.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Derivazioni precordiali (piano orizzontale) & coronarie</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Posizioni V1–V6</div>
+        <div class="card-content">V1–V2: 4° spazio IC parasternale dx/sx; V3 tra V2 e V4; V4: 5° spazio IC emiclaveare; V5 ascellare anteriore; V6 emiascellare. V1–V4 anteriori, V5–V6 laterali.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Correlazione coronarica</div>
+        <div class="card-content"><strong>Coronaria dx</strong> → parete inferiore (D2, D3, aVF). <strong>IVA/discendente ant.</strong> → parete anteriore (V1–V4). <strong>Circonflessa</strong> → parete laterale (D1, aVL, V5, V6).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Derivazioni accessorie</div>
+        <div class="card-content">Posteriori <strong>V7–V9</strong>; destre <strong>V3R–V4R</strong> (sospetto infarto VD, embolia polmonare).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: ECG fisiologico -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · ECG fisiologico</div>
+    <div class="lesson-title">Onde, intervalli e ritmo sinusale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Calibrazione</div>
+    <div class="highlight">
+      Velocità carta <strong>25 mm/s</strong> → 1 mm (quadratino piccolo) = <strong>0,04 s</strong>; 5 mm (quadrato grande) = <strong>0,2 s</strong>; 5 quadrati grandi = 1 s. Voltaggio: 10 mm = <strong>1 mV</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Onde e complessi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Onda P</div>
+        <div class="card-content">Depolarizzazione atriale. Sinusale: asse 0–90°, positiva in D1-D2-D3-aVF, negativa in aVR. Durata &lt; 0,1 s, voltaggio &lt; 2,5 mV. Migliori derivazioni: <strong>D2 e V1</strong>. P "polmonare" = impegno atriale dx; P bifida = impegno atriale sx.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Complesso QRS</div>
+        <div class="card-content">Depolarizzazione ventricolare (3 vettori: settale, parietale, basale). <strong>Q</strong> setto, <strong>R</strong> pareti libere, <strong>S</strong> zone basali. Normale &lt; 120 ms. Maiuscolo se &gt; 5 mm. Positivo ovunque tranne aVR.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Onda T & U</div>
+        <div class="card-content">T = ripolarizzazione ventricolare (asse 0–70°, asimmetrica). U = ripolarizzazione tardiva del Purkinje, in V2–V4; patologica se prominente.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Asse, transizione e voltaggi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Asse del QRS</div>
+        <div class="card-content">Si guardano D1 (0°) e aVF (90°). Entrambe positive → <strong>asse normale</strong> (0–90°). D1+/aVF− → deviazione sx; D1−/aVF+ → deviazione dx; entrambe − → deviazione estrema.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Transizione onda R</div>
+        <div class="card-content">Da negativa a positiva tra <strong>V3 e V4</strong> (normale). Anticipata = rotazione antioraria; ritardata = rotazione oraria (può essere fisiologica in longilinei/BPCO/robusti).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipertrofia VS</div>
+        <div class="card-content"><strong>Sokolow</strong>: S(V1) + R(V5/V6) &gt; 3,5 mV. <strong>Cornell</strong>: S(V3) + R(aVL) &gt; 2,8 mV (uomo) / 2 mV (donna). Cause: stenosi aortica, ipertensione, cuore d'atleta. L'<strong>ECO è più specifico</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipertrofia VD</div>
+        <div class="card-content">Rara e sempre patologica. R in V1 &gt; 7 mm. Cause: ipertensione/embolia/stenosi polmonare, insufficienza tricuspidale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Intervalli</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">PR (0,12–0,20 s)</div>
+        <div class="card-content">Conduzione atrio-ventricolare. &lt; 0,12 s → pre-eccitazione; &gt; 0,20 s → blocco AV.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ST</div>
+        <div class="card-content">Dal punto J all'onda T. Il <strong>punto J</strong> non deve deviare &gt; 1 mm dalla linea isoelettrica. Base per diagnosi di ischemia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">QT / QTc</div>
+        <div class="card-content">Depolarizzazione + ripolarizzazione. Da correggere per la FC (formula di <strong>Bazett</strong>, usa l'RR). Normale &lt; 450 ms (uomo) / &lt; 470 ms (donna).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Criteri di ritmo sinusale</div>
+    <div class="highlight">
+      FC 60–100 bpm · RR regolare · onda P sinusale (asse 0–90°, positiva ovunque tranne aVR) · rapporto P:QRS <strong>1:1</strong> · PR 120–200 ms · QRS &lt; 90 ms.<br>
+      <strong>Calcolo FC rapido</strong>: 300 / numero di quadrati grandi tra due QRS (1→300, 2→150, 3→100, 4→75, 5→60 bpm).
+    </div>
+  </div>
+</div>
+
+<!-- S3: Bradiaritmie e blocchi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Bradiaritmie</div>
+    <div class="lesson-title">Bradiaritmie e disturbi di conduzione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & classificazione</div>
+    <div class="highlight">
+      Le <strong>aritmie</strong> sono alterazioni del ritmo da problemi di genesi o conduzione dell'impulso. <strong>Bradiaritmie</strong> &lt; 60 bpm (bradicardia/aritmia sinusale, blocco SA, blocco AV, blocchi di branca); <strong>tachiaritmie</strong> &gt; 100 bpm (focus ectopico o rientro).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Bradicardie sinusali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Bradicardia sinusale</div>
+        <div class="card-content">Impulso dal NSA &lt; 60 bpm, QRS e P normali. Cause: tono vagale (atleti), farmaci (beta-bloccanti, calcio-antagonisti). Può dare vertigini, astenia, sincope.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Aritmia sinusale</div>
+        <div class="card-content">Variazione fisiologica con il respiro (inspirio ↑ vagale → FC ↓). RR più lungo supera il più breve di ≥ 0,16 s. Benigna, nessun trattamento.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Blocco seno-atriale</div>
+        <div class="card-content">Il NSA non genera l'impulso: assenza improvvisa di P-QRS-T. PP multiplo dell'intervallo base. Tipico dell'anziano (fibrosi NSA). Pausa <strong>critica</strong> se &gt; 3 s da sveglio / &gt; 6 s nel sonno.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Blocchi atrio-ventricolari (BAV)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">I grado</div>
+        <div class="card-content">Ogni P seguita da QRS ma PR &gt; 200 ms. Fisiologico in bambino/atleta. Asintomatico → monitoraggio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">II grado — Mobitz 1</div>
+        <div class="card-content">Allungamento progressivo del PR (Luciani-Wenckebach) fino al QRS saltato, poi reset. Può essere fisiologico (notturno/atleti).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">II grado — Mobitz 2</div>
+        <div class="card-content">QRS saltato <strong>improvviso</strong>, senza allungamento del PR. Sempre patologico (tessuto fibrotico). Spesso progredisce a III grado.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">III grado (completo)</div>
+        <div class="card-content">Dissociazione AV totale. Ritmo di scappamento: giunzionale (QRS stretti, 40–55 bpm) se prossimale; ventricolare (QRS larghi, 25–30 bpm) se distale. Paziente sincopato → <strong>pacemaker</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Blocchi di branca & emiblocchi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">BBS (sinistro)</div>
+        <div class="card-content">Il più frequente e <strong>sempre patologico</strong>. Complessi a M (RR') in D1 e V6 con ST sottoslivellato e T negativa; rS/QS in V1. <strong>Sospetta ischemia + BBS di nuova insorgenza = STEMI fino a prova contraria</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">BBD (destro)</div>
+        <div class="card-content">Speculare: morfologia a M (rSR', rsR') in V1–V2, S larga e lenta in D1 e V6. Spesso <strong>benigno</strong>, comune in bambini/giovani.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Durata QRS</div>
+        <div class="card-content">&gt; 90 ms = blocco <strong>incompleto</strong>; &gt; 120 ms = blocco <strong>completo</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Emiblocchi</div>
+        <div class="card-content"><strong>EAS</strong> (anteriore sx): frequente, di solito benigno, deviazione assiale sx, S in DIII &gt; S in DII; spesso associato a BBD. <strong>EPS</strong> (posteriore sx): raro e patologico, QRS negativo in D1 e positivo in DIII-aVR-aVF.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Pacemaker artificiale <span style="font-weight:400;font-size:.7rem;">(dalla lez. 2022)</span></div>
+    <div class="highlight">
+      Impiantato in pazienti con bradiaritmie sintomatiche. Filo atriale e filo ventricolare passano per la vena succlavia al cuore destro; generatore in tasca sottocutanea (di solito pettorale sx). Rileva l'attività cardiaca e stimola il ventricolo quando c'è una P non condotta.
+    </div>
+  </div>
+</div>
+
+<!-- S4: Tachiaritmie -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Tachiaritmie</div>
+    <div class="lesson-title">Tachiaritmie sopraventricolari e ventricolari</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Origine & inquadramento</div>
+    <div class="highlight">
+      Tachicardia = FC &gt; 100 bpm. Si classificano in <strong>QRS stretto</strong> (sopraventricolari) o <strong>QRS largo</strong> (ventricolari), ciascuna regolare o irregolare. Meccanismo: focus ectopico o circuito di rientro.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Forme più semplici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tachicardia sinusale</div>
+        <div class="card-content">Ritmo sinusale &gt; 100 bpm. Fisiologica (sforzo, stress) o secondaria (ipertiroidismo, sepsi, scompenso, embolia polmonare). "Inappropriata" se elevata a riposo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Extrasistole sopraventricolare</div>
+        <div class="card-content">Focus ectopico atriale/giunzionale. P non sinusale + QRS simile ai sinusali ma anticipato. Pausa <strong>non compensatoria</strong>. Se &gt; 500–1000/die → ECO per patologia strutturale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Extrasistole ventricolare (BEV)</div>
+        <div class="card-content">QRS largo e anomalo, <strong>senza P precedente</strong>. Pausa <strong>compensatoria</strong> (= doppio dell'RR). Bigeminismo = alternanza battito sinusale/extrasistole.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fibrillazione e flutter atriale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fibrillazione atriale (FA)</div>
+        <div class="card-content"><strong>L'aritmia più frequente</strong>. Attività atriale caotica ("anarchia cordis"): <strong>assenza di onde P</strong>, deflessioni irregolari, ritmo "irregolarmente irregolare", RR variabile. Frequenza atriale fino a 400 bpm filtrata dal NAV.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Flutter atriale</div>
+        <div class="card-content">Attività atriale <strong>organizzata</strong> 250–350 bpm: onde F "a dente di sega" (D2, D3, aVF, V1). Il NAV filtra → conduzione 2:1, 3:1, 4:1. Tolleranza dipende dal grado di blocco.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tachicardie da rientro</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">TRNAV (microrientro)</div>
+        <div class="card-content">Rientro <strong>nel nodo AV</strong> (via lenta + via veloce). Innescata da extrasistole. QRS stretto con <strong>P retrocondotte</strong> (pseudo-R' in V1). Si interrompe con extrasistole "giusta" o massaggio del seno carotideo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">TRAV (macrorientro)</div>
+        <div class="card-content">Coinvolge una <strong>via accessoria</strong> (fascio di Kent). <strong>Ortodromica</strong>: QRS stretto (Kent solo in retroconduzione). <strong>Antidromica</strong>: QRS largo (Kent in conduzione anterograda).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pre-eccitazione & WPW</div>
+        <div class="card-content">Pre-eccitazione: <strong>onda delta</strong> + PQ &lt; 120 ms + QRS allargato. <strong>Wolff-Parkinson-White</strong> = pre-eccitazione + almeno un episodio di TRAV. Il fascio di Kent può restare asintomatico tutta la vita.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tachiaritmie ventricolari</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tachicardia ventricolare (TV)</div>
+        <div class="card-content">La più frequente a QRS largo. ≥ 3 BEV consecutivi, FC &gt; 100, QRS &gt; 120 ms, <strong>dissociazione AV</strong>. Causa tipica: ischemia acuta. Non sostenuta &lt; 30 s, sostenuta &gt; 30 s. Mono- o polimorfa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Torsione di punta</div>
+        <div class="card-content">TV polimorfa "a fisarmonica" (asse QRS che cambia). In anziani con bradicardia, <strong>QT lungo</strong> o alterazioni elettrolitiche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fibrillazione ventricolare (FV)</div>
+        <div class="card-content">La più grave: degenerazione di una TV non trattata. Perdita dell'attività meccanica, contrazione non coordinata → <strong>arresto cardiaco</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Ischemia e ST -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Ischemia</div>
+    <div class="lesson-title">Alterazioni ischemiche e del tratto ST</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">STEMI vs NSTEMI</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">STEMI</div>
+        <div class="card-content">Infarto con <strong>necrosi transmurale</strong> → vettore verso l'epicardio → <strong>sopraslivellamento ST</strong>. Va sempre <strong>localizzato</strong> (anteriore, inferiore, laterale...). Specularità: sopraslivellamento in una parete = sottoslivellamento speculare in quella opposta.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">NSTEMI</div>
+        <div class="card-content">Lesione <strong>subendocardica</strong> → <strong>sottoslivellamento ST</strong> o T negative simmetriche e profonde. <strong>Non localizzabile</strong> all'ECG: serve la coronarografia per il vaso responsabile.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Evoluzione dello STEMI</div>
+    <div class="highlight">
+      <strong>1.</strong> ST concavo verso l'alto, senza Q né T negativa → lesione acuta, trattabile.<br>
+      <strong>2.</strong> ST ancora sopraslivellato ma meno; voltaggio ridotto; compare piccola Q.<br>
+      <strong>3.</strong> ST normalizzato, T negativa; restano <strong>Q di necrosi</strong> + T ischemica → infarto transmurale pregresso.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Onda Q patologica (IMA pregresso)</div>
+    <div class="highlight">
+      Indica necrosi pregressa. È patologica se: durata &gt; 0,04 s <strong>e</strong> voltaggio ≥ ¼ dell'onda R successiva. Una Q piccola è fisiologica.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi differenziale del sopraslivellamento ST</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pericardite</div>
+        <div class="card-content">Sopraslivellamento <strong>diffuso</strong> (non coronarico), concavità superiore, sottoslivellamento del PR. Dolore modificabile con respiro e posizione (migliora piegato in avanti). Evoluzione in 3 fasi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ripolarizzazione precoce <span style="font-weight:400;font-size:.7rem;">(2022)</span></div>
+        <div class="card-content">Fenomeno <strong>benigno</strong>, tipico dei giovani (specie sudamericani/nordafricani). ST ascendente, punto J leggermente sopraslivellato ma di intensità modesta.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sindrome di Brugada <span style="font-weight:400;font-size:.7rem;">(2022)</span></div>
+        <div class="card-content">Genetica (canalopatia). Punto J sopraslivellato, ST <strong>discendente</strong> ("a tenda") + T negativa. Causa sincope per FV (sotto stress/febbre). Davanti a dolore toracico → emodinamica.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Elettroliti e QT -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Elettroliti</div>
+    <div class="lesson-title">Alterazioni elettrolitiche e QT lungo</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Potassio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Iperkaliemia</div>
+        <div class="card-content"><strong>Lieve</strong>: PR allungato + onde T appuntite, alte e strette (segno tipico). <strong>Moderata</strong>: QRS slargato, possibile sopraslivellamento ST. <strong>Severa</strong>: scomparsa P, QRS molto largo, rischio FV/asistolia (T resta evidente).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipokaliemia</div>
+        <div class="card-content">Negativizzazione/inversione dell'onda P "a baffo di Dalì". Tipica in disidratazione/insufficienza renale, terapia con digossina.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Correlazione prognostica</div>
+        <div class="card-content">La gravità delle <strong>alterazioni ECG</strong> predice la prognosi meglio del solo valore numerico di potassiemia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Calcio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ipercalcemia</div>
+        <div class="card-content"><strong>Accorcia</strong> il QT, possibili anomalie ST e rallentamento della conduzione AV.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipocalcemia</div>
+        <div class="card-content"><strong>Allunga</strong> il QT, con alterazioni del tratto ST. Meno specifiche → sempre correlate al laboratorio.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">QT lungo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Valutazione</div>
+        <div class="card-content">Tramite il <strong>QTc</strong> (Bazett), con valori di riferimento diversi per uomo e donna. Rischio principale: degenerazione in torsione di punta.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause congenite</div>
+        <div class="card-content">Sindromi genetiche del QT lungo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause acquisite</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Ipocalcemia / ipokaliemia / ipomagnesemia</span>
+            <span class="pill">Bradicardia estrema</span>
+            <span class="pill">Ipertensione endocranica</span>
+            <span class="pill">Antidepressivi triciclici, antipsicotici</span>
+            <span class="pill">Antiaritmici Ia, sotalolo</span>
+            <span class="pill">Macrolidi, chinoloni</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

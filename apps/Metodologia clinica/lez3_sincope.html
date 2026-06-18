@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 3 — Lipotimia e sincope</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 3</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & fisiopatologia</button>
+    <button class="s2"        onclick="show('s2',this)">Classificazione & DD</button>
+    <button class="s3"        onclick="show('s3',this)">Le tre forme</button>
+    <button class="s4"        onclick="show('s4',this)">Epidemiologia & fasi</button>
+    <button class="s5"        onclick="show('s5',this)">Diagnosi & red flags</button>
+    <button class="s6"        onclick="show('s6',this)">Rischio & terapia</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione e fisiopatologia -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Prof. Martino Pengo</div>
+    <div class="lesson-title">Lipotimia e sincope</div>
+    <div class="lesson-meta">03/11/2025</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione</div>
+    <div class="highlight">
+      La <strong>sincope</strong> è una perdita di coscienza transitoria dovuta a <strong>ipoperfusione cerebrale globale</strong> transitoria. Caratteristiche: insorgenza rapida, breve durata, <strong>risoluzione spontanea e completa</strong> (nessun reliquato, specie neurologico). È un <strong>sintomo</strong>, non una diagnosi.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Lipotimia vs sincope — terminologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Termine da abbandonare</div>
+        <div class="card-content"><strong>Lipotimia</strong> identifica già una diagnosi (quadro neurovegetativo, tipicamente vasovagale); usarla "manda un messaggio" diagnostico. Meglio parlare di sintomo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pre-sincope</div>
+        <div class="card-content">Riduzione/sensazione di perdita di coscienza che <strong>non si verifica</strong> realmente. Termine corretto da usare nella consegna clinica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Differenza con morte improvvisa</div>
+        <div class="card-content">Nella sincope il paziente <strong>recupera completamente</strong>. Recupero non totale → c'è altro da diagnosticare.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Fisiopatologia</div>
+    <div class="highlight">
+      Perfusione cerebrale ∝ pressione sistemica = <strong>gittata cardiaca × resistenze periferiche</strong>. La gittata = FC × (volume telediastolico − telesistolico). Una sistolica di <strong>50–60 mmHg</strong> causa perdita di coscienza. La causa va sempre cercata <strong>fuori dal cranio</strong>: una stenosi del poligono di Willis non dà sincope (serve ipoflusso globale).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Autoregolazione cerebrale — 4 meccanismi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Miogenico</div>
+        <div class="card-content">Modifica delle resistenze vascolari a livello del SNC.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Neurogenico</div>
+        <div class="card-content">Sostanze prodotte dai neuroni con effetto emodinamico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Metabolico</div>
+        <div class="card-content">Alterazione delle resistenze in base alla <strong>pCO2</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Endoteliale</div>
+        <div class="card-content">Peptidi simil-endotelina che modulano il calibro vascolare.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Questi meccanismi creano un <strong>plateau</strong> di flusso costante al variare della pressione. Si perde in caso di insulto del SNC (emorragia, ictus) → grande variabilità pressoria.
+    </div>
+  </div>
+</div>
+
+<!-- S2: Classificazione e DD -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Classificazione</div>
+    <div class="lesson-title">Classificazione e diagnosi differenziale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. I tre macrogruppi (linee guida)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sincope riflessa</div>
+        <div class="card-content">Neuromediata/vasovagale. Di tipo <strong>vasodepressivo</strong> o <strong>cardioinibitorio</strong> (spesso quadro misto).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sincope cardiaca</div>
+        <div class="card-content">Problema di <strong>gittata cardiaca</strong> (FC o volume eiettato). Patologie cardiologiche; spesso <strong>life-threatening</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipotensione ortostatica</div>
+        <div class="card-content">Il SNC non mantiene la pressione stabile → elevata variabilità pressoria e ipoperfusione.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">La sincope dentro le TLOC</div>
+    <div class="highlight">
+      La sincope è un sottoinsieme delle <strong>TLOC</strong> (perdite di coscienza transitorie). Primo bivio: <strong>traumatiche vs non traumatiche</strong>. Le traumatiche (trauma cranico, concussione) avvengono in pazienti <strong>normoperfusi</strong> (meccanismo elettrico/elettrolitico/sostanza reticolare).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">DD delle TLOC non traumatiche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sincope</div>
+        <div class="card-content">Cardiaca, riflessa o ortostatica (ipoperfusione globale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Crisi epilettiche</div>
+        <div class="card-content">Solo se <strong>generalizzate</strong> (non focali). Fisiopatologia completamente diversa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">TLOC psicogene</div>
+        <div class="card-content">Sfera psichiatrica; paziente <strong>normoperfuso</strong> a livello del SNC.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sindromi vascolari</div>
+        <div class="card-content">Rare (es. furto della succlavia). Non sono sincopi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Mimickers della sincope</div>
+    <div class="highlight">
+      Condizioni che <strong>simulano</strong> ma non sono sincope (paziente ben perfuso): <strong>ipoglicemia</strong> (sincope neuroglicopenica), epilessia, attacchi cataplettici (narcolessia), drop attack, pseudosincopi psicogene.
+    </div>
+  </div>
+</div>
+
+<!-- S3: Le tre forme -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Eziologia</div>
+    <div class="lesson-title">Le tre forme di sincope</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7.1 Sincope riflessa (neuromediata/vasovagale)</div>
+    <div class="highlight">
+      Un <strong>trigger</strong> (emozionale o somatico) attiva il <strong>nervo vago / parasimpatico</strong> → bradicardia o asistolia ± vasodilatazione (↓ resistenze periferiche) → caduta pressoria.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Vasovagale</div>
+        <div class="card-content">Trigger emotivo (paura, dolore) o situazionale (tosse, starnuto, stimolazione GI → classica sincope post-defecazione nell'anziano).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Senocarotidea</div>
+        <div class="card-content">Attivazione del nervo vago (non sempre in ambito neuromediato).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Forme atipiche</div>
+        <div class="card-content">Senza trigger chiaro. Talvolta si è costretti alla diagnosi di "sincope non determinata".</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7.2 Ipotensione ortostatica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Insufficienza autonomica primitiva</div>
+        <div class="card-content">Patologie neurologiche: <strong>Parkinson</strong>, demenza, atrofia multisistemica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Insufficienza autonomica secondaria</div>
+        <div class="card-content"><strong>Diabete</strong> (danno neurovascolare), amiloidosi, uremia, lesioni midollari.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Farmaci & cause</div>
+        <div class="card-content"><strong>Vasodilatatori e diuretici</strong> i più classici; anche alcol. <strong>Ipovolemia</strong>: nelle prime fasi di emorragia/diarrea/vomito è un segnale d'allarme.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7.3 Sincope cardiaca <span style="font-weight:400;font-size:.7rem;">— da riconoscere subito (life-threatening)</span></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Bradiaritmie</div>
+        <div class="card-content">Disfunzione/blocco AV avanzato, arresto sinusale, sindrome <strong>bradi-tachi</strong>, malfunzionamento del pacemaker. La contrazione è inefficace e troppo lenta.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tachiaritmie</div>
+        <div class="card-content">TV o TSV con FC molto alta → riempimento diastolico insufficiente. Soprattutto su <strong>cardiopatia strutturale</strong> (FE ridotta).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause meccaniche/strutturali</div>
+        <div class="card-content">Infarto, <strong>stenosi aortica</strong> severa (ostruzione all'efflusso), <strong>tamponamento cardiaco</strong> (sistole compressa), embolia polmonare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Embolia polmonare</div>
+        <div class="card-content">Causa frequente nell'ospedalizzato; da diagnosticare con urgenza. Può anche fungere da <strong>trigger</strong> per una vasovagale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tracciati ECG tipici della sincope cardiaca</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Arresto sinusale</div>
+        <div class="card-content">Mancano le onde P attese → pausa (~4 s) senza sistole. Sincope bradicardica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sindrome bradi-tachi</div>
+        <div class="card-content">Alternanza di fase bradicardica e di recupero. Frequente indicazione al <strong>pacemaker</strong> se sintomatica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">BAV completo (III grado)</div>
+        <div class="card-content">P e QRS a frequenze indipendenti; QRS idioventricolare (40–50 bpm).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tachicardia ventricolare</div>
+        <div class="card-content">QRS larghi, RR costante (origine ventricolare). DD con TSV condotta con aberranza.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Epidemiologia e fasi -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Epidemiologia</div>
+    <div class="lesson-title">Epidemiologia e fasi della sincope</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Incidenza & epidemiologia</div>
+    <div class="highlight">
+      Dipende dal <strong>setting</strong>: bassa nella popolazione generale, più alta in ospedale (cardiologia &gt; chirurgia). La sincope intraospedaliera è <strong>più ad alto rischio</strong> (comorbilità) rispetto a quella sul territorio.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Primo picco: 20–30 anni</div>
+        <div class="card-content">Persone giovani e sane, per lo più sincopi <strong>vasovagali</strong> benigne, non a rischio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Calo a 40–50 anni</div>
+        <div class="card-content">Frequenza ridotta nella mezza età.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Secondo picco: ≥ 60–70 anni</div>
+        <div class="card-content">Più grave: cause cardiache (BAV avanzato, embolia polmonare) frequenti nel cardiopatico anziano.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Le fasi della sincope</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fase prodromica</div>
+        <div class="card-content">Sintomi non sempre presenti: <strong>nausea, sudorazione, debolezza, capogiri</strong>. Comuni nel giovane sano (tipico della vasovagale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Perdita di coscienza</div>
+        <div class="card-content">Il culmine. Durata spesso sovrastimata da paziente/astanti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fase di recupero</div>
+        <div class="card-content">Importante registrare gli eventuali sintomi alla ripresa: fondamentali per la diagnosi.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Diagnosi e red flags -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Diagnosi</div>
+    <div class="lesson-title">Valutazione iniziale, red flags e test</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Valutazione iniziale</div>
+    <div class="highlight">
+      Workflow: capire se è una <strong>TLOC</strong> → escludere natura traumatica → escludere altre TLOC → orientarsi su sincope. Cardine: <strong>anamnesi ed esame obiettivo</strong> (spesso difficili: paziente trovato solo). L'<strong>ECG</strong> è l'esame principale dell'assessment.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Elementi anamnestici chiave</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Posizione</div>
+        <div class="card-content">Sincope <strong>da disteso (clinostatica)</strong> → verosimilmente cardiogena (red flag); difficilmente neuromediata.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Attività</div>
+        <div class="card-content">Sotto <strong>sforzo</strong> → orienta verso causa cardiaca/aritmica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori predisponenti</div>
+        <div class="card-content">Luoghi caldi, ortostatismo prolungato → trigger.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Eventi precipitanti</div>
+        <div class="card-content">Dolore, febbre (frequente nell'anziano), sudorazione, disidratazione, vasodilatazione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anamnesi patologica</div>
+        <div class="card-content">Familiarità per cardiomiopatia/morte improvvisa, Parkinson, demenze, episodi pregressi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia farmacologica</div>
+        <div class="card-content">Sempre da rivedere (farmaci ipotensivanti).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Red flags (→ alto rischio, cardiogeno)</div>
+    <div class="highlight">
+      Sincope in <strong>posizione supina</strong>, durante <strong>sforzo</strong>, <strong>assenza di prodromi</strong>, palpitazioni, familiarità per morte improvvisa.<br>
+      <strong>ECG ad alto rischio</strong>: WPW, alterazioni del PR (disturbi di conduzione), pattern di Brugada, ipertrofia VS, QT alterato.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">9. Test diagnostici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ipotensione ortostatica (definizione)</div>
+        <div class="card-content">Nel passaggio clino→orto: calo sistolica &gt; <strong>20 mmHg</strong>, o diastolica &gt; <strong>10 mmHg</strong>, o sistolica &lt; 90 mmHg.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Manovra di Valsalva</div>
+        <div class="card-content">Espirazione forzata a glottide chiusa → stimola il vago. Valuta le 4 fasi pressorie; nel disautonomico FC e pressione non variano.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Massaggio del seno carotideo</div>
+        <div class="card-content">Stimola il vago (repere: osso ioide). Pause ventricolari ~3 s = ipersensibilità.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tilt test</div>
+        <div class="card-content">Lettino inclinabile orizzontale→semi-verticale, monitora FC e PA. Si potenzia con nitroglicerina. Diagnostico se sincope "live".</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ABPM (Holter pressorio)</div>
+        <div class="card-content">PA nelle 24 h. Rivela variabilità e <strong>ipertensione notturna</strong> (segno di disautonomia, frequente nel Parkinson).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG Holter & Loop Recorder</div>
+        <div class="card-content">Per escludere cause aritmiche. Il loop recorder (sottocutaneo) registra per più giorni i falsi negativi dell'Holter.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Esame inutile</strong>: il <strong>doppler delle carotidi</strong>. Anche una stenosi carotidea critica non causa sincope (serve ipoperfusione globale).
+    </div>
+  </div>
+</div>
+
+<!-- S6: Rischio e terapia -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Gestione</div>
+    <div class="lesson-title">Stratificazione del rischio e trattamento</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10. Stratificazione del rischio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Basso rischio</div>
+        <div class="card-content">Prodromi (nausea, vomito), sintomi situazionali, trigger espliciti → orientano verso <strong>neuromediata</strong>. Se episodio singolo, spesso nessun ulteriore test.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Alto rischio</div>
+        <div class="card-content">Sincope supina, cardiopalmo, familiarità per morte improvvisa, ECG patologico → <strong>trattenere</strong> e approfondire (anamnesi remota, EO, analisi accurata dell'ECG).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">11. Trattamento</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Manovre fisiche (basso rischio)</div>
+        <div class="card-content">Manovre di contropressione che sfruttano la <strong>pompa muscolare periferica</strong> per contrastare l'ipotensione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Revisione della terapia</div>
+        <div class="card-content">Sospendere i farmaci che inducono ipotensione ortostatica (es. <strong>doxazosina</strong>; togliere il diuretico dell'ansa se senza razionale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fludrocortisone</div>
+        <div class="card-content">Migliora il profilo pressorio aumentando il volume ematico; riduce gli svenimenti ricorrenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pacemaker</div>
+        <div class="card-content">Nelle sincopi bradiaritmiche <strong>sintomatiche</strong> (bradi-tachi, BAV avanzato). Il sintomo guida l'indicazione.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">12. Punti chiave dai casi clinici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Giovane (20 aa)</div>
+        <div class="card-content">Sincope passando da seduto a in piedi, senza red flag → orientamento <strong>vasovagale/neuromediato</strong>, basso rischio. Esclusione TLOC ed evento epilettico con EEG.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anziana (81 aa)</div>
+        <div class="card-content">Ipotensione ortostatica confermata; ECG normale. Chiave: <strong>rimodulare gli antipertensivi</strong> e togliere il diuretico dell'ansa non giustificato (rischio ipopotassiemia/iposodiemia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anziano (86 aa)</div>
+        <div class="card-content">Encefalopatia + demenza iniziale: TLOC/sincopi da calo pressorio <strong>graduale</strong>. Ripetere TAC/eco-doppler a ogni accesso non risolve la causa.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

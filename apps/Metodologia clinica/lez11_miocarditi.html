@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 11 — Miocarditi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 11</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & decorso</button>
+    <button class="s2"        onclick="show('s2',this)">Epidemiologia</button>
+    <button class="s3"        onclick="show('s3',this)">Cause & fisiopatologia</button>
+    <button class="s4"        onclick="show('s4',this)">Clinica & ECG</button>
+    <button class="s5"        onclick="show('s5',this)">Diagnostica</button>
+    <button class="s6"        onclick="show('s6',this)">Biopsia & terapia</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione e decorso -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 11 · Prof. Ammirati (2022)</div>
+    <div class="lesson-title">Miocarditi</div>
+    <div class="lesson-meta">argomento non trattato nell'anno corrente</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione</div>
+    <div class="highlight">
+      La <strong>miocardite</strong> è un'infiammazione del muscolo cardiaco caratterizzata da <strong>infiltrato cellulare</strong> e <strong>necrosi dei cardiomiociti</strong>. Può conseguire (non sempre) all'esposizione ad agenti infettivi (specie virali), sostanze tossiche (cocaina, anfetamine), farmaci o attivazione del sistema immunitario (malattie autoimmuni/del collagene). L'OMS la classifica tra le cause secondarie di cardiomiopatia.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le 3 domande chiave</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cosa sono?</div>
+        <div class="card-content">Infiammazione del miocardio con infiltrato e necrosi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cosa le causa?</div>
+        <div class="card-content">Virus, tossici, farmaci, attivazione immunitaria.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Come si presentano?</div>
+        <div class="card-content">Spettro ampio: dal dolore toracico (più comune) alle forme fulminanti ad alto rischio.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Decorso & prognosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Autorisoluzione</div>
+        <div class="card-content">Nella maggior parte dei casi (sopravvivenza libera da trapianto ~100% a 7 anni). Tipico: dolore toracico + troponina 100 → ricovero, ibuprofene, RM, dimissione in 5 giorni.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Morte improvvisa</div>
+        <div class="card-content">Causa nel <strong>6-10%</strong> delle autopsie nei giovani (&lt;35 aa): può attaccare il sistema di conduzione → FV. ~16% di infiltrato linfocitario compatibile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Evoluzione sfavorevole</div>
+        <div class="card-content">Alcune forme gravi non recuperano → cicatrice e rimodellamento → <strong>cardiomiopatia dilatativa</strong> o cuore ipocinetico. Più frequente nelle forme autoimmuni (lupus) che nelle post-virali.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Acuta vs cardiomiopatia infiammatoria</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Miocardite acuta</div>
+        <div class="card-content">Sintomi entro ~1 mese. Potenzialmente fatale; troponina molto alta; cuore <strong>non dilatato</strong> (ispessito per edema); infiltrato importante alla biopsia; buona risposta agli steroidi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cardiomiopatia infiammatoria</div>
+        <div class="card-content">Sintomi cronicizzati (5-6 mesi). Cuore già <strong>dilatato</strong>, pareti sottili, aree di fibrosi, infiltrato minore. Recupero meno probabile.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Epidemiologia -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 11 · Epidemiologia</div>
+    <div class="lesson-title">Epidemiologia delle miocarditi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Dati principali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Incidenza</div>
+        <div class="card-content">~20 casi su 100.000. Circa il <strong>3%</strong> degli accessi in PS per dolore toracico è riferibile a miocardite/pericardite.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Età</div>
+        <div class="card-content">Malattia dei <strong>giovani</strong>: tipicamente 30-45 anni (anche dai 20). Rara nell'anziano.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sesso</div>
+        <div class="card-content">Più comune negli <strong>uomini</strong> (60-80%), soprattutto le forme meno severe. Le forme severe hanno distribuzione più equilibrata (nelle donne più forme autoimmuni).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bambini</div>
+        <div class="card-content">Più frequenti in età pre-puberale (11-12 anni). Rare nei piccolissimi e nelle statistiche post-vaccino anti-COVID.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Cause e fisiopatologia -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 11 · Eziologia</div>
+    <div class="lesson-title">Cause e fisiopatologia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Infezioni virali</div>
+        <div class="card-content">Le più frequenti: COVID, influenza, <strong>Parvovirus B19</strong> (presente però anche nel 30% dei cuori sani). Coxsackie B nei bambini. Spesso virus respiratori.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Attivazione immunitaria</div>
+        <div class="card-content">Lupus, sarcoidosi, malattie infiammatorie intestinali, miocardite <strong>gigantocellulare</strong> (autoimmune, grave).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Batteri & protozoi</div>
+        <div class="card-content">Malattia di <strong>Lyme</strong> (Borrelia, zone delle zecche → blocchi AV, pacemaker temporaneo); <strong>Chagas</strong> (Trypanosoma cruzi, Sud America).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tossiche / farmaci / allergiche</div>
+        <div class="card-content">Cocaina, anfetamine; <strong>immune checkpoint inhibitors</strong> (50% dei tumori trattati); forme eosinofile allergiche.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia</div>
+    <div class="highlight">
+      Meccanismo più probabile: un <strong>trigger infiammatorio</strong> innescato da un'infezione virale (anche a distanza di tempo) che attiva il sistema immunitario contro il cuore (<strong>mimetismo molecolare</strong>). Si chiama "virale" per l'esposizione, non per la presenza del virus nel cuore.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Danno indiretto (la regola)</div>
+        <div class="card-content">I virus <strong>triggerano</strong> i linfociti contro il cuore, anche in assenza del virus nel miocardio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Danno diretto (l'eccezione)</div>
+        <div class="card-content">Solo <strong>Enterovirus/Coxsackie</strong> sembrano causare danno diretto al miocardio.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Clinica e ECG -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 11 · Clinica</div>
+    <div class="lesson-title">Presentazione clinica ed ECG</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintomi di presentazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Dolore toracico</div>
+        <div class="card-content">Il più comune (&gt; <strong>80%</strong>).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Dispnea</div>
+        <div class="card-content">20-50%. Segno di forma più grave o duratura (il cuore funziona meno).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sincope</div>
+        <div class="card-content">~5%, ma segno <strong>grave</strong>: problema di conduzione (aritmia, BAV completo).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Febbre & prodromi</div>
+        <div class="card-content">Sintomi virali (influenza, gastroenterite) che precedono. Palpitazioni → aritmie/extrasistolia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">ECG (anormale nell'85%)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Anomalia più comune</div>
+        <div class="card-content"><strong>Sopraslivellamento ST</strong> inferiore o diffuso → può mimare una pericardite (che però rilascia poca troponina).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Segni di gravità</div>
+        <div class="card-content">Slargamento del <strong>QRS</strong> (TV, coinvolgimento del sistema di conduzione), blocchi AV avanzati. ECG normale → forma non grave.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Miopericardite — distinzione</div>
+    <div class="highlight">
+      Se c'è rilascio importante di troponina → <strong>miocardite</strong> (danno del muscolo); se prevale la PCR molto alta con troponina bassa → <strong>pericardite</strong> (infiammazione della sierosa). Entrambe possono dare sopraslivellamento ST → distinzione non sempre facile.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Diagnostica -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 11 · Diagnosi</div>
+    <div class="lesson-title">Esami di laboratorio e imaging</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Laboratorio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Troponina</div>
+        <div class="card-content">Marcatore di danno miocardico, spesso elevato.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">PCR</div>
+        <div class="card-content">Aumentata ma di solito non molto (al contrario della pericardite, dove è molto alta).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Conta leucocitaria</div>
+        <div class="card-content">Leucocitosi; un'<strong>eosinofilia</strong> marcata orienta verso miocardite eosinofila.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Imaging</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ecocardiogramma</div>
+        <div class="card-content">Stima la <strong>FE</strong> (normale nel 75% → basso rischio, eccetto le forme da checkpoint inhibitors). Non specifico; ~30-35% ha versamento pericardico (non indice di pericardite).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Coronarografia</div>
+        <div class="card-content">Nei pazienti con fattori di rischio/più anziani, per <strong>escludere</strong> la coronaropatia (CAD).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">FDG-PET</div>
+        <div class="card-content">Raro, mai in acuto. Conferma malattie autoimmuni/infiammatorie sistemiche (vasculiti, sarcoidosi).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Risonanza magnetica</div>
+        <div class="card-content">Caratterizzazione tissutale non invasiva: <strong>edema</strong> e cicatrice con il <strong>Late Gadolinium Enhancement</strong>. Localizzazione tipica: parete <strong>infero-laterale</strong> (subepicardica nelle forme lievi).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Biopsia e terapia -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 11 · Gestione</div>
+    <div class="lesson-title">Biopsia endomiocardica e terapia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Biopsia endomiocardica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Indicazioni</div>
+        <div class="card-content">Pazienti gravi: BAV avanzati, aritmie, forme <strong>fulminanti</strong>, mancata risposta ai trattamenti. Si esegue quando c'è alta probabilità di risultato utile per trattare in modo mirato.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tecnica</div>
+        <div class="card-content">Introduttore in vena del collo, biotomo fino al setto del ventricolo dx (extrasistoli = parete raggiunta). Si prelevano <strong>4 frammenti</strong> in formalina.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Complicanze & limiti</div>
+        <div class="card-content">Insufficienza tricuspidale, perforazione/tamponamento. <strong>Sensibilità bassa</strong> (servirebbero 17 biopsie per il 70%; 4 bastano per le forme gravi). Se non indicata → si preferisce la RM.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Strategie terapeutiche</div>
+    <div class="highlight">
+      Le forme a <strong>basso rischio</strong> (la maggioranza, sopravvivenza ~100%) <strong>non si trattano</strong>. Nelle forme a rischio aumentato (disfunzione severa) si fa la biopsia e si sceglie l'immunosoppressione in base al tipo cellulare. Le forme gravi vanno riferite a centri con <strong>supporti meccanici al circolo</strong>.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cortisone</div>
+        <div class="card-content">Il farmaco di base in tutte le miocarditi che richiedono trattamento.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Forme su malattia sistemica</div>
+        <div class="card-content">Es. miocardite linfocitaria nel lupus → farmaci della malattia di base.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anti-T (timoglobuline)</div>
+        <div class="card-content">Anticorpi anti-CD3 nelle forme da checkpoint inhibitors e nella <strong>gigantocellulare</strong> (la più grave).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ciclosporina</div>
+        <div class="card-content">Potentissimo immunosoppressore anti-linfociti T (inibisce NF-AT → IL-2). Usata all'induzione del <strong>trapianto</strong> cardiaco e nelle forme gigantocellulari.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

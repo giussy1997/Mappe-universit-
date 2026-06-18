@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 1 — Tecniche di imaging cardiaco</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 1</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">RM: principi & sicurezza</button>
+    <button class="s2"        onclick="show('s2',this)">Mezzo di contrasto</button>
+    <button class="s3"        onclick="show('s3',this)">Sequenze & acquisizione</button>
+    <button class="s4"        onclick="show('s4',this)">Indicazioni cliniche</button>
+    <button class="s5"        onclick="show('s5',this)">Eco: principi & Doppler</button>
+    <button class="s6"        onclick="show('s6',this)">Eco: proiezioni & misure</button>
+  </nav>
+</header>
+
+<!-- S1: RM principi e sicurezza -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Dott.ssa Sormani, Dott.ssa Casadei</div>
+    <div class="lesson-title">Tecniche di imaging cardiaco — RM cardiaca</div>
+    <div class="lesson-meta">24/09/2025</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione & principio fisico</div>
+    <div class="highlight">
+      La <strong>Risonanza Magnetica</strong> sfrutta le proprietà degli atomi di <strong>idrogeno</strong> (abbondanti perché il corpo è prevalentemente acqua). Posti in un campo magnetico statico intenso, i protoni si allineano; un impulso di <strong>radiofrequenza</strong> alla frequenza di Larmor cede energia al tessuto. Nel rilasciarla, il tessuto emette un segnale che viene convertito in <strong>immagine diagnostica</strong>. Non usa radiazioni ionizzanti.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tempi di rilassamento — base del contrasto tissutale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tempo T1</div>
+        <div class="card-content">Tempo di rilassamento <strong>longitudinale</strong>. Recupero della magnetizzazione lungo l'asse del campo. Varia per tessuto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tempo T2</div>
+        <div class="card-content">Decadimento della magnetizzazione <strong>trasversale</strong>. Aumenta in presenza di acqua/edema.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Significato</div>
+        <div class="card-content">Ogni tessuto ha tempi distinti, per la diversa concentrazione di protoni (contenuto d'acqua) e le diverse interazioni protoniche. Grasso, muscolo e acqua libera differiscono → si può <strong>annullare/esaltare</strong> il segnale di un tessuto specifico impostando i tempi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Incidenza / Ruolo clinico</div>
+    <div class="highlight">
+      Esame <strong>ampiamente richiesto</strong> e raccomandato dalle linee guida per l'elevato valore diagnostico. Gold standard per la quantificazione di funzione e volumi cardiaci. Le nozioni di sicurezza sono cruciali per medici di <strong>ogni</strong> specializzazione.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Controindicazioni — ASSOLUTE</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Dispositivi/condizioni che vietano l'esame</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Vecchie clip vascolari cerebrali ferromagnetiche (rischio dislocazione fatale)</span>
+            <span class="pill">Impianti otovestibolari non compatibili</span>
+            <span class="pill">Claustrofobia severa</span>
+          </div>
+          Necessaria <strong>anamnesi accuratissima</strong>. Risorsa di riferimento: www.MRIsafety.com (si inserisce il codice del dispositivo).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Controindicazioni — RELATIVE</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cliniche</div>
+        <div class="card-content">BPCO severa (non mantiene il supino), instabilità emodinamica/shock cardiogeno (prima stabilizzare), gravidanza (valutazione rischio-beneficio), claustrofobia lieve (ansiolitici/BDZ).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Aritmie</div>
+        <div class="card-content">Extrasistolia frequente e FA ostacolano la ricostruzione (gating). <strong>Non assoluta</strong>: l'esame può risultare meno diagnostico o più lungo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Durata</div>
+        <div class="card-content">40–50 min con contrasto: non tollerabile da tutti.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione dispositivi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">MR Conditional</div>
+        <div class="card-content">Sicuri a condizioni operative specifiche (es. pacemaker conditional). Serve <strong>elettrofisiologo</strong> che riconfigura i parametri + via libera di fisica sanitaria.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">MR Safe</div>
+        <div class="card-content">Sicuri (es. port-a-cath oncologici). Personale: accesso al campo <strong>senza alcun oggetto metallico</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rimovibili</div>
+        <div class="card-content">Protesi dentarie mobili e simili → da togliere prima dell'esame.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Mezzo di contrasto -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Mezzo di contrasto</div>
+    <div class="lesson-title">Il gadolinio in RM cardiaca</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Cos'è e come agisce</div>
+    <div class="highlight">
+      Il <strong>gadolinio</strong> è una terra rara paramagnetica, somministrata come <strong>chelato</strong> (il Gd elementare è tossico). Agisce <strong>riducendo il T1</strong> del tessuto dove si localizza. Non si vede direttamente: le sequenze post-contrasto evidenziano l'alterazione dove il farmaco si accumula (signal enhancement → danno miocardico, fibrosi, edema). È un mezzo <strong>extravascolare ed extracellulare</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Perché si accumula nel miocardio patologico</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Accumulo intracellulare</div>
+        <div class="card-content">Danno acuto (es. infarto recente): la membrana dei miociti perde integrità → il Gd entra nelle cellule danneggiate/necrotiche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Spazio extracellulare</div>
+        <div class="card-content">Fibrosi (sostitutiva/diffusa) o edema: aumenta lo spazio interstiziale → maggiore permanenza del contrasto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Alterato wash-out</div>
+        <div class="card-content">Danno microvascolare (es. ostruzione microvascolare nell'infarto) → eliminazione del Gd rallentata.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sicurezza & reazioni avverse</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Escrezione renale</div>
+        <div class="card-content">Eliminazione prevalentemente renale. A differenza del contrasto iodato della TC, il Gd <strong>NON è nefrotossico</strong> (la TC può dare nefropatia da contrasto / IRA).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Insufficienza renale grave</div>
+        <div class="card-content">Attenzione solo se <strong>GFR &lt; 30 mL/min</strong>: rari casi storici di <strong>fibrosi nefrogenica sistemica (NSF)</strong>, patologia fatale con indurimento dei tessuti molli. Con i nuovi chelati stabili → nessun nuovo caso.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Reazioni allergiche</div>
+        <div class="card-content">Anafilassi molto rara, di solito lieve. Severe eccezionali, in anamnesi positiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Accumulo nei nuclei della base</div>
+        <div class="card-content">Documentato, ma senza rischi noti attuali. Cautela nei pazienti con cardiopatie congenite (RM ripetute): prescrivere solo con reale necessità.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>LG attuali</strong>: se il paziente non ha problemi renali noti, non è più strettamente necessario dosare la creatinina/GFR prima o dopo l'esame.
+    </div>
+  </div>
+</div>
+
+<!-- S3: Sequenze e acquisizione -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Acquisizione</div>
+    <div class="lesson-title">Sequenze e protocolli di RMC</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Struttura comune di un esame</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1 · Localizzazione & morfologia</div>
+        <div class="card-content">Sezioni sagittale, transassiale, coronale a bassa risoluzione, in respiro libero. Valutano dimensioni, volumi e anatomia di atri e ventricoli e impostano i piani di riferimento.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2 · Sequenze dinamiche CINE</div>
+        <div class="card-content">Studiano la <strong>cinesi</strong> miocardica sincronizzando più cicli cardiaci. Forniscono <strong>FE</strong> (frazione di eiezione) e <strong>stroke volume</strong> biventricolari. Richiedono apnea espiratoria di 10–15 s.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3 · Caratterizzazione tissutale</div>
+        <div class="card-content">Pre e post contrasto, scelte in base al quesito clinico (es. niente sequenze edema se non si sospetta infiammazione).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Proiezioni standard (assi lunghi)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">4 camere</div>
+        <div class="card-content">Visualizza insieme VS, VD e i due atri. Setto al centro, parete antero-laterale a destra.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2 camere</div>
+        <div class="card-content">Solo VS e AS. Parete inferiore e parete anteriore del VS.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3 camere</div>
+        <div class="card-content">VS, porzione di AS e radice aortica. Parete infero-laterale e setto anteriore.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Asse corto + modello a 17 segmenti</div>
+        <div class="card-content">Taglio trasversale del VS. Nomenclatura standardizzata sulla <strong>distribuzione coronarica</strong>, condivisa con l'ecocardiografia → confronto diretto fra metodiche.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratterizzazione tissutale — pre vs post contrasto</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pre-contrasto</div>
+        <div class="card-content">Identifica edema, infiltrazione adiposa, sovraccarico marziale (emocromatosi). Comprende le <strong>T2-pesate / STIR</strong> per il contenuto d'acqua (edema = danno acuto).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Post-contrasto (LGE)</div>
+        <div class="card-content"><strong>Late Gadolinium Enhancement</strong>: diagnostica fibrosi (sostitutiva/diffusa) e danno acuto; valuta l'espansione dello spazio extracellulare (EES). Aree bianche = iperintensità.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Pattern di enhancement — diagnosi differenziale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ischemico</div>
+        <div class="card-content">Distribuzione <strong>coronarica</strong>. Dal subendocardio verso il subepicardio → pattern subendocardico o transmurale, coerente col territorio della coronaria coinvolta.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Non ischemico</div>
+        <div class="card-content">Tipico delle cardiomiopatie. Origine subepicardica o intramiocardica; distribuzione <strong>non coronarica</strong>. Patologie infiltrative (amiloidosi, sclerosi sistemica) possono dare pattern subendocardico ma <strong>diffuso/circonferenziale</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Mappaggio parametrico (mapping)</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Quantificazione in millisecondi</div>
+        <div class="card-content">
+          T1 miocardico normale ≈ <strong>980 ± 30 ms</strong> (a 1.5 T).<br>
+          • <strong>T1 ↑ e T2 ↑</strong> → infiammazione (es. miocardite).<br>
+          • <strong>Solo T1 ↑</strong> → fibrosi o espansione non infiammatoria dell'EES.<br>
+          • <strong>T1 ↓</strong> → sovraccarico di ferro (emocromatosi).<br>
+          • <strong>T1 &gt; 1100–1200 ms diffuso</strong> → supporta amiloidosi (T1 basso la esclude).<br>
+          Accuratezza "quasi istologica" in modo non invasivo. T2 mapping ≈ STIR; T1 mapping ≈ LGE.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Indicazioni cliniche -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Indicazioni</div>
+    <div class="lesson-title">Quando si usa la RMC</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Valore prognostico del LGE</div>
+    <div class="highlight">
+      L'entità del <strong>Late Gadolinium Enhancement</strong> dà informazioni prognostiche: disfunzione ventricolare severa + fibrosi estesa = maggior rischio di aritmie maggiori, sincope e <strong>morte cardiaca improvvisa</strong>. Con <strong>LGE &gt; 15%</strong> della massa del VS può essere indicato il defibrillatore profilattico (ICD).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Indicazioni principali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cardiopatia ischemica</div>
+        <div class="card-content">Acuta e cronica: valuta funzione e <strong>vitalità</strong>/estensione delle cicatrici → guida la decisione di rivascolarizzare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cardiopatia congenita</div>
+        <div class="card-content">Preferita alla TAC nei controlli periodici: niente contrasto iodato né radiazioni.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Miocardite</div>
+        <div class="card-content">Tra le principali cause di morte improvvisa nei giovani.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pericardio</div>
+        <div class="card-content">Caratterizzazione in alcune pericarditi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Masse cardiache</div>
+        <div class="card-content">Studio approfondito prima dell'eventuale biopsia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sovraccarico marziale</div>
+        <div class="card-content">Valuta il ferro senza radiazioni → guida la terapia ferro-chelante.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Aorta toracica</div>
+        <div class="card-content">Utile quando la TAC (definizione altissima) non è eseguibile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Valvulopatie</div>
+        <div class="card-content">Soprattutto valvola aortica; per le atrioventricolari l'eco dà più informazioni.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Come arriva il paziente con sospetta cardiomiopatia</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Presentazione clinica & primo iter</div>
+        <div class="card-content">
+          Sintomi: <strong>dispnea, dolore toracico, sincope</strong>, palpitazioni, fino all'arresto cardiaco. Oppure reperti incidentali: onde T negative (visita sportiva), soffio, aritmie all'Holter, familiarità di primo grado.<br>
+          Iter iniziale: <strong>ECG</strong>, esami ematochimici (troponina, peptide natriuretico) ed <strong>ecocardiografia</strong>; la RMC approfondisce.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Ecocardiografia - principi e Doppler -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Ecocardiografia <span style="font-weight:400;text-transform:none;letter-spacing:0;">— ampliata con la lez. Prof. Moreo 21/10/2022</span></div>
+    <div class="lesson-title">Ecocardiografia — principi fisici e Doppler</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Definizione & ruolo</div>
+    <div class="highlight">
+      Tecnica di imaging basata su <strong>ultrasuoni</strong> emessi da una sonda sulla cute: le onde riflesse tornano alla sonda e vengono codificate in immagine. Metodica di <strong>prima scelta</strong>: ampiamente disponibile, costi contenuti, eseguibile al letto del malato o in emodinamica (anche con sonde portatili tipo smartphone). Vantaggio chiave vs RM: visualizzazione <strong>bidimensionale in tempo reale</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Modalità di acquisizione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">M-mode (monodimensionale)</div>
+        <div class="card-content">Un solo fascio di ultrasuoni; rappresentazione <strong>temporale</strong> di come variano le strutture attraversate. La prima scoperta, ancora usata per alcune misure precise.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2D (bidimensionale)</div>
+        <div class="card-content">Molteplici fasci tagliano il cuore in una sezione: immagine <strong>dinamica</strong> del ciclo cardiaco, frame per frame.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3D (tridimensionale)</div>
+        <div class="card-content">Piramide di fasci che comprende tutto il cuore → si può poi sezionare in qualsiasi piano. Fondamentale per la chirurgia valvolare.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Limiti fisici degli ultrasuoni</div>
+    <div class="highlight">
+      Gli ultrasuoni non attraversano <strong>aria</strong> (polmone) e <strong>osso</strong> (gabbia toracica): per questo servono le <strong>finestre ecocardiografiche</strong>, punti in cui appoggiare la sonda evitando queste strutture.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Effetto Doppler — 3 modalità</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Doppler continuo</div>
+        <div class="card-content">La sonda invia e riceve di continuo: registra velocità <strong>molto alte</strong>, ma <strong>non localizza</strong> il punto preciso del segnale. Usato per quantificare es. la stenosi aortica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Doppler pulsato</div>
+        <div class="card-content">Misura la velocità in un <strong>punto preciso</strong> (in base al tempo di ritorno), ma non rileva le alte velocità.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Color Doppler</div>
+        <div class="card-content">Insieme di Doppler pulsati codificati a colore: <strong>rosso</strong> = flusso in avvicinamento, <strong>blu</strong> = in allontanamento. Scala di colori per la velocità (giallo/azzurro = più veloce).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Color Doppler tissutale</div>
+        <div class="card-content">Stessa logica ma applicata alla <strong>velocità della parete</strong> (accorciamento/rilasciamento miocardico). Filtri impostati su velocità più basse rispetto al flusso ematico.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Approcci dell'esame</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Transtoracico (TTE)</div>
+        <div class="card-content">Il più comune: sonda sul torace.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Transesofageo (TEE)</div>
+        <div class="card-content">Ultrasuoni emessi dal lume esofageo → migliore visione delle strutture <strong>posteriori</strong> (aorta, valvola mitrale).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Ecocardiografia - proiezioni e misure -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Ecocardiografia</div>
+    <div class="lesson-title">Proiezioni, misure e valvole</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Finestre e proiezioni</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Parasternale asse lungo</div>
+        <div class="card-content">Sonda al 3°–4° spazio IC a lato dello sterno. Visualizza VD, setto IV, valvola aortica, lembi mitralici, parete infero-laterale del VS, AS e aorta.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Parasternale asse corto</div>
+        <div class="card-content">Rotazione di 90°. Con il <strong>tilting</strong> si tagliano vari livelli: grandi vasi, valvola aortica ("Mercedes", tricuspide), valvola mitrale, muscoli papillari.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sezioni apicali</div>
+        <div class="card-content"><strong>4 camere</strong>: due atri + due ventricoli + setto. <strong>3 camere</strong>: compare l'aorta (utile per stenosi aortica). <strong>2 camere</strong>: solo VS e AS.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sottocostale & sovrasternale</div>
+        <div class="card-content">Sottocostale: VD, VS, setto interatriale, atri. Sovrasternale: arco aortico e aorta discendente → diagnosi di <strong>dissezione aortica</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Movimenti della sonda</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Manovre operatore</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Rotate (asse lungo→corto)</span>
+            <span class="pill">Tilting (oscillazione)</span>
+            <span class="pill">Slide (cambio spazio IC)</span>
+            <span class="pill">Angling (angolo)</span>
+            <span class="pill">Rocking (orientamento)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Misure del ventricolo sinistro</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diametro & volume</div>
+        <div class="card-content">Diametro da parasternale asse lungo (valori per sesso). Volumi <strong>telesistolico e telediastolico</strong> tracciando il profilo della camera; il VS è modellato come <strong>ellissoide di rotazione</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Frazione di eiezione (FE)</div>
+        <div class="card-content">(Vol. telediastolico − telesistolico) / vol. telediastolico. Indica la performance contrattile. Misurabile in modo efficace <strong>solo per il VS</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Spessori parietali</div>
+        <div class="card-content">Setto IV e parete posteriore. Normali 6–9 mm (F) / 6–10 mm (M). Aumentano in ipertrofia (stenosi aortica, ipertensione).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Massa & Relative Wall Thickness</div>
+        <div class="card-content">Massa = spessori + diametro, indicizzata per superficie corporea. <strong>RWT</strong> = rapporto parete/cavità. Incrociandoli si classificano 4 geometrie ↓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Geometrie ventricolari (massa × RWT)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Normale</div>
+        <div class="card-content">Entrambi i valori nei limiti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipertrofia eccentrica</div>
+        <div class="card-content">Cuore dilatato + spessore aumentato. Es. <strong>insufficienza aortica</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipertrofia concentrica</div>
+        <div class="card-content">Spessore aumentato + cavità ridotta. Es. <strong>stenosi aortica</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rimodellamento concentrico</div>
+        <div class="card-content">Massa normale ma spessore inappropriato rispetto alla cavità.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Studio del ventricolo destro</div>
+    <div class="highlight">
+      Geometria complessa → non se ne misura la FE in 2D. Diametri in 4 camere: <strong>RVD1</strong> (paratricuspidale, &lt; 41 mm) e <strong>RVD2</strong> (medio, &lt; 35 mm). Funzione sistolica stimata col <strong>TAPSE</strong> (escursione sistolica del piano tricuspidale): normale <strong>&gt; 17 mm</strong>; ridotto = disfunzione VD.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Studio delle valvole</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Mitrale</div>
+        <div class="card-content">Due lembi, ciascuno in 3 scallops: anteriore <strong>A1-A2-A3</strong>, posteriore <strong>P1-P2-P3</strong>. L'eco 3D localizza con precisione prolassi e lesioni per il chirurgo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Aortica</div>
+        <div class="card-content">Tre cuspidi (non-coronarica, coronarica dx e sx). Morfologie: tricuspide normale, <strong>bicuspide</strong> (con/senza rafe), quadricuspide ("a quadrifoglio").</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stenosi aortica severa</div>
+        <div class="card-content">Cuspidi calcifiche (iperecogene) con apertura ridotta; al Doppler continuo velocità <strong>&gt; 4 m/s</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Nomenclatura condivisa con la RMC</div>
+    <div class="highlight">
+      Eco e RMC usano lo <strong>stesso modello a 17 segmenti</strong> e le stesse proiezioni (assi lunghi a 4/2/3 camere, asse corto). I segmenti ricalcano i territori coronarici: identificare l'alterazione della cinetica parietale aiuta a individuare la <strong>coronaria malata</strong>. Refertazione standardizzata e confronto diretto fra metodiche.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

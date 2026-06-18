@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 12 — Semeiotica del dolore (PROVVISORIA)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .prov-banner { background: #c94040; color: #fff; font-size: .76rem; font-weight: 600; letter-spacing: .03em; padding: 9px 20px; text-align: center; line-height: 1.4; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 12</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Nocicezione & tipi</button>
+    <button class="s2"        onclick="show('s2',this)">Dolore somatico</button>
+    <button class="s3"        onclick="show('s3',this)">Dolore viscerale</button>
+    <button class="s4"        onclick="show('s4',this)">Dolore riferito</button>
+    <button class="s5"        onclick="show('s5',this)">Caratterizzare il dolore</button>
+    <button class="s6"        onclick="show('s6',this)">Sintesi a confronto</button>
+  </nav>
+</header>
+<div class="prov-banner">⚠ MAPPA PROVVISORIA — costruita su fonti mediche affidabili (Manuali MSD, Fondazione Graziottin, ICHD-3, classici di semeiotica), NON sulle sbobine ufficiali. Da sostituire appena reperisci il materiale del corso.</div>
+
+<!-- S1: Nocicezione e tipi -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 12 · Semeiotica del dolore</div>
+    <div class="lesson-title">Caratteristiche semeiologiche del dolore</div>
+    <div class="lesson-meta">Mappa provvisoria · fonti: MSD, Graziottin/Giamberardino, semeiotica medica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & ruolo</div>
+    <div class="highlight">
+      Il <strong>dolore</strong> è un'esperienza sensoriale ed emotiva spiacevole associata a danno tissutale reale o potenziale. Ha funzione <strong>protettiva</strong> (segnale d'allarme). La <strong>semeiotica</strong> ne studia caratteristiche e significato clinico per orientare la diagnosi. Le sue caratteristiche dipendono dal tipo di struttura nocicettiva stimolata.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione per origine</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Somatico</div>
+        <div class="card-content">Da cute, muscoli, articolazioni, osso, peritoneo parietale. <strong>Ben localizzato</strong>, acuto/trafittivo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Viscerale</div>
+        <div class="card-content">Dagli organi interni. <strong>Vago, sordo, profondo</strong>, mal localizzato, spesso mediano.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riferito</div>
+        <div class="card-content">Percepito in una sede <strong>diversa</strong> da quella della lesione (proiezione su un'area cutanea con la stessa innervazione segmentale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Neuropatico</div>
+        <div class="card-content">Da lesione/disfunzione del sistema nervoso (es. dolore radicolare). Urente, a scossa elettrica, lungo un dermatomero.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione per durata</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Acuto</div>
+        <div class="card-content">Recente, con funzione di allarme, correlato a un danno in atto. Si risolve con la causa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cronico</div>
+        <div class="card-content">Persistente (oltre 3-6 mesi), perde la funzione protettiva; può autoalimentarsi (sensibilizzazione centrale).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Dolore somatico -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 12 · Dolore somatico</div>
+    <div class="lesson-title">Dolore somatico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Origine & caratteristiche</div>
+    <div class="highlight">
+      Origina da strutture <strong>somatiche</strong> (cute, sottocute, muscoli, ossa, articolazioni, peritoneo/pleura parietali), ricche di nocicettori e con innervazione <strong>somatica precisa</strong>. È quindi <strong>ben localizzabile</strong>, il paziente lo indica con un dito.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Somatico superficiale vs profondo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Superficiale</div>
+        <div class="card-content">Da cute e mucose. Acuto, <strong>puntorio/trafittivo</strong>, ben delimitato a un'area precisa. Esempio: ferita cutanea.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Profondo</div>
+        <div class="card-content">Da muscoli, tendini, ossa, articolazioni. Più <strong>sordo e diffuso</strong> del superficiale, meno facile da localizzare con esattezza.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Qualità tipiche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Carattere</div>
+        <div class="card-content">Trafittivo, puntorio, urente o gravativo. Spesso <strong>varia con la posizione</strong> e con il movimento del segmento interessato.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Esempi clinici</div>
+        <div class="card-content">Dolore osteoarticolare, dolore della parete toracica (costocondrite), dolore del peritoneo parietale nell'appendicite in fase avanzata (FID, ben localizzato, con Blumberg+).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Dolore viscerale -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 12 · Dolore viscerale</div>
+    <div class="lesson-title">Dolore viscerale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Origine & stimoli adeguati</div>
+    <div class="highlight">
+      Origina dagli organi interni, innervati dal <strong>sistema nervoso autonomo</strong>. I visceri <strong>non</strong> sono sensibili a taglio, lacerazione o cauterizzazione, ma a: <strong>distensione/contrazione</strong> della parete dei visceri cavi, <strong>trazione</strong>, <strong>ischemia</strong> e <strong>infiammazione</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratteristiche cliniche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Localizzazione</div>
+        <div class="card-content"><strong>Mal localizzato</strong>, profondo, tipicamente proiettato sulla <strong>linea mediana</strong> (innervazione bilaterale e bassa densità di nocicettori).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Qualità</div>
+        <div class="card-content">Sordo, gravativo, crampiforme ("colica" quando da viscere cavo). Difficile da descrivere per il paziente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Corteo neurovegetativo</div>
+        <div class="card-content">Spesso accompagnato da <strong>nausea, vomito, sudorazione, pallore</strong>, irrequietezza. Il paziente tende a muoversi cercando sollievo (a differenza del parietale, in cui sta immobile).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sede di proiezione (per metamero)</div>
+        <div class="card-content">Epigastrio (stomaco, duodeno, pancreas, vie biliari), mesogastrio/periombelicale (tenue, appendice iniziale), ipogastrio (colon, vie urinarie, utero).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Evoluzione viscerale → parietale</div>
+    <div class="highlight">
+      Esempio cardine, l'<strong>appendicite</strong>: dolore inizialmente <strong>viscerale</strong> vago periombilicale (distensione), poi <strong>somatico parietale</strong> ben localizzato in fossa iliaca destra quando si infiamma il peritoneo parietale. Il passaggio da vago a localizzato è un segnale clinico importante.
+    </div>
+  </div>
+</div>
+
+<!-- S4: Dolore riferito -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 12 · Dolore riferito</div>
+    <div class="lesson-title">Dolore riferito e iperalgesia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & meccanismo</div>
+    <div class="highlight">
+      Dolore percepito in una sede <strong>distante</strong> da quella della lesione, in un territorio cutaneo/muscolare che condivide la stessa <strong>innervazione segmentale (metamero)</strong> del viscere malato. Meccanismo: <strong>teoria della convergenza-proiezione</strong> — afferenze viscerali e somatiche convergono sullo stesso neurone midollare, e la corteccia "attribuisce" il dolore al territorio somatico più densamente innervato.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esempi classici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cuore (IMA)</div>
+        <div class="card-content">Dolore riferito al <strong>braccio sinistro</strong>, collo, mandibola, epigastrio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Colecisti/fegato</div>
+        <div class="card-content">Dolore riferito alla <strong>spalla destra</strong> / regione scapolare destra (colica biliare, colecistite).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diaframma</div>
+        <div class="card-content">Irritazione diaframmatica → dolore alla <strong>spalla</strong> (nervo frenico, C3-C5).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Colica renale</div>
+        <div class="card-content">Dolore al fianco irradiato verso l'inguine e i <strong>genitali</strong> (stesso neuromero).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pancreas</div>
+        <div class="card-content">Dolore epigastrico "a barra" irradiato al <strong>dorso</strong> / a cintura.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Riferito senza/con iperalgesia & viscero-viscerale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Senza iperalgesia</div>
+        <div class="card-content">Solo proiezione del dolore nell'area cutanea corrispondente, senza aumento della sensibilità.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Con iperalgesia</div>
+        <div class="card-content">L'area riferita diventa <strong>ipersensibile</strong> (soglia ridotta a livello cutaneo/muscolare) per sensibilizzazione dei neuroni convergenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Viscero-viscerale</div>
+        <div class="card-content">Due organi con innervazione parzialmente condivisa si amplificano a vicenda (es. calcolosi urinaria + dismenorrea/endometriosi).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Somatico riferito</div>
+    <div class="highlight">
+      Anche una struttura <strong>somatica</strong> assiale/prossimale (es. faccetta articolare L5/S1) può proiettare dolore a un'altra struttura somatica più distale (gluteo, coscia posteriore) che condivide l'innervazione segmentale — da distinguere dal dolore radicolare vero.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Caratterizzare il dolore -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 12 · Anamnesi del dolore</div>
+    <div class="lesson-title">Come caratterizzare il dolore</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le domande chiave (schema "SOCRATES" / PQRST)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sede & irradiazione</div>
+        <div class="card-content">Dove fa male e dove si estende/irradia (orienta tra somatico, viscerale, riferito, radicolare).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Insorgenza & andamento</div>
+        <div class="card-content">Acuto/graduale, continuo/intermittente, colico. Da quanto tempo, come è cambiato.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Carattere</div>
+        <div class="card-content">Trafittivo, sordo, urente, crampiforme, gravativo, a scossa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Intensità</div>
+        <div class="card-content">Scala numerica/VAS 0-10. Impatto su sonno e attività.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori modificanti</div>
+        <div class="card-content">Cosa lo aggrava/allevia: respiro, movimento, <strong>digitopressione</strong>, posizione, pasti, sforzo, defecazione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi associati</div>
+        <div class="card-content">Nausea, sudorazione, febbre, dispnea, sintomi neurovegetativi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Segni discriminanti all'esame obiettivo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Varia col respiro</div>
+        <div class="card-content">→ origine pleurica/pericardica (sierose).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Varia con digitopressione/movimento</div>
+        <div class="card-content">→ origine <strong>osteomuscolare/parietale</strong> (focale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Non si modifica</div>
+        <div class="card-content">Diffuso e non modificabile → sospetto viscerale (es. ischemico-coronarico).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Postura antalgica</div>
+        <div class="card-content">Immobile con cosce flesse → peritonite; irrequieto in cerca di posizione → colica viscerale.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Attenzione</strong>: l'assunzione di <strong>analgesici</strong> prima della visita può mascherare il quadro. Indagare sempre i farmaci assunti in concomitanza con la crisi dolorosa.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Sintesi a confronto -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 12 · Colpo d'occhio</div>
+    <div class="lesson-title">Somatico vs viscerale vs riferito</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tabella di confronto</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Localizzazione</div>
+        <div class="card-content"><strong>Somatico</strong>: preciso, "a dito".<br><strong>Viscerale</strong>: vago, mediano.<br><strong>Riferito</strong>: in sede distante ma costante per ogni organo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Qualità</div>
+        <div class="card-content"><strong>Somatico</strong>: acuto, trafittivo.<br><strong>Viscerale</strong>: sordo, crampiforme/colico.<br><strong>Riferito</strong>: simile al viscerale, in area cutanea.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Innervazione</div>
+        <div class="card-content"><strong>Somatico</strong>: nervi spinali somatici.<br><strong>Viscerale</strong>: SNA (fibre lente).<br><strong>Riferito</strong>: convergenza segmentale viscero-somatica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi associati</div>
+        <div class="card-content"><strong>Somatico</strong>: scarsi.<br><strong>Viscerale</strong>: corteo neurovegetativo marcato.<br><strong>Riferito</strong>: possibile iperalgesia cutanea/muscolare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Comportamento</div>
+        <div class="card-content"><strong>Somatico parietale</strong>: immobilità.<br><strong>Viscerale</strong>: irrequietezza.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Perché conta clinicamente</div>
+    <div class="highlight">
+      Riconoscere il tipo di dolore guida la diagnosi: un dolore epigastrico viscerale può essere uno stomaco, ma anche un <strong>cuore</strong> (IMA) o un <strong>pancreas</strong>; un dolore di spalla senza causa locale può essere <strong>riferito</strong> dalla colecisti o dal diaframma. L'approccio semeiologico globale resta fondamentale anche nell'era della superspecializzazione.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

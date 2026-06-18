@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 10 — Valvulopatie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 10</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Generalità & anatomia</button>
+    <button class="s2"        onclick="show('s2',this)">Stenosi mitralica</button>
+    <button class="s3"        onclick="show('s3',this)">Insufficienza mitralica</button>
+    <button class="s4"        onclick="show('s4',this)">Stenosi aortica</button>
+    <button class="s5"        onclick="show('s5',this)">Insufficienza aortica</button>
+    <button class="s6"        onclick="show('s6',this)">Soffi & terapie</button>
+  </nav>
+</header>
+
+<!-- S1: Generalità e anatomia -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Prof. Musca (2022)</div>
+    <div class="lesson-title">Valvulopatie mitraliche e aortiche</div>
+    <div class="lesson-meta">24/11/2022 · argomento non trattato nell'anno corrente</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & classificazione generale</div>
+    <div class="highlight">
+      <strong>Valvulopatia</strong> = anomalia morfo-strutturale dell'apparato valvolare che ne altera la funzione. Due tipi: <strong>stenosi</strong> (restringimento → sovraccarico di <strong>pressione</strong>) e <strong>insufficienza</strong> (difetto di chiusura, rigurgito → sovraccarico di <strong>volume</strong>). Difetti isolati, combinati (steno-insufficienza) o composti (più valvole). Più colpite le valvole sinistre (mitrale, aortica).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Anatomia dell'apparato mitralico</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Lembi</div>
+        <div class="card-content">Due foglietti semicircolari. L'<strong>anteriore</strong> più ampio, il <strong>posteriore</strong> più stretto e lungo, diviso in 3 <strong>scallop</strong>. Superficie totale ~2,5× l'orifizio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classificazione di Carpentier</div>
+        <div class="card-content">Lembo anteriore <strong>A1-A2-A3</strong>, posteriore <strong>P1-P2-P3</strong> (P1 laterale, P2 centrale, P3 mediale). Importante per il prolasso.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anello (annulus)</div>
+        <div class="card-content">Ellissoidale "a sella", con funzione attiva <strong>sfinteriale</strong> (si allarga in apertura, si stringe in chiusura).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Corde & muscoli papillari</div>
+        <div class="card-content">Le corde uniscono i lembi ai muscoli papillari (prolungamenti del miocardio, irrorati dalle coronarie) che in sistole tirano le corde evitando l'eversione.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Stenosi mitralica -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Stenosi mitralica</div>
+    <div class="lesson-title">Stenosi mitralica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Eziologia & malattia reumatica</div>
+    <div class="highlight">
+      Oggi più rara dell'insufficienza. Forme acquisite: <strong>90% malattia reumatica</strong> (sequela di infezione da Streptococco β-emolitico gruppo A → tonsillite → infiammazione cronica multiorgano). Forme congenite rare (valvola a paracadute). La fibrosi valvolare si sviluppa in 10-20 anni (5-6 nei paesi tropicali).
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Manifestazioni reumatiche</div>
+        <div class="card-content">Cardite, artrite, corea, noduli sottocutanei, eritema marginato. <strong>Pancardite</strong> nel 40-50% iniziale. Istologia: <strong>nodulo di Aschoff</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fisiopatologia</div>
+        <div class="card-content">Fusione delle commessure, ispessimento di corde e lembi, depositi di calcio → la valvola fatica ad aprirsi. Sovraccarico di <strong>pressione</strong> in atrio sinistro.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gradi (area in diastole)</div>
+        <div class="card-content">Normale 5-6 cm². Lieve 1,5-2; moderata 1-1,5; <strong>severa &lt; 1 cm²</strong>. Gradiente medio severo &gt; 10 mmHg (normale ~0,5).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esame obiettivo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ispezione</div>
+        <div class="card-content"><strong>Facies mitralica</strong>: zigomi rosso-cianotici, cianosi dei prolabi (↑ pressione polmonare).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Auscultazione</div>
+        <div class="card-content">Accentuazione del <strong>I tono</strong>, <strong>schiocco d'apertura</strong>, <strong>rullio mesodiastolico</strong> con rinforzo presistolico al focolaio mitralico, irradiato all'ascella.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi & terapia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ECG & RX</div>
+        <div class="card-content">ECG: ingrandimento atriale sx (P &gt; 2,4 mV, difasica in V1), possibile <strong>FA</strong>. RX: stasi polmonare, II arco di sx sporgente, sezioni dx dilatate.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecocardiogramma</div>
+        <div class="card-content">Esame principe: morfologia, Doppler per i gradienti (Bernoulli). Se non dirimente → cateterismo con Swan-Ganz (pressione di incuneamento = atrio sx).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia medica</div>
+        <div class="card-content">Profilassi antibiotica dell'endocardite; <strong>beta-bloccanti/digossina</strong> (↓ FC → ↑ tempo di riempimento); nitrati (↓ precarico); diuretici (↓ congestione).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trattamenti interventistici</div>
+        <div class="card-content"><strong>Valvuloplastica percutanea</strong> (palloncino, anche transitoria es. in gravidanza) o <strong>sostituzione</strong> chirurgica (protesi biologica/meccanica via sternotomia).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Insufficienza mitralica -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Insufficienza mitralica</div>
+    <div class="lesson-title">Insufficienza mitralica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & classificazione</div>
+    <div class="highlight">
+      Chiusura incompleta in sistole con <strong>reflusso</strong> dal ventricolo all'atrio sinistro → sovraccarico di <strong>volume</strong>. Classificazioni: congenita/acquisita; <strong>acuta</strong> (rottura di corda/papillare → edema polmonare) /<strong>cronica</strong> (adattamento progressivo); <strong>organica</strong> (primitiva) /<strong>funzionale</strong> (secondaria a malattia del ventricolo) — la più usata.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Forme organiche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cause strutturali</div>
+        <div class="card-content">Alterazioni di lembi (endocardite reumatica/infettiva, Marfan, Ehlers-Danlos), anulus (calcificazioni, dilatazione VS), papillari (rottura da IMA), corde (rottura/allungamento).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Prolasso mitralico</div>
+        <div class="card-content">La principale forma organica (~<strong>6%</strong> popolazione, più nelle donne, spesso asintomatico). Un lembo (di solito il posteriore) protrude in atrio &gt; 3 mm in sistole.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Substrati</div>
+        <div class="card-content"><strong>Degenerazione mixoide</strong> (morbo di Barlow, valvola floppy, flail) o <strong>deficit fibroelastico</strong> (lembi sottili, correlato all'età).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Clinica del prolasso</div>
+        <div class="card-content">Dolore toracico atipico, palpitazioni (extrasistoli). EO: <strong>click mesosistolico</strong> + soffio meso/telesistolico dolce irradiato all'ascella.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Forma funzionale & fisiopatologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Insufficienza funzionale</div>
+        <div class="card-content">Da dilatazione/disfunzione del VS (ischemica o cardiomiopatia dilatativa). <strong>Tenting sistolico</strong>: i papillari si apicalizzano e stirano i lembi verso il basso impedendone la chiusura.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fisiopatologia</div>
+        <div class="card-content">Sovraccarico di volume → dilatazione del VS. All'inizio Frank-Starling mantiene la FE (anche aumentata); poi disfunzione contrattile con FE che cala (attenzione: una FE "normale" può già essere patologica).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento</div>
+    <div class="highlight">
+      Medico (vasodilatatori, diuretici), <strong>interventistico</strong> (es. MitraClip percutaneo) o <strong>chirurgico</strong> (riparazione, preferita, o sostituzione). La diagnosi è ecocardiografica (i lembi non coaptano).
+    </div>
+  </div>
+</div>
+
+<!-- S4: Stenosi aortica -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Stenosi aortica</div>
+    <div class="lesson-title">Stenosi aortica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & eziologia</div>
+    <div class="highlight">
+      Ridotta apertura della valvola aortica (area normale 2,5-3,5 cm²). Tipi per sede: sottovalvolare, sopravalvolare (Williams-Beuren), <strong>valvolare</strong> (la più comune).
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Degenerativa</div>
+        <div class="card-content">La più frequente: fibro-calcificazione delle cuspidi con l'età (6ª-8ª decade se tricuspide; 4ª-6ª se <strong>bicuspide</strong>, per maggiore stress).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Reumatica</div>
+        <div class="card-content">Sequela post-streptococcica, spesso con steno-insufficienza. Sempre più rara.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia & sintomi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Compenso</div>
+        <div class="card-content">Sovraccarico <strong>pressorio</strong> → <strong>ipertrofia concentrica</strong> del VS + disfunzione diastolica; nelle fasi avanzate dilatazione e disfunzione sistolica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Triade sintomatica (severa)</div>
+        <div class="card-content"><strong>Dispnea</strong> (primo), <strong>angina</strong> (↑ consumo O₂ + ↓ flusso coronarico), <strong>sincope</strong> (più grave). Dalla comparsa dei sintomi la sopravvivenza precipita → intervenire rapidamente.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Esame obiettivo</div>
+        <div class="card-content">Soffio sistolico rude "a diamante", irradiato al collo; eventuali segni di scompenso (crepitii, edemi).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG</div>
+        <div class="card-content">Ipertrofia VS (↑ voltaggi QRS precordiali), alterazioni della ripolarizzazione (ST stirato, T negative).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecocardiogramma (principe)</div>
+        <div class="card-content">Morfologia (tri/bicuspide), calcificazioni, FE. Severità: <strong>area &lt; 1 cm²</strong> (indicizzata &lt; 0,6 cm²/m²) o <strong>gradiente &gt; 40 mmHg</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Varianti low-flow low-gradient</div>
+        <div class="card-content"><strong>Classica</strong> (dilatazione VS, gradiente basso da disfunzione); <strong>paradossa</strong> (donna anziana, cuore piccolo ipertrofico, basso stroke volume ma sintomatica).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia</div>
+    <div class="highlight">
+      Nessun farmaco arresta la calcificazione (terapia medica solo sintomatica: diuretici, ACE-i/sartani con cautela). Risolutiva la <strong>sostituzione valvolare</strong>: <strong>sternotomia</strong> sotto i 75 anni, <strong>TAVI</strong> (transcatetere percutanea) sopra i 75 — la TC valuta accessi iliaco-femorali, bulbo e coronarie.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Insufficienza aortica -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Insufficienza aortica</div>
+    <div class="lesson-title">Insufficienza aortica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & eziologia</div>
+    <div class="highlight">
+      Più rara della stenosi. Mancata continenza delle cuspidi in <strong>diastole</strong> con reflusso in ventricolo → sovraccarico di <strong>volume</strong>.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Anomalie dell'aorta</div>
+        <div class="card-content"><strong>Dilatazione</strong> (Marfan, ipertensione di lunga data), <strong>dissezione</strong> aortica (perdita di supporto delle cuspidi), aortite.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anomalie delle cuspidi</div>
+        <div class="card-content">Malattia reumatica (spesso con stenosi), <strong>endocardite infettiva</strong> (tossicodipendenti: prima la tricuspide, poi l'aortica).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia: acuta vs cronica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">IAO acuta</div>
+        <div class="card-content">Dissezione/endocardite: il cuore non fa in tempo ad adattarsi → ↑ rapido della pressione telediastolica → congestione polmonare. Emergenza.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">IAO cronica</div>
+        <div class="card-content">Dilatazione progressiva del VS (<strong>ipertrofia eccentrica</strong>). Ampia pressione differenziale (sistolica alta, diastolica bassa per il rigurgito).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Segni periferici da ipercinesia</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Segni da aumentata pressione differenziale</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Corrigan (polso schioccante)</span>
+            <span class="pill">Quincke (capillari ungueali)</span>
+            <span class="pill">de Musset (capo che oscilla)</span>
+            <span class="pill">Traube (colpo di pistola femorale)</span>
+            <span class="pill">Müller (ugola)</span>
+            <span class="pill">Duroziez</span>
+            <span class="pill">Hill</span>
+          </div>
+        </div>
+      </div>
+      <div class="card wide">
+        <div class="card-label">Auscultazione</div>
+        <div class="card-content">Soffio <strong>diastolico in decrescendo</strong> lungo la marginosternale sx; soffio sistolico eiettivo di accompagnamento; soffio di <strong>Austin Flint</strong> (stenosi mitralica relativa funzionale).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi & terapia</div>
+    <div class="highlight">
+      RX: ingrandimento cardiaco (cronica) o congestione (acuta). ECG: ipertrofia eccentrica VS, deviazione assiale sx. <strong>Ecocardiogramma</strong>: valutazione morfo-funzionale di valvola e aorta, FE. Terapia: vasodilatatori nella cronica, chirurgia (sostituzione/riparazione) quando indicato; l'acuta è un'emergenza chirurgica.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Soffi e terapie -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Sintesi semeiotica</div>
+    <div class="lesson-title">Focolai, toni e soffi a confronto</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Focolai di auscultazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Mitralico</div>
+        <div class="card-content">IV-V spazio IC sinistro, linea emiclaveare (punta).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tricuspidale</div>
+        <div class="card-content">V spazio IC destro, marginosternale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Aortico</div>
+        <div class="card-content">II spazio IC destro, marginosternale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonare</div>
+        <div class="card-content">II spazio IC sinistro, marginosternale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I toni cardiaci</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">I tono</div>
+        <div class="card-content">Inizio sistole: chiusura delle valvole atrio-ventricolari + contrazione ventricolare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">II tono</div>
+        <div class="card-content">Inizio diastole: chiusura delle semilunari (aortica e polmonare).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">III tono</div>
+        <div class="card-content">Riempimento rapido ventricolare (galoppo protodiastolico, cardiomiopatia dilatativa).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">IV tono</div>
+        <div class="card-content">Contrazione atriale su ventricolo poco elastico (galoppo presistolico).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I soffi delle 4 valvulopatie — colpo d'occhio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Stenosi mitralica</div>
+        <div class="card-content"><strong>Rullio diastolico</strong> con rinforzo presistolico + schiocco d'apertura, al focolaio mitralico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Insufficienza mitralica</div>
+        <div class="card-content">Soffio <strong>sistolico</strong> (olo- o meso/telesistolico) irradiato all'ascella; click nel prolasso.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stenosi aortica</div>
+        <div class="card-content">Soffio <strong>sistolico</strong> rude "a diamante", irradiato al collo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Insufficienza aortica</div>
+        <div class="card-content">Soffio <strong>diastolico in decrescendo</strong> sulla marginosternale sx + segni periferici di ipercinesia.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Regola</strong>: stenosi mitralica e insufficienza aortica → soffi <strong>diastolici</strong>; insufficienza mitralica e stenosi aortica → soffi <strong>sistolici</strong>. Stenosi = sovraccarico pressorio; insufficienza = sovraccarico di volume.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 4 (Parte 2) — Dislipidemie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 4 (Parte 2)</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Lipidi & lipoproteine</button>
+    <button class="s2"        onclick="show('s2',this)">Classificazione & forme genetiche</button>
+    <button class="s3"        onclick="show('s3',this)">Aterosclerosi & ipertrigliceridemia</button>
+    <button class="s4"        onclick="show('s4',this)">Diagnosi & rischio CV</button>
+    <button class="s5"        onclick="show('s5',this)">Terapia</button>
+    <button class="s6"        onclick="show('s6',this)">Casi clinici</button>
+  </nav>
+</header>
+
+<!-- S1: Lipidi e lipoproteine -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parte 2 · Prof. Martino Pengo</div>
+    <div class="lesson-title">Dislipidemie e casi clinici</div>
+    <div class="lesson-meta">03/11/2025</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione</div>
+    <div class="highlight">
+      <strong>Dislipidemia</strong> = termine ombrello per le alterazioni del profilo lipidico: ipertrigliceridemia, ipercolesterolemia pura (LDL), dislipidemie miste. La classificazione è cruciale perché ogni forma comporta rischi e percorsi diversi: l'<strong>ipercolesterolemia</strong> → aterosclerosi/eventi CV (interesse cardiologico); l'<strong>ipertrigliceridemia severa</strong> → pancreatite acuta (interesse gastroenterologico).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I componenti lipidici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Colesterolo</div>
+        <div class="card-content">Componente delle membrane, simile agli ormoni steroidei (steroidi/farmaci possono influenzarlo).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trigliceridi</div>
+        <div class="card-content">3 acidi grassi + glicerolo. Forma di <strong>accumulo energetico</strong> (ATP). Non "cattivi" in sé, ma a livelli alti → pancreatite e aterosclerosi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Lipoproteine</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Struttura</div>
+        <div class="card-content"><strong>Core</strong> (colesterolo estere + trigliceridi) + sfera esterna (fosfolipidi + apolipoproteine). Le <strong>apolipoproteine</strong> facilitano assorbimento/secrezione, attivano enzimi e fungono da ligandi recettoriali.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classi</div>
+        <div class="card-content"><strong>Chilomicroni</strong> (più grandi, ricchi di trigliceridi) → <strong>VLDL</strong> → <strong>LDL</strong> → <strong>HDL</strong>. Differiscono per dimensione, densità, contenuto e funzione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ruolo del fegato</div>
+        <div class="card-content">Centrale nella sintesi/rimodellamento. Nell'insufficienza epatica (cirrosi): ↓ albumina e ↓ lipoproteine → colesterolo "basso" che riflette disfunzione, non un buon profilo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cicli del colesterolo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ciclo esogeno</div>
+        <div class="card-content">Grassi della dieta → intestino → <strong>chilomicroni</strong> (Apo-B48) → acidi grassi liberi alla periferia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ciclo endogeno</div>
+        <div class="card-content">VLDL → LDL captate dal fegato tramite gli <strong>LDL receptor</strong> (spesso mutati nelle ipercolesterolemie familiari). Determina la colesterolemia plasmatica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Eliminazione</div>
+        <div class="card-content">Colesterolo → acidi biliari → feci (marker: colestanolo).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Classificazione e forme genetiche -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parte 2 · Classificazione</div>
+    <div class="lesson-title">Classificazione e dislipidemie genetiche</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazioni</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fredrickson</div>
+        <div class="card-content">In base al profilo lipidico. <strong>Tipo I</strong>: ↑ trigliceridi + chilomicroni (rara, pancreatiti). <strong>Tipo IIb</strong>: la più comune, ↑ colesterolo + trigliceridi (mista).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ICD-10 (3 esenzioni)</div>
+        <div class="card-content"><strong>Ipercolesterolemia pura</strong> (IIa), <strong>ipertrigliceridemia pura</strong>, <strong>iperlipidemia mista</strong> (frequente nella sindrome metabolica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HDL-C</div>
+        <div class="card-content">Colesterolo "buono", scavenger vascolare. Alto = protettivo. Ridotto da fumo, obesità viscerale, sedentarietà, beta-bloccanti, steroidi (clostebol).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Origine — genetica vs acquisita</div>
+    <div class="highlight">
+      Maggior parte legata a <strong>dieta e stile di vita</strong>. Forme genetiche: mutazione di singolo gene o familiarità poligenica (polygenic risk score, non catturata dai test su geni target). Sempre indagare con anamnesi farmacologica le forme <strong>secondarie</strong>: alcol, diabete, uremia, contraccettivi orali.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ipercolesterolemia familiare (FH)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Genetica</div>
+        <div class="card-content">Autosomica dominante. <strong>3 geni</strong>: recettore LDL, ApoB, PCSK9. <strong>Eterozigosi (HeFH)</strong>: più comune. <strong>Omozigosi</strong>: rara, fenotipo gravissimo (bambini con infarti).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Segni clinici (origine)</div>
+        <div class="card-content"><strong>Aterosclerosi precoce</strong> (dipende da tempo × entità dell'esposizione), eventi CV precoci. Segni obiettivi: <strong>xantelasma</strong>, <strong>arco corneale</strong>, <strong>xantomi tendinei</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi: Dutch Lipid Score</div>
+        <div class="card-content">Item: storia familiare/clinica, esame obiettivo (xantomi, arco corneale &lt; 45 aa), LDL senza terapia, mutazioni. <strong>&gt; 8</strong> = diagnosi certa. Lp(a) come marker aggiuntivo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altre forme</div>
+        <div class="card-content"><strong>Iperchilomicronemia</strong> familiare: interesse gastroenterologico (pancreatiti, anche pediatriche). Dislipidemie combinate familiari (↑ Apo-B100, fenotipi variabili).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Aterosclerosi e ipertrigliceridemia -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parte 2 · Fisiopatologia</div>
+    <div class="lesson-title">Aterosclerosi e ipertrigliceridemia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia dell'aterosclerosi</div>
+    <div class="highlight">
+      Le <strong>LDL si ossidano</strong> → richiamo di fattori pro-infiammatori → si formano le <strong>foam cells</strong> → placca ateromasica → rottura → trombo → ischemia a valle. Obiettivo: prevenire la rottura. <strong>"The earlier the better"</strong>: rallentare il processo il prima possibile minimizza il rischio.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">LDL e rischio: relazione lineare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Continuum di rischio</div>
+        <div class="card-content">Il rischio di malattia coronarica è <strong>direttamente proporzionale</strong> all'LDL (relazione <strong>lineare</strong>, non a U come per la pressione). Niente soglia netta, ma per la pratica servono valori soglia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Equilibrio HDL/LDL</div>
+        <div class="card-content">HDL protegge (scavenger), LDL penetra nella parete. La fenotipizzazione serve nei pazienti con dieta corretta ma ipercolesterolemia (vegetariani/vegani).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ipertrigliceridemia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Soglie</div>
+        <div class="card-content">Valore di riferimento ~<strong>400 mg/dL</strong>; forme gravi &gt; 500. Grande variabilità individuale: il prelievo va fatto <strong>a digiuno</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause</div>
+        <div class="card-content">Obesità, sedentarietà, fumo, <strong>alcol</strong> (influisce più che su LDL/HDL), diabete, IRC/nefrosi, farmaci (steroidi, estrogeni), genetica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rischio pancreatite</div>
+        <div class="card-content">Proporzionale ai trigliceridi: &gt; 500 mg/dL richiede già terapia; pancreatiti soprattutto &gt; <strong>1000 mg/dL</strong>. Prima linea: <strong>fibrati</strong> (± statine).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Esami: Friedewald, Lp(a), sd-LDL</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Formula di Friedewald</div>
+        <div class="card-content">Stima l'LDL da colesterolo totale, HDL e trigliceridi. <strong>Non valida se trigliceridi &gt; 400 mg/dL</strong> → richiedere LDL misurato direttamente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Lipoproteina(a)</div>
+        <div class="card-content">Simile alle LDL, ma <strong>geneticamente determinata</strong> (poco influenzata dalla dieta). Aterogena e <strong>protrombotica</strong>. Misurazione <strong>once in a lifetime</strong> per riclassificare il rischio (LG 2025).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Small dense LDL</div>
+        <div class="card-content">Più aterogene delle LDL normali. Non hanno terapia specifica, ma statine/fibrati/anti-PCSK9 agiscono comunque su di esse → non cambiano le scelte terapeutiche.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Diagnosi e rischio CV -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parte 2 · Rischio</div>
+    <div class="lesson-title">Valutazione del rischio cardiovascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Stratificazione del rischio (LG europee)</div>
+    <div class="highlight">
+      Si stima il rischio di evento coronarico a <strong>10 anni</strong> con punteggi (es. <strong>SCORE2</strong>) che considerano: pressione, età, sesso, fumo, colesterolemia, diabete. Il rischio cresce <strong>linearmente</strong> con l'LDL. La classe determina il target di LDL.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fascia gialla (moderato)</div>
+        <div class="card-content">Priorità allo <strong>stile di vita</strong>, terapia farmacologica se gli obiettivi non sono raggiunti. Target LDL &lt; 100 mg/dL.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fascia rossa (alto/molto alto)</div>
+        <div class="card-content">Terapia farmacologica <strong>immediata</strong> + stile di vita, senza attendere. Target più stringente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rischio estremo (novità LG)</div>
+        <div class="card-content">Pazienti con eventi CV <strong>ricorrenti</strong> nonostante terapia: beneficiano di un'ulteriore riduzione dell'LDL.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Prevenzione primaria vs secondaria</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Primaria</div>
+        <div class="card-content">Popolazione con fattori di rischio ma <strong>senza eventi</strong>. La più numerosa; obiettivo: prevenire il primo evento. Evidenze meno forti (servirebbero trial di 15-20 anni).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Secondaria</div>
+        <div class="card-content">Pazienti con infarto pregresso o aterosclerosi &gt; 50%. Indicazione quasi sempre <strong>farmacologica</strong>, con solide evidenze da trial randomizzati.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Risk modifier (oltre lo SCORE2)</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Fattori che aumentano il rischio globale</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Ipercolesterolemia familiare</span>
+            <span class="pill">Diabete con complicanze</span>
+            <span class="pill">Etnia (asiatica, sudamericana, pakistana)</span>
+            <span class="pill">Deprivazione sociale (il più rilevante)</span>
+            <span class="pill">Malattie infiammatorie reumatologiche</span>
+            <span class="pill">Condizioni psichiatriche</span>
+            <span class="pill">Lp(a)</span>
+            <span class="pill">hs-CRP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Terapia -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parte 2 · Trattamento</div>
+    <div class="lesson-title">Terapia delle dislipidemie</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Strategia a due step</div>
+    <div class="highlight">
+      <strong>I.</strong> Modifiche dello stile di vita (dieta, attività fisica, fattori di rischio, <strong>stop fumo</strong>). <strong>II.</strong> Intensificazione farmacologica se gli obiettivi non sono raggiunti. Approccio graduale per favorire l'<strong>aderenza</strong>. Nei pazienti ad alto rischio, terapia farmacologica subito.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Statine — prima linea</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismo</div>
+        <div class="card-content">Inibiscono l'<strong>HMG-CoA reduttasi</strong> → ↓ colesterolo intracellulare epatico → ↑ espressione dei recettori LDL → ↓ LDL plasmatico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Dosaggio & potenza</div>
+        <div class="card-content">Differiscono per potenza ed emivita (80 mg fluvastatina ≈ 10 mg atorvastatina). Il <strong>sottodosaggio</strong> è un errore comune (50% dei post-IMA non a target).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Miopatia da statine</div>
+        <div class="card-content">&lt; 10% dei pazienti (forte componente nocebo: anche col placebo). Mialgia simil-influenzale, astenia, ↑ CK. Sospendere solo se <strong>CK &gt; 10× la norma</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gestione mialgia</div>
+        <div class="card-content"><strong>Rechallenge</strong> (effetto di molecola, non di classe), uso a giorni alterni (atorvastatina/rosuvastatina), passaggio a ezetimibe.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Altri farmaci orali</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ezetimibe</div>
+        <div class="card-content">Inibisce l'<strong>assorbimento intestinale</strong> del colesterolo (no effetti muscolari). LDL fino a −20%; sinergico con statine (single pill → fino a −50%). Studio <strong>IMPROVE-IT</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sequestranti acidi biliari</div>
+        <div class="card-content">Colestiramina: legano gli acidi biliari. Effetti GI, interferenze con altri farmaci, teratogeni.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fibrati</div>
+        <div class="card-content">Azione su acidi grassi: trigliceridi <strong>−50%</strong> → prima scelta nell'ipertrigliceridemia. Effetto modesto su LDL.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Niacina / Omega-3 / Fitosteroli</div>
+        <div class="card-content">Niacina: riduzione contenuta, mal tollerata (↑ uricemia, epatotossica). Omega-3: su trigliceridi (3-4 volte/die). Fitosteroli: effetto modesto, non in monoterapia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riso rosso / Monacolina K</div>
+        <div class="card-content">Identica alla <strong>lovastatina</strong> (è una statina "naturale"). −20-25% LDL, ma AIFA ha ridotto le concentrazioni → effetto oggi modesto. Non sostituisce la terapia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Acido bempedoico</div>
+        <div class="card-content">Inibisce l'<strong>ATP-citrato liasi</strong> (a monte, no azione muscolare). LDL −15%, fino al 30-50% con ezetimibe. Effetti: ↑ uricemia/glicemia, gotta.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Nuovi trattamenti anti-PCSK9</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Anticorpi monoclonali</div>
+        <div class="card-content"><strong>Evolocumab, alirocumab</strong>: contro la proteina PCSK9 (che degrada il recettore LDL). Effetto marcato. Iniezione ogni 2 settimane/mese. Costosi, valutazione specialistica. Per FH e alto rischio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">siRNA (Inclisiran)</div>
+        <div class="card-content">RNA interference che silenzia il gene di PCSK9. Buona efficacia/sicurezza (effetto principale: arrossamento da iniezione). In studio la via orale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Casi clinici -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Parte 2 · Casi clinici</div>
+    <div class="lesson-title">Casi clinici di ipercolesterolemia familiare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caso 1 — Signora di 81 anni</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Anamnesi</div>
+        <div class="card-content">Familiarità fortissima: padre infarto a 68 aa, due fratelli infarto giovane, tutti ipercolesterolemici; <strong>xantomi in famiglia</strong>. Stile di vita corretto. Ipercolesterolemia dai 45 aa, arteriopatia obliterante (rischio molto alto).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">Tutte le feature di <strong>FH</strong> (LDL molto alto, profilo metabolico normale). Dutch score <strong>19</strong>; ecografia del tendine d'Achille per xantomi. Genetica: mutazione LDL receptor → score <strong>27</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia (target &lt; 55 mg/dL)</div>
+        <div class="card-content">Statina ad alta potenza (LDL a 126) → + ezetimibe (a 123, ma non tollerato) → <strong>anticorpo monoclonale</strong> (LDL a 86). No dieta (origine genetica), no fibrato.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caso 2 — Donna di 60 anni <span style="font-weight:400;font-size:.7rem;">(integrato con la sbobina 2024)</span></div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Anamnesi</div>
+        <div class="card-content">Familiarità per ipercolesterolemia (madre con 4 bypass). Ex fumatrice. Ipercolesterolemia dai 42 aa, <strong>infarto transmurale anteriore a 51 aa</strong> (stent), poi ipertensione e diabete. Sospensione terapia per intolleranza.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">Niente segni tipici (no arco corneale/xantomi). LDL senza terapia <strong>195 mg/dL</strong>, ipercolesterolemia pura. Dutch score 11 → diagnosi clinica; genetica: mutazione LDL receptor in eterozigosi → score <strong>19</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia (target &lt; 55 mg/dL)</div>
+        <div class="card-content">Rechallenge con statine (insufficiente) + <strong>Inclisiran</strong> (siRNA anti-PCSK9). A 3 mesi LDL a <strong>72 mg/dL</strong>: la combinazione è necessaria per il target.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Take-home message</div>
+    <div class="highlight">
+      Nelle <strong>ipercolesterolemie familiari</strong> la dieta è poco utile (causa genetica): servono statine ad alta potenza, ezetimibe e — se non a target — terapie anti-PCSK9 (monoclonali o siRNA). Il <strong>target</strong> è dettato dalla classe di rischio (qui &lt; 55 mg/dL, rischio molto alto). La diagnosi genetica ha valore prognostico più che diagnostico quando il quadro clinico è già chiaro.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 8 — Sindromi coronariche croniche</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; } nav button.s6 { --c: #c77d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; } .s6 { --c: #c77d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Metodologia Clinica — Lezione 8</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & CCS</button>
+    <button class="s2"        onclick="show('s2',this)">Angina stabile</button>
+    <button class="s3"        onclick="show('s3',this)">Dolore & classificazione</button>
+    <button class="s4"        onclick="show('s4',this)">Diagnostica</button>
+    <button class="s5"        onclick="show('s5',this)">Rischio infartuale</button>
+    <button class="s6"        onclick="show('s6',this)">Terapia & rivascolarizzazione</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione e CCS -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Prof. Maloberti (2022)</div>
+    <div class="lesson-title">Sindromi coronariche croniche (CCS)</div>
+    <div class="lesson-meta">07/11/2022 · argomento non trattato nell'anno corrente</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & terminologia</div>
+    <div class="highlight">
+      <strong>CCS</strong> (Chronic Coronary Syndrome): termine in uso dal 2019, sostituisce "Stable Coronary Artery Disease" (2013). Include più patologie dell'angina stabile. Sono patologie da <strong>placche aterosclerotiche grosse ma integre</strong> (o già con stent) — a differenza delle <strong>SCA</strong> (acute), dovute a placche <strong>rotte</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">SCA in breve (per contrasto)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">NSTEMI</div>
+        <div class="card-content">Placca rotta con <strong>trombo subocclusivo</strong>: passa ancora sangue. Include l'angina instabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">STEMI</div>
+        <div class="card-content">Placca <strong>completamente occlusiva</strong> → sopraslivellamento ST.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Distinzione</div>
+        <div class="card-content">STEMI vs NSTEMI: differenza fisiopatologica, terapie simili ma gestione <strong>temporale</strong> molto diversa. La vecchia distinzione Q/non-Q non si usa più.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quali casi rientrano nelle CCS</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1 · Sintomi anginosi stabili</div>
+        <div class="card-content">Angina stabile e/o dispnea da sforzo (equivalente anginoso) in sospetta coronaropatia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2 · Disfunzione VS + sospetta CAD</div>
+        <div class="card-content">La disfunzione ventricolare sx segnala una coronaropatia importante. Distinta dallo scompenso: prognosi molto diverse.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3 · Post-SCA</div>
+        <div class="card-content">Le SCA "diventano" croniche: chi ha avuto un infarto entra in follow-up. Alto rischio di recidiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4 · Angina vasospastica/microvascolare</div>
+        <div class="card-content">Senza aterosclerosi dei grossi vasi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">5 · Coronaropatia asintomatica</div>
+        <div class="card-content">Screening nei pazienti ad alto rischio con TC coronarica.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Angina stabile -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Angina stabile</div>
+    <div class="lesson-title">Angina stabile e doppio prodotto</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & fisiopatologia</div>
+    <div class="highlight">
+      Dolore toracico che insorge <strong>sempre allo stesso livello di sforzo</strong> (o trigger). La placca non è rotta, il sangue passa, ma oltre un certo sforzo il flusso è insufficiente → ↓ O₂ al cuore → ischemia → metabolismo lattico → l'<strong>acido lattico</strong> stimola le terminazioni nervose → dolore.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Il doppio prodotto (PAS × FC)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Significato</div>
+        <div class="card-content">Incrocia pressione sistolica e frequenza, i due determinanti del <strong>consumo di O₂ miocardico</strong>. Il sintomo compare sempre allo stesso doppio prodotto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Relazione con la stenosi</div>
+        <div class="card-content">Stenosi intermedia (~70%): sintomi a doppio prodotto ~18000. Stenosi grave: già a 5000-6000. Senza terapia la placca cresce → la soglia si abbassa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Prognosi</div>
+        <div class="card-content">Generalmente non grave: di solito basta <strong>controllare il doppio prodotto</strong> (no riapertura delle coronarie), salvo casi a rischio di infarto.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori che scatenano l'angina (↑ doppio prodotto)</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Trigger</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Sforzo fisico</span>
+            <span class="pill">Stress emozionale (↑ FC e PA)</span>
+            <span class="pill">Freddo (vasocostrizione)</span>
+            <span class="pill">Dopo i pasti (sequestro splancnico)</span>
+            <span class="pill">Mattina (catecolamine → molti infarti all'alba)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Dolore e classificazione -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Clinica</div>
+    <div class="lesson-title">Dolore anginoso e classificazione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Caratteristiche del dolore anginoso</div>
+    <div class="highlight">
+      Dolore <strong>retrosternale</strong>: tensione, pesantezza, compressione, bruciore, <strong>non focale</strong>, diffuso. Non si modifica con la <strong>digitopressione</strong> né con il <strong>respiro</strong>. (Dolore focale → osteomuscolare; dolore che varia col respiro → sierose, pleurite/pericardite.)
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Irradiazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismo</div>
+        <div class="card-content">I nervi dello stesso ganglio raggiungono cuore e altre zone → il dolore si percepisce in tutte le regioni innervate da quel ganglio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sedi</div>
+        <div class="card-content">Tipica: <strong>braccio sinistro</strong>. Anche epigastrio, braccio destro, collo. Atipiche: dorso e mandibola.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione CCS (Canadian Cardiovascular Society)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Grado I</div>
+        <div class="card-content">Angina solo con sforzo <strong>strenuo</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Grado II</div>
+        <div class="card-content">Sforzo <strong>moderato</strong>. I e II: bassa probabilità di virare verso ACS (placche piccole o buoni circoli collaterali) → solo terapia medica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Grado III</div>
+        <div class="card-content">Angina a <strong>bassa soglia</strong> → studio coronarico più rapido + terapia (probabile vaso prognostico).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Grado IV</div>
+        <div class="card-content">Angina <strong>a riposo</strong> = angina instabile → non è una CCS ma una <strong>ACS</strong>, gestione diversa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Epidemiologia</div>
+    <div class="highlight">
+      Frequente, varia per età e sesso (molto nei <strong>maschi &gt; 65 anni</strong>, meno nelle donne &lt; 65). La <strong>probabilità pre-test</strong> dipende da sesso, età e sintomatologia. Storia naturale molto variabile (da classe I per tutta la vita a infarto entro un anno).
+    </div>
+  </div>
+</div>
+
+<!-- S4: Diagnostica -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Diagnosi</div>
+    <div class="lesson-title">Iter diagnostico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Strategia per probabilità pre-test</div>
+    <div class="highlight">
+      <strong>Bassa probabilità</strong> → TC coronarica. <strong>Probabilità intermedia</strong> → stress testing con imaging (ecostress o scintigrafia, in base alle disponibilità locali). <strong>Coronarografia</strong> in assenza di altri test, sintomi severi, refrattarietà o alto rischio di infarto.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">I test non invasivi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">TC coronarica</div>
+        <div class="card-content">Valore predittivo <strong>negativo altissimo</strong> → ottima per <strong>escludere</strong> la coronaropatia in popolazione a basso rischio. Solo informazioni anatomiche.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECG sotto sforzo</div>
+        <div class="card-content">Cyclette, sforzo progressivo fino all'85% della FC max (208 − 0,7×età). Ischemia = ST sotto &gt; 2 mm in 2 derivazioni vicine. VPP/VPN ~50% → poco utile per escludere (grado IIb).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scintigrafia miocardica</div>
+        <div class="card-content">Radiofarmaco + detettore, sotto sforzo e a riposo. Distingue <strong>ischemia inducibile</strong>, tessuto <strong>vitale</strong> e <strong>cicatrici</strong> (fibrosi acinetica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecostress</div>
+        <div class="card-content">Valuta la cinesi segmentaria sotto sforzo. Miocardio acinetico sotto sforzo = ischemia; acinetico a riposo che <strong>recupera</strong> sotto sforzo = miocardio vitale → indica la rivascolarizzazione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stress farmacologico</div>
+        <div class="card-content">Quando il paziente non può fare esercizio: simula lo sforzo (↑ FC e PA). Limitato a scintigrafia ed ecostress.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Rischio infartuale -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Stratificazione</div>
+    <div class="lesson-title">Rischio infartuale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classi di rischio (infarto nell'anno successivo)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Basso</div>
+        <div class="card-content">~1%.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Moderato</div>
+        <div class="card-content">1-3%.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Alto</div>
+        <div class="card-content">&gt; 3% → si passa direttamente alla <strong>coronarografia</strong>; altrimenti terapia medica.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Soglie di "ischemia intensa" che indicano la coronarografia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ECG da sforzo</div>
+        <div class="card-content">Punteggio di <strong>Duke</strong> &lt; −11 (più è negativo, più alto il rischio).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scintigrafia (SPECT)</div>
+        <div class="card-content">Area di ischemia &gt; <strong>10%</strong> della superficie del VS.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecostress</div>
+        <div class="card-content">Più di <strong>3 segmenti</strong> che diventano ipocinetici sotto sforzo.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      Si procede a coronarografia <strong>solo</strong> se il sintomo è molto grave o l'ischemia molto intensa. La coroTC dà solo informazioni anatomiche (no funzionali) e va eseguita davanti a una stenosi in vaso prognostico.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Terapia e rivascolarizzazione -->
+<div id="s6" class="page s6">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Trattamento</div>
+    <div class="lesson-title">Terapia e rivascolarizzazione</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Due branche parallele</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Event prevention</div>
+        <div class="card-content">Stile di vita (stop fumo, dieta, attività fisica, calo ponderale) + <strong>aspirina</strong>, <strong>statina</strong> (stabilizza la placca, target colesterolo), ACE-i/sartani (pressione).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Angina relief</div>
+        <div class="card-content">Riduzione del doppio prodotto agendo sulla <strong>FC</strong> (più variabile): beta-bloccanti, calcio-antagonisti non diidropiridinici. FC a riposo target <strong>55-65 bpm</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Farmaci per il controllo dei sintomi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Calcio-antagonisti</div>
+        <div class="card-content"><strong>Diidropiridinici</strong>: sulla contrattilità dei vasi (pressione). <strong>Non diidropiridinici</strong>: sui canali del calcio del nodo del seno (frequenza).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Beta-bloccanti</div>
+        <div class="card-content">Riducono la FC e quindi il raggiungimento del doppio prodotto critico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Seconda linea</div>
+        <div class="card-content"><strong>Ranolazina</strong> il più importante.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Quando rivascolarizzare</div>
+    <div class="highlight">
+      Nessuno studio ha dimostrato che riaprire i vasi in una CCS migliori la prognosi: il controllo migliore è quello di FC e sintomi. La rivascolarizzazione è indicata quando:
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ischemia documentata</div>
+        <div class="card-content">Area &gt; 10% → si riapre il vaso che irrora quella zona.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stenosi &gt; 90%</div>
+        <div class="card-content">Senza ischemia, ma arteria quasi chiusa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Studio funzionale positivo</div>
+        <div class="card-content">Catetere a cavallo della placca + vasodilatazione con ossido nitrico: se la placca può dare ischemia (a prescindere dalle dimensioni) si rivascolarizza.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Vasi prognostici (si aprono sempre)</div>
+    <div class="highlight">
+      <strong>Tronco comune</strong> (un infarto qui toglie l'80% della pompa del VS → morte); <strong>IVA prossimale + circonflessa prossimale</strong> (tronco comune funzionale); <strong>ultima arteria aperta</strong>; arteria <strong>non più protetta da bypass</strong> (se il bypass si chiude).
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
