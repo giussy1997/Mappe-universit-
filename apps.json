@@ -22,6 +22,7 @@
       "color": "#5b8dee",
       "groupId": "pmc1"
     },
+    { "id": "metodologia-clinica", "name": "Metodologia Clinica", "icon": "🩺", "color": "#e0c45b", "groupId": "pmc1" }
     {
       "id": "altro",
       "name": "Altro",
@@ -45,6 +46,19 @@
 { "id": "lez7", "label": "Ipertensione Polmonare", "file": "apps/Pneumo/lez7_ipertensione_polmonare.html", "categoryId": "pneumologia" },
 { "id": "lez8", "label": "Interstiziopatie", "file": "apps/Pneumo/lez8_interstiziopatie.html", "categoryId": "pneumologia" },
 { "id": "lez9", "label": "Interstiziopatie 2 — Sarcoidosi e FPI", "file": "apps/Pneumo/lez9_interstiziopatie_2_sarcoidosi_FPI.html", "categoryId": "pneumologia" },
-{ "id": "lez10", "label": "OSAS", "file": "apps/Pneumo/lez10_OSAS.html", "categoryId": "pneumologia" }
+{ "id": "lez10", "label": "OSAS", "file": "apps/Pneumo/lez10_OSAS.html", "categoryId": "pneumologia" },
+    { "id": "mc-lez1", "label": "Imaging Cardiaco", "file": "apps/Metodologia clinica/lez1_imaging_cardiaco.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez2", "label": "ECG e Aritmie", "file": "apps/Metodologia clinica/lez2_ecg_aritmie.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez3", "label": "Sincope", "file": "apps/Metodologia clinica/lez3_sincope.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez4", "label": "Esame Obiettivo", "file": "apps/Metodologia clinica/lez4_esame_obiettivo.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez5", "label": "Dislipidemie", "file": "apps/Metodologia clinica/lez5_dislipidemie.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez6", "label": "Condizioni Speciali", "file": "apps/Metodologia clinica/lez6_condizioni_speciali.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez7", "label": "Ipertensione Secondaria", "file": "apps/Metodologia clinica/lez7_ipertensione_secondaria.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez8", "label": "Coronariche Croniche", "file": "apps/Metodologia clinica/lez8_coronariche_croniche.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez9", "label": "Coronariche Acute", "file": "apps/Metodologia clinica/lez9_coronariche_acute.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez10", "label": "Valvulopatie", "file": "apps/Metodologia clinica/lez10_valvulopatie.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez11", "label": "Miocarditi", "file": "apps/Metodologia clinica/lez11_miocarditi.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez12", "label": "Semeiotica del Dolore", "file": "apps/Metodologia clinica/lez12_PROVVISORIA_semeiotica_dolore.html", "categoryId": "metodologia-clinica" },
+{ "id": "mc-lez13", "label": "Dolore per Sede", "file": "apps/Metodologia clinica/lez13_PROVVISORIA_dolore_per_sede.html", "categoryId": "metodologia-clinica" }
   ]
 }
