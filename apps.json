@@ -31,5 +31,11 @@
     "label": "Polmoniti",
     "file": "apps/Pneumo/lez2_polmoniti.html",
     "categoryId": "pneumologia"
+  },
+  {
+    "id": "carcinoma-polmonare",
+    "label": "Carcinoma polmonare",
+    "file": "apps/Pneumo/lez6_carcinoma_polmone.html",
+    "categoryId": "pneumologia"
   }
 ]
