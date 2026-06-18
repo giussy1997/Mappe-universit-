@@ -36,17 +36,15 @@
       "file": "apps/esempio.html",
       "categoryId": "altro"
     },
-    {
-      "id": "polmoniti",
-      "label": "Polmoniti",
-      "file": "apps/Pneumo/lez2_polmoniti.html",
-      "categoryId": "pneumologia"
-    },
-    {
-      "id": "carcinoma-polmonare",
-      "label": "Carcinoma polmonare",
-      "file": "apps/Pneumo/lez6_carcinoma_polmone.html",
-      "categoryId": "pneumologia"
-    }
+    { "id": "lez1", "label": "Asma, BPCO e TBC", "file": "apps/Pneumo/lez1_asma-bpco-tbc.html", "categoryId": "pneumologia" },
+{ "id": "lez2", "label": "Polmoniti", "file": "apps/Pneumo/lez2_polmoniti.html", "categoryId": "pneumologia" },
+{ "id": "lez3", "label": "Fibrosi Cistica e Bronchiectasie", "file": "apps/Pneumo/lez3_fibrosi-cistica.html", "categoryId": "pneumologia" },
+{ "id": "lez4", "label": "Pneumotorace e Sintomi", "file": "apps/Pneumo/lez4_pneumotorace.html", "categoryId": "pneumologia" },
+{ "id": "lez5", "label": "Versamento Pleurico e Pleurite", "file": "apps/Pneumo/lez5_versamento-pleurico.html", "categoryId": "pneumologia" },
+{ "id": "lez6", "label": "Carcinoma Polmonare", "file": "apps/Pneumo/lez6_carcinoma_polmone.html", "categoryId": "pneumologia" },
+{ "id": "lez7", "label": "Ipertensione Polmonare", "file": "apps/Pneumo/lez7_ipertensione_polmonare.html", "categoryId": "pneumologia" },
+{ "id": "lez8", "label": "Interstiziopatie", "file": "apps/Pneumo/lez8_interstiziopatie.html", "categoryId": "pneumologia" },
+{ "id": "lez9", "label": "Interstiziopatie 2 — Sarcoidosi e FPI", "file": "apps/Pneumo/lez9_interstiziopatie_2_sarcoidosi_FPI.html", "categoryId": "pneumologia" },
+{ "id": "lez10", "label": "OSAS", "file": "apps/Pneumo/lez10_OSAS.html", "categoryId": "pneumologia" }
   ]
 }
