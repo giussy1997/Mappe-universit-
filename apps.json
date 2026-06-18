@@ -23,6 +23,7 @@
       "groupId": "pmc1"
     },
     { "id": "metodologia-clinica", "name": "Metodologia Clinica", "icon": "🩺", "color": "#e0c45b", "groupId": "pmc1" },
+    { "id": "malattie-cv", "name": "Malattie Cardiovascolari", "icon": "❤️", "color": "#e07c5b", "groupId": "pmc1" },
     {
       "id": "altro",
       "name": "Altro",
@@ -59,6 +60,15 @@
 { "id": "mc-lez10", "label": "Valvulopatie", "file": "apps/Metodologia clinica/lez10_valvulopatie.html", "categoryId": "metodologia-clinica" },
 { "id": "mc-lez11", "label": "Miocarditi", "file": "apps/Metodologia clinica/lez11_miocarditi.html", "categoryId": "metodologia-clinica" },
 { "id": "mc-lez12", "label": "Semeiotica del Dolore", "file": "apps/Metodologia clinica/lez12_PROVVISORIA_semeiotica_dolore.html", "categoryId": "metodologia-clinica" },
-{ "id": "mc-lez13", "label": "Dolore per Sede", "file": "apps/Metodologia clinica/lez13_PROVVISORIA_dolore_per_sede.html", "categoryId": "metodologia-clinica" }
+{ "id": "mc-lez13", "label": "Dolore per Sede", "file": "apps/Metodologia clinica/lez13_PROVVISORIA_dolore_per_sede.html", "categoryId": "metodologia-clinica" },
+    { "id": "cv-lez1", "label": "Approccio al Paziente", "file": "apps/Malattie cardiovascolari/lez1_approccio_paziente.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez2", "label": "Fattori di Rischio", "file": "apps/Malattie cardiovascolari/lez2_fattori_rischio.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez3", "label": "Sonno", "file": "apps/Malattie cardiovascolari/lez3_sonno.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez4", "label": "Aritmie Brambilla", "file": "apps/Malattie cardiovascolari/lez4_aritmie_brambilla.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez5", "label": "Scompenso", "file": "apps/Malattie cardiovascolari/lez5-6_scompenso.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez7", "label": "Elettrofisiologia", "file": "apps/Malattie cardiovascolari/lez7_elettrofisiologia.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez8", "label": "Telemedicina", "file": "apps/Malattie cardiovascolari/lez8_telemedicina.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez9", "label": "Ipertensione Polmonare", "file": "apps/Malattie cardiovascolari/lez9_ipertensione_polmonare.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez10", "label": "Pericardite e Endocardite", "file": "apps/Malattie cardiovascolari/lez10_pericardite_endocardite.html", "categoryId": "malattie-cv" }
   ]
 }
