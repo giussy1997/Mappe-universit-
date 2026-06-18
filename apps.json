@@ -24,7 +24,7 @@
       "id": "esempio",
       "label": "Schema di esempio",
       "file": "apps/esempio.html",
-      "categoryId": "altro"
+      "categoryId": "altro"},
 {
   "id": "polmoniti",
   "label": "Polmoniti",
