@@ -24,6 +24,7 @@
     },
     { "id": "metodologia-clinica", "name": "Metodologia Clinica", "icon": "🩺", "color": "#e0c45b", "groupId": "pmc1" },
     { "id": "malattie-cv", "name": "Malattie Cardiovascolari", "icon": "❤️", "color": "#e07c5b", "groupId": "pmc1" },
+    { "id": "chirurgia-vascolare", "name": "Chirurgia Vascolare", "icon": "🩸", "color": "#5bcfe0", "groupId": "pmc1" },
     {
       "id": "altro",
       "name": "Altro",
@@ -69,6 +70,12 @@
 { "id": "cv-lez7", "label": "Elettrofisiologia", "file": "apps/Malattie cardiovascolari/lez7_elettrofisiologia.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez8", "label": "Telemedicina", "file": "apps/Malattie cardiovascolari/lez8_telemedicina.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez9", "label": "Ipertensione Polmonare", "file": "apps/Malattie cardiovascolari/lez9_ipertensione_polmonare.html", "categoryId": "malattie-cv" },
-{ "id": "cv-lez10", "label": "Pericardite e Endocardite", "file": "apps/Malattie cardiovascolari/lez10_pericardite_endocardite.html", "categoryId": "malattie-cv" }
+{ "id": "cv-lez10", "label": "Pericardite e Endocardite", "file": "apps/Malattie cardiovascolari/lez10_pericardite_endocardite.html", "categoryId": "malattie-cv" },
+    { "id": "cv2-lez1", "label": "Intro e Fisiopatologia Aterosclerosi", "file": "apps/Chirurgia vascolare/lez1-2_intro_e_fisiopatologia_aterosclerosi.html", "categoryId": "chirurgia-vascolare" },
+{ "id": "cv2-lez1b", "label": "Esame Obiettivo Vascolare", "file": "apps/Chirurgia vascolare/lez1b_esame_obiettivo_vascolare.html", "categoryId": "chirurgia-vascolare" },
+{ "id": "cv2-lez3", "label": "Patologie Cerebrovascolari", "file": "apps/Chirurgia vascolare/lez3_patologie_cerebrovascolari.html", "categoryId": "chirurgia-vascolare" },
+{ "id": "cv2-lez4", "label": "Succlavia e Aneurismi", "file": "apps/Chirurgia vascolare/lez4_succlavia_aneurismi.html", "categoryId": "chirurgia-vascolare" },
+{ "id": "cv2-lez5", "label": "Sindromi Aortiche e Arteriopatie", "file": "apps/Chirurgia vascolare/lez5_sindromi_aortiche_arteriopatie.html", "categoryId": "chirurgia-vascolare" },
+{ "id": "cv2-lez6", "label": "TOS e Patologia Venosa", "file": "apps/Chirurgia vascolare/lez6_TOS_patologia_venosa.html", "categoryId": "chirurgia-vascolare" }
   ]
 }
