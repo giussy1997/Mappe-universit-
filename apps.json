@@ -25,6 +25,12 @@
       "label": "Schema di esempio",
       "file": "apps/esempio.html",
       "categoryId": "altro"
-    }
+    {
+    {
+  "id": "Polmoniti",
+  "label": "Pneumologia",
+  "file": "apps/lez2_polmoniti.html",
+  "categoryId": "Pneumologia"
+}
   ]
 }
