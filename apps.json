@@ -22,7 +22,7 @@
       "color": "#5b8dee",
       "groupId": "pmc1"
     },
-    { "id": "metodologia-clinica", "name": "Metodologia Clinica", "icon": "🩺", "color": "#e0c45b", "groupId": "pmc1" }
+    { "id": "metodologia-clinica", "name": "Metodologia Clinica", "icon": "🩺", "color": "#e0c45b", "groupId": "pmc1" },
     {
       "id": "altro",
       "name": "Altro",
