@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappe Malattie Apparato Respiratorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --muted: #7a6e62;
+    --accent1: #c94040; /* rosso */
+    --accent2: #2a6496; /* blu */
+    --accent3: #3d8b6a; /* verde */
+    --accent4: #b07d2a; /* ocra */
+    --accent5: #7b4fa6; /* viola */
+    --card: #fffef9;
+    --border: #d4ccc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  header {
+    background: var(--ink);
+    padding: 18px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #f5f0e8;
+    font-size: 1.1rem;
+    letter-spacing: .04em;
+    margin-bottom: 14px;
+    opacity: .85;
+  }
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    background: none;
+    border: none;
+    color: #c9bfaf;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  nav button.active, nav button:hover {
+    color: #f5f0e8;
+    border-bottom-color: currentColor;
+  }
+  nav button.l1  { --c: #c94040; }
+  nav button.l11 { --c: #c95a20; }
+  nav button.l2  { --c: #2a6496; }
+  nav button.l3  { --c: #3d8b6a; }
+  nav button.l4  { --c: #b07d2a; }
+  nav button.l5  { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+
+  /* PAGES */
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* LESSON HEADER */
+  .lesson-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .lesson-tag {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .lesson-meta {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* SECTION CARDS */
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    background: color-mix(in srgb, var(--c, var(--accent1)) 8%, transparent);
+    border-left: 3px solid var(--c, var(--accent1));
+    border-radius: 0 4px 4px 0;
+  }
+  .cards {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    transform: translateY(-1px);
+  }
+  .card-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .card-content {
+    font-size: .86rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .card-content ul {
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .card-content li {
+    margin-bottom: 3px;
+  }
+  .card-content strong {
+    color: var(--c, var(--accent1));
+  }
+
+  /* PILL TAGS (for lists of short items) */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .pill {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 30%, #fff);
+    color: color-mix(in srgb, var(--c, var(--accent1)) 90%, #000);
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+
+  /* FLOW ARROW */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .flow-step {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 25%, #fff);
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .flow-arrow {
+    color: var(--c, var(--accent1));
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 6%, var(--bg));
+    border: 1.5px solid color-mix(in srgb, var(--c, var(--accent1)) 35%, transparent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  .highlight strong { color: var(--c, var(--accent1)); }
+
+  /* Utility */
+  .wide { grid-column: 1 / -1; }
+
+  /* Colors per lesson */
+  .l1  { --c: #c94040; }
+  .l11 { --c: #c95a20; }
+  .l2  { --c: #2a6496; }
+  .l3  { --c: #3d8b6a; }
+  .l4  { --c: #b07d2a; }
+  .l5  { --c: #7b4fa6; }
+
+  @media (max-width: 480px) {
+    .lesson-title { font-size: 1.4rem; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Mappe</h1>
+  <nav><span style="font-weight:600;font-size:14px;color:#e8eaf0">Lez 5 — Versamento Pleurico, Pleurite e Mesotelioma</span></nav>
+<!-- ═══════════════════════════════════ LEZ 5 ══════════════════ -->
+<div id="l5" class="page l5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 5 · Prof. Luppi</div>
+    <div class="lesson-title">Versamento Pleurico, Pleurite e Mesotelioma</div>
+    <div class="lesson-meta">18/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Anatomia e Fisiologia della Pleura</div>
+    <div class="highlight">
+      La <strong>pleura</strong> è una membrana sierosa, trasparente e sottile, che ricopre il polmone (pleura viscerale) e la cavità toracica (pleura parietale). I due foglietti si toccano a livello dell'ilo polmonare. Lo spazio pleurico contiene quantità minime di liquido lubrificante. La pressione endopleurica è <strong>negativa di circa -5 cmH₂O</strong> (tendenza del polmone a retrarsi vs tendenza della gabbia toracica ad espandersi).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Versamento Pleurico</div>
+    <div class="highlight">
+      <strong>Accumulo di liquido nello spazio pleurico in eccesso</strong> rispetto alle quantità fisiologiche (normalmente 10-20 ml). Epidemiologia USA: 1000 casi ogni 100.000 abitanti.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2.1 Pleurite</div>
+        <div class="card-content"><strong>Flogosi della pleura</strong> da cause infettive (più frequenti), immunologiche o neoplastiche. Versamenti di tipo essudativo, contenuto proteico maggiore. La pleurite può causare versamento ma non sempre i due fenomeni sono associati.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.2 Meccanismi di genesi</div>
+        <div class="card-content">
+          <ul>
+            <li>Aumento della <strong>pressione idrostatica</strong> dei capillari (→ trasudati)</li>
+            <li>Diminuzione della <strong>pressione oncotica</strong> nel plasma (→ trasudati)</li>
+            <li>Aumento della <strong>permeabilità capillare</strong> (→ essudati)</li>
+            <li>Aumento della negatività della <strong>pressione intrapleurica</strong></li>
+            <li>Compromissione del <strong>drenaggio linfatico</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.3 Trasudati ed Essudati</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Trasudati</div>
+        <div class="card-content">
+          Dovuti a ↑ pressione idrostatica o ↓ pressione oncotica. Si manifestano <strong>in assenza di patologia pleurica primitiva</strong> (malattie sistemiche).<br>
+          Contenuto proteico &lt;2,5 g per 100 ml.<br>
+          <strong>Cause di trasudati bilaterali</strong>: insufficienza cardiaca congestizia (80%), cirrosi epatica (8%), sindrome nefrosica (4%), atelettasia, dialisi, ipoalbuminemia…
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Essudati</div>
+        <div class="card-content">
+          Patologie primitive della pleura → aumento permeabilità capillari pleurici.<br>
+          Contenuto proteico &gt;2,5 g per 100 ml.<br>
+          <strong>Cause di essudati monolaterali</strong>: infezioni polmonari 50% (polmoniti, TBC), neoplasie 25% (cancro polmone, mesotelioma, linfoma, metastasi), malattie autoimmuni, cause extrapleuriche (embolia polmonare, pancreatite), pleuriti idiopatiche 25%.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipi di versamento per aspetto</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Empiema (pus)</span>
+            <span class="pill">Emotorace (sangue)</span>
+            <span class="pill">Pseudoemotorace (ematocrito 3-4%)</span>
+            <span class="pill">Chilotorace (chilo, lattescente)</span>
+          </div>
+          Pseudoemotorace ematocrito del LB &lt;40-50% di quello del sangue → macchina emogas.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Distinguere trasudato/essudato</div>
+        <div class="card-content">
+          <strong>Criteri di Light</strong>: proteine LB/plasma &gt;0.5; LDH LB/plasma &gt;0.6; LDH LB &gt;2/3 del normale siero → essudato.<br>
+          <strong>Criteri semplificati</strong>: LDH LB &gt;0.45 del siero + colesterolo LB &gt;45 mg/dl + proteine LB &gt;2.9 g/dl.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.4 Sintomatologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi</div>
+        <div class="card-content">
+          15% dei versamenti è asintomatico (poco liquido, formazione lenta).<br>
+          • <strong>Dolore toracico</strong>: trafittivo, peggiora con gli atti del respiro — tipico di <strong>pleurite secca</strong>. Scompare quando si forma il versamento (le pleure non si sfregano più). Se c'è molto liquido → atelettasia da compressione.<br>
+          • <strong>Tosse</strong>: secca, stizzosa, accessionale.<br>
+          • <strong>Dispnea</strong>: legata all'entità del versamento.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.5 Esame Obiettivo</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Ispezione</strong>: ipomobilità dell'emitorace</li>
+            <li><strong>Palpazione</strong>: ↓/assenza fremito vocale tattile ("trentatré")</li>
+            <li><strong>Percussione</strong>: ipofonesi plessica fino all'ottusità di coscia<br>
+              3 aree: <em>Linea di Damoiseau-Ellis</em> (ipofonesi), <em>Triangolo di Garland</em>, <em>Triangolo di Grocco</em></li>
+            <li><strong>Auscultazione</strong>: sfregamenti pleurici (pleurite secca), ↓/assenza MV, soffio bronchiale</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2–3. Diagnosi del versamento e Toracentesi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diagnosi — Passi</div>
+        <div class="card-content">
+          <ol style="padding-left:14px; font-size:.84rem; line-height:1.55">
+            <li><strong>Anamnesi</strong>: familiare (mesotelioma?), lavorativa (asbesto?)</li>
+            <li><strong>Radiografia del torace</strong>: 175 ml di LB occorrono per obliterare l'angolo costofrenico. Aspetto tipico: menisco ascendente, lateralmente (versamento libero monoloculare o falciforme)</li>
+            <li><strong>Percussione colonna vertebrale</strong>: ipofonesi → versamento libero (si sposta controlateralmente); ottusità → versamento saccato</li>
+          </ol>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">3. Toracentesi</div>
+        <div class="card-content">
+          Per estrarre il liquido e determinarne le caratteristiche. Non deve essere toracentizzato: 1) liquido scarsissimo; 2) scompenso cardiaco congestizio; 3) cause note di trasudato.<br>
+          <strong>MAI più di 2L</strong>: rischio di shock pleurico e sindrome vaso-vagale.<br>
+          Tecnica: ago lungo il margine superiore della costa inferiore (evitare arteria intercostale che corre sul versante inferiore).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4. Caratteristiche macroscopiche del versamento</div>
+        <div class="card-content">
+          Si osservano: colore, viscosità, odore (anaerobi → odore nauseante). Classificazione:<br>
+          <div class="pills">
+            <span class="pill">Sieroso (limpido, trasudato)</span>
+            <span class="pill">Suppurativo/purulento (empiema)</span>
+            <span class="pill">Lattescente (chilotorace)</span>
+            <span class="pill">Emorragico</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l5 -->
+
+</body>
+</html>

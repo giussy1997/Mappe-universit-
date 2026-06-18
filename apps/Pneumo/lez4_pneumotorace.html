@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappe Malattie Apparato Respiratorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --muted: #7a6e62;
+    --accent1: #c94040; /* rosso */
+    --accent2: #2a6496; /* blu */
+    --accent3: #3d8b6a; /* verde */
+    --accent4: #b07d2a; /* ocra */
+    --accent5: #7b4fa6; /* viola */
+    --card: #fffef9;
+    --border: #d4ccc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  header {
+    background: var(--ink);
+    padding: 18px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #f5f0e8;
+    font-size: 1.1rem;
+    letter-spacing: .04em;
+    margin-bottom: 14px;
+    opacity: .85;
+  }
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    background: none;
+    border: none;
+    color: #c9bfaf;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  nav button.active, nav button:hover {
+    color: #f5f0e8;
+    border-bottom-color: currentColor;
+  }
+  nav button.l1  { --c: #c94040; }
+  nav button.l11 { --c: #c95a20; }
+  nav button.l2  { --c: #2a6496; }
+  nav button.l3  { --c: #3d8b6a; }
+  nav button.l4  { --c: #b07d2a; }
+  nav button.l5  { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+
+  /* PAGES */
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* LESSON HEADER */
+  .lesson-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .lesson-tag {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .lesson-meta {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* SECTION CARDS */
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    background: color-mix(in srgb, var(--c, var(--accent1)) 8%, transparent);
+    border-left: 3px solid var(--c, var(--accent1));
+    border-radius: 0 4px 4px 0;
+  }
+  .cards {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    transform: translateY(-1px);
+  }
+  .card-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .card-content {
+    font-size: .86rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .card-content ul {
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .card-content li {
+    margin-bottom: 3px;
+  }
+  .card-content strong {
+    color: var(--c, var(--accent1));
+  }
+
+  /* PILL TAGS (for lists of short items) */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .pill {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 30%, #fff);
+    color: color-mix(in srgb, var(--c, var(--accent1)) 90%, #000);
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+
+  /* FLOW ARROW */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .flow-step {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 25%, #fff);
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .flow-arrow {
+    color: var(--c, var(--accent1));
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 6%, var(--bg));
+    border: 1.5px solid color-mix(in srgb, var(--c, var(--accent1)) 35%, transparent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  .highlight strong { color: var(--c, var(--accent1)); }
+
+  /* Utility */
+  .wide { grid-column: 1 / -1; }
+
+  /* Colors per lesson */
+  .l1  { --c: #c94040; }
+  .l11 { --c: #c95a20; }
+  .l2  { --c: #2a6496; }
+  .l3  { --c: #3d8b6a; }
+  .l4  { --c: #b07d2a; }
+  .l5  { --c: #7b4fa6; }
+
+  @media (max-width: 480px) {
+    .lesson-title { font-size: 1.4rem; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Mappe</h1>
+  <nav><span style="font-weight:600;font-size:14px;color:#e8eaf0">Lez 4 — Pneumotorace e Sintomi Pneumologici</span></nav>
+<!-- ═══════════════════════════════════ LEZ 4 ══════════════════ -->
+<div id="l4" class="page l4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Prof.ssa Faverio</div>
+    <div class="lesson-title">Pneumotorace e Sintomi Pneumologici Comuni</div>
+    <div class="lesson-meta">17/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Pneumotorace — Definizione e Diagnosi</div>
+    <div class="highlight">
+      <strong>Presenza di aria nello spazio pleurico</strong> → collasso parziale o completo del polmone. All'RX: polmone piccolo e schiacciato, cavità pleurica nera (iperdiafana). Il dolore toracico è uno dei sintomi principali (ma anche delle pleuriti).
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2. Eziologia</div>
+        <div class="card-content">
+          <strong>Spontaneo</strong>: primitivo o secondario<br>
+          <strong>Traumatico</strong>: penetrante, da frattura costale, da compressione<br>
+          <strong>Iatrogeno</strong>: posizionamento CVC, toracentesi, ventilazione meccanica
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.1 Pnx spontaneo primitivo</div>
+        <div class="card-content">Pazienti <strong>senza patologie</strong> sottostanti. Rottura di piccole bolle nell'apice del polmone. Giovani uomini longilinei 15-30 anni, fumatori. Rischio di recidiva molto alto → intervento di <strong>bullectomia</strong>. Bolle (blebs) di diametro &lt;1-2 cm.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.2 Pnx spontaneo secondario</div>
+        <div class="card-content">
+          Patologie con formazione di bolle o alterazione anatomica.<br>
+          <div class="pills">
+            <span class="pill">BPCO (enfisema)</span>
+            <span class="pill">Bronchiectasie e FC</span>
+            <span class="pill">Fibrosi polmonare idiopatica</span>
+            <span class="pill">Polmonite da pneumocystis</span>
+            <span class="pill">Endometriosi</span>
+            <span class="pill">Scleroderma / collagenopatie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fisiopatologia Pneumotorace</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Aperto</div>
+        <div class="card-content">Soluzione di continuità fra interno e esterno rimane pervia (ferita lacero-contusa da accoltellamento/fratture).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Chiuso (da "lesioni da scoppio")</div>
+        <div class="card-content">Nessuna soluzione di continuità con l'esterno. Alterazione all'interno (barotrauma da ventilazione meccanica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iperteso ⚠️ (emergenza chirurgica)</div>
+        <div class="card-content">
+          Meccanismo a <strong>valvola</strong>: inspirazione → aria entra nel cavo pleurico; espirazione → la soluzione si chiude. Accumulo vertiginoso di pressione nel cavo → <strong>compressione strutture mediastiniche</strong> (vena cava sup/inf, vena azygos) → cuore compresso → ↓↓ precarico → <strong>shock ipovolemico</strong> in pochi minuti.<br>
+          All'esame obiettivo: assenza MV + suono ipertimpanico + sbandamento tracheale controlaterale.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4–7. Entità, Valutazione obiettiva, Sintomi, Diagnostica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">4. Entità del pnx</div>
+        <div class="card-content">
+          <strong>Marginale</strong>: riposo + O₂-terapia<br>
+          <strong>Moderato</strong>: drenaggio<br>
+          <strong>Massivo</strong>: drenaggio urgente
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">5. Valutazione obiettiva (pnx moderato/massivo)</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Iperfonesi</strong> alla percussione</li>
+            <li>Difficoltà percezione del fremito vocale tattile</li>
+            <li><strong>Assenza di murmure vescicolare</strong> (silenzio auscultatorio)</li>
+          </ul>
+          Pnx marginale: segni difficili da percepire.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6. Sintomatologia</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Dolore toracico</strong> (70/90% dei casi): tipo trafittivo, monolaterale, aumenta con tosse e atti respiratori; risponde a antalgici</li>
+            <li><strong>Dispnea</strong> (40-70%): antalgica (respiri piccoli)</li>
+            <li><strong>Tosse secca</strong>: raramente</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">7. Diagnostica</div>
+        <div class="card-content">
+          <strong>RX torace</strong>: in inspirio ed espirio (meglio in espirio). Idealmente entrambe le lastre.<br>
+          <strong>TC torace</strong>: se dubbi clinici; migliore osservazione del parenchima e delle bolle.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8–9. Enfisema Sottocutaneo e Trattamento</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">8. Enfisema sottocutaneo</div>
+        <div class="card-content">Nei traumi "aperti" con continuità fra piani esterni, parenchima e pleura → separazione piani cutanei con aria. Palpazione simile a "calpestare la neve fresca appena caduta". Trattamento: drenaggio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">9. Trattamento pnx</div>
+        <div class="card-content">
+          Falda &lt;2-3 cm + non rifornito → <strong>toracentesi</strong>.<br>
+          Rifornito o massivo → <strong>drenaggio toracico</strong> (catetere nel 2° spazio intercostale sull'emiclaveare, sistema di bottiglie con valvola ad acqua).<br>
+          Indicazioni chirurgiche: <strong>bullectomia</strong> per prevenire recidive in pazienti giovani con blebs.<br>
+          <strong>Pleurodesi</strong> chimica (talco) o chirurgica per prevenire recidive.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10. Dal sintomo alla diagnosi</div>
+    <div class="highlight">
+      Sintomi pneumologici più comuni: <strong>Tosse</strong>, <strong>Dispnea</strong>, <strong>Emoftoe/Emottisi</strong>. Possono avere diverse cause; diagnosi differenziale fondamentale.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">11. Tosse</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione per durata</div>
+        <div class="card-content">
+          <strong>Acuta</strong>: &lt;3 settimane · <strong>Subacuta</strong>: 3-8 settimane · <strong>Cronica</strong>: &gt;8 settimane
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause tosse secca (principali)</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Asma</strong>: stagionale, notturna, dopo cambio temperatura/allergeni</li>
+            <li><strong>MRGE</strong>: tosse in posizione supina, peggiora dopo pasti</li>
+            <li><strong>Sindrome della tosse delle alte vie aeree</strong>: rinite/sinusite cronica, post-nasal drip</li>
+            <li><strong>Fumo di sigaretta</strong></li>
+            <li><strong>ACE-inibitori</strong> (effetto collaterale)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause tosse meno comuni</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Bronchiectasie</span>
+            <span class="pill">BPCO</span>
+            <span class="pill">Tumore del polmone</span>
+            <span class="pill">Interstiziopatie</span>
+            <span class="pill">TBC / micobatteri</span>
+            <span class="pill">Tosse psicogena (TIC)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">11.1 Diagnosi differenziale tosse</div>
+        <div class="card-content">
+          9 domande chiave: quando è iniziata, produttiva o secca, quando è più frequente, luoghi/ambienti, lavoro, fumo, preceduta da raffreddore, farmaci, sintomi associati. Anche il momento di insorgenza è importante (notte → asma/MRGE; risveglio → fumo/BPCO; esercizio → asma da sforzo).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">12. Dispnea</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione</div>
+        <div class="card-content">
+          <strong>Per momento di insorgenza</strong>: a riposo (grave), sotto sforzo, notturna (scompenso cardiaco → ortopnea).<br>
+          <strong>Per durata</strong>: acuta · subacuta · cronica.<br>
+          <strong>Per intensità</strong>: scala <strong>MRC</strong> (soggettiva: quanto rallenta il cammino), scala <strong>Borg</strong> (soggettiva nel test del cammino 0-10).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo di sensazione</div>
+        <div class="card-content">
+          <strong>Fame d'aria</strong>: scompenso cardiaco, edema polmonare<br>
+          <strong>Costrizione</strong>: non si espande il torace, tipico dell'asma<br>
+          <strong>Sforzo respiratorio aumentato</strong>: interstiziopatie (polmone duro, fibrotico)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12.1 Dispnea acuta</div>
+        <div class="card-content">
+          Insorgenza improvvisa → urgenza. Valutare: saturazione, FR, EGA.<br>
+          Cause principali: <strong>pneumotorace</strong> (dolore trafittivo monolaterale) o <strong>embolia polmonare</strong> (dolore pleuritico, D-Dimero negativo esclude EP ma positivo non la conferma → TAC con contrasto).<br>
+          D-Dimero: alto valore predittivo <em>negativo</em>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12.2 Dispnea cronica</div>
+        <div class="card-content">
+          Valutazione: saturazione + EGA + RX torace + spirometria + test del cammino + ECG/ecocg.<br>
+          <strong>Dispnea parossistica notturna</strong>: compare di notte, non da sforzo.<br>
+          Cause: insufficienza ventricolare sinistra, asma, OSAS, paralisi diaframmatica.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">13. Emottisi ed Emoftoe</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizioni</div>
+        <div class="card-content">
+          <strong>Emottisi</strong>: presenza massiva di sangue dalle vie aeree.<br>
+          <strong>Emoftoe</strong>: strisci di sangue nell'espettorato.<br>
+          Differenza: entità del sanguinamento.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause se ricorrenti</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Bronchiectasie</span>
+            <span class="pill">Fibrosi cistica</span>
+            <span class="pill">Tubercolosi</span>
+            <span class="pill">Cavità colonizzate da aspergillomi</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause primo episodio</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Neoplasia polmonare</strong> (lesioni centrali, grossi bronchi)</li>
+            <li>Tubercolosi</li>
+            <li>Embolia polmonare (infarto polmonare)</li>
+            <li>Vasculiti</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori predisponenti</div>
+        <div class="card-content">
+          <ul>
+            <li>Terapia antiaggregante o anticoagulante</li>
+            <li>Disordini della coagulazione (piastrinopenia)</li>
+            <li>Ipertrofia delle arterie bronchiali</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">13.1–13.3 Diagnosi e Trattamento</div>
+        <div class="card-content">
+          In PS: emocromo + coagulazione + indagare terapia anticoagulante.<br>
+          RX torace → se non dirimente → <strong>TAC con contrasto</strong>.<br>
+          <strong>Broncoscopia</strong>: capire lato e entità sanguinamento. Se massiva → ricovero + eventuale intubazione selettiva. Arterie ipertrofiche → <strong>embolizzazione</strong> (chiuderle). In extremis: chirurgia.
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l4 -->
+
+</body>
+</html>

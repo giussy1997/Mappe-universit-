@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappe Malattie Apparato Respiratorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --muted: #7a6e62;
+    --accent1: #c94040; /* rosso */
+    --accent2: #2a6496; /* blu */
+    --accent3: #3d8b6a; /* verde */
+    --accent4: #b07d2a; /* ocra */
+    --accent5: #7b4fa6; /* viola */
+    --card: #fffef9;
+    --border: #d4ccc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  header {
+    background: var(--ink);
+    padding: 18px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #f5f0e8;
+    font-size: 1.1rem;
+    letter-spacing: .04em;
+    margin-bottom: 14px;
+    opacity: .85;
+  }
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    background: none;
+    border: none;
+    color: #c9bfaf;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  nav button.active, nav button:hover {
+    color: #f5f0e8;
+    border-bottom-color: currentColor;
+  }
+  nav button.l1  { --c: #c94040; }
+  nav button.l11 { --c: #c95a20; }
+  nav button.l2  { --c: #2a6496; }
+  nav button.l3  { --c: #3d8b6a; }
+  nav button.l4  { --c: #b07d2a; }
+  nav button.l5  { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+
+  /* PAGES */
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* LESSON HEADER */
+  .lesson-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .lesson-tag {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .lesson-meta {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* SECTION CARDS */
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    background: color-mix(in srgb, var(--c, var(--accent1)) 8%, transparent);
+    border-left: 3px solid var(--c, var(--accent1));
+    border-radius: 0 4px 4px 0;
+  }
+  .cards {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    transform: translateY(-1px);
+  }
+  .card-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .card-content {
+    font-size: .86rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .card-content ul {
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .card-content li {
+    margin-bottom: 3px;
+  }
+  .card-content strong {
+    color: var(--c, var(--accent1));
+  }
+
+  /* PILL TAGS (for lists of short items) */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .pill {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 30%, #fff);
+    color: color-mix(in srgb, var(--c, var(--accent1)) 90%, #000);
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+
+  /* FLOW ARROW */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .flow-step {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 25%, #fff);
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .flow-arrow {
+    color: var(--c, var(--accent1));
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 6%, var(--bg));
+    border: 1.5px solid color-mix(in srgb, var(--c, var(--accent1)) 35%, transparent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  .highlight strong { color: var(--c, var(--accent1)); }
+
+  /* Utility */
+  .wide { grid-column: 1 / -1; }
+
+  /* Colors per lesson */
+  .l1  { --c: #c94040; }
+  .l11 { --c: #c95a20; }
+  .l2  { --c: #2a6496; }
+  .l3  { --c: #3d8b6a; }
+  .l4  { --c: #b07d2a; }
+  .l5  { --c: #7b4fa6; }
+
+  @media (max-width: 480px) {
+    .lesson-title { font-size: 1.4rem; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Mappe</h1>
+  <nav><span style="font-weight:600;font-size:14px;color:#e8eaf0">Lez 1-1.1 — Asma, BPCO e Tubercolosi</span></nav>
+<!-- ═══════════════════════════════════ LEZ 1 ═══════════════════ -->
+<div id="l1" class="page active l1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Prof. Luppi</div>
+    <div class="lesson-title">Asma Bronchiale</div>
+    <div class="lesson-meta">Riferimento linee guida GINA · ginasthma.org</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione</div>
+    <div class="highlight">
+      <strong>Malattia eterogenea</strong> caratterizzata da infiammazione cronica delle vie aeree.<br>
+      Due caratteristiche cliniche specifiche:<br>
+      • <strong>Sintomi variabili</strong>: respiro sibilante, dispnea, costrizione toracica, tosse (variano nel tempo e in intensità)<br>
+      • <strong>Ostruzione bronchiale episodica</strong> (≠ variabile) e <strong>reversibile</strong> spirometricamente — criterio discrimine vs BPCO
+    </div>
+    <div class="highlight">
+      L'asma è soprattutto una <strong>malattia infiammatoria</strong>: lo stato infiammatorio → <strong>iperreattività bronchiale</strong> → bronco-ostruzione → sintomi. L'infiammazione provoca anche direttamente ipersecrezione di muco.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Epidemiologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Prevalenza</div>
+        <div class="card-content">Malattia cronica molto diffusa; prevalenza <strong>in aumento</strong>, soprattutto nei bambini. Causa importante di assenza da scuola e lavoro.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mortalità</div>
+        <div class="card-content">Non è patologia benigna: <strong>1–5/100.000 abitanti muore ogni anno</strong>. I casi mortali spesso riguardano forme lievi/intermittenti non adeguatamente trattate.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.1 Controllo dell'asma</div>
+        <div class="card-content">Solo il <strong>15%</strong> dei pazienti diagnosticati è ben controllato; 50% non è controllato affatto. Proposta: piano scritto di gestione + monitoraggio delle riacutizzazioni → migliorare l'aderenza alla terapia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fattori di Rischio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Individuali (genetici)</div>
+        <div class="card-content">
+          <strong>Atopia</strong>: predisposizione all'allergia determinata geneticamente — fattore di rischio principale.<br>
+          <strong>Polisensibilizzazione</strong> aumenta il rischio e la gravità.<br>
+          Tratto genetico complesso: GENOTIPO + AMBIENTE → FENOTIPO
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ambientali (allergeni)</div>
+        <div class="card-content">
+          Il paziente asmatico è <strong>atopico</strong> in oltre la metà dei casi.<br>
+          <strong>Domestici</strong>: acari, pelo di animali (gatto, cane, coniglio), scarafaggi, miceti<br>
+          <strong>Esterni</strong>: graminacee, altre piante
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Asma da sforzo</div>
+        <div class="card-content">Fenotipo che si manifesta solo durante l'esercizio fisico. Compare con esercizio in aria fredda o bassa umidità.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Patogenesi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Immunità Th2 (tipo 2)</div>
+        <div class="card-content">
+          <strong>Linfociti T<sub>H2</sub></strong> producono pattern citochinico:<br>
+          <ul>
+            <li><strong>IL-4</strong>: recluta linfociti B → producono IgE → degranulazione mastociti → mediatori proinfiammatori</li>
+            <li><strong>IL-5</strong>: richiama eosinofili (cellule chiave dell'asma)</li>
+            <li><strong>IL-13</strong>: interferisce col tono muscolare liscio → broncospasmo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Via non-Th2</div>
+        <div class="card-content">Fumo, infezioni, inquinamento → macrofagi + neutrofili → proteasi + radicali liberi → danno parenchimale + ipersecrezione muco. Via mediata da <strong>Linfociti T<sub>H17</sub></strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Anatomia Patologica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Reperti istologici</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Desquamazione / disepitelizzazione</strong> (≠ BPCO dove c'è ipertrofia epiteliale)</li>
+            <li><strong>Ispessimento della membrana basale</strong></li>
+            <li><strong>Infiltrato infiammatorio di eosinofili</strong> (colorati in rosso)</li>
+            <li>Lume ristretto da ispessimento + muco</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Clinica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fasi cliniche</div>
+        <div class="card-content">
+          • <strong>Fase intercritica</strong>: sostanziale quiescenza, spesso spirometria normale<br>
+          • <strong>Fase di acutizzazione</strong>: tosse, respiro sibilante, senso di oppressione, dispnea
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.1 Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">6.1 Approccio diagnostico</div>
+        <div class="card-content">
+          Fondamentale: <strong>storia clinica + storia familiare</strong>. Occorre <strong>conferma obiettiva</strong> di bronco-ostruzione reversibile.<br>
+          In acutizzazione: diagnosi clinica, poi da confermare.<br>
+          Se paziente stabile: spirometria → se normale → test di broncoprovocazione (metacolina)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6.1.1 Spirometria — 3 parametri</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>FEV1</strong>: aria espirata nel primo secondo</li>
+            <li><strong>FVC</strong>: capacità vitale forzata (aria totale espirata)</li>
+            <li><strong>FEV1/FVC</strong>: deve essere &lt;0.70 per spirometria ostruttiva</li>
+          </ul>
+          In clinica si usa sempre il rapporto FEV1/FVC (non l'indice di Tiffenau).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6.1.2 Test di broncodilatazione</div>
+        <div class="card-content">
+          Somministrazione di <strong>salbutamolo</strong> (4 dosi da 100 µg). Attesa 15 min, poi spirometria.<br>
+          <strong>Positivo</strong>: aumento ≥12% e ≥200 mL di FEV1 e/o FVC rispetto al basale → ostruzione reversibile → diagnosi di asma.<br>
+          Nell'asmatico il potere broncodilatatorio del β₂-agonista è molto maggiore che nella BPCO.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6.1.3 Test di iperreattività bronchiale (metacolina)</div>
+        <div class="card-content">
+          Test negativo: <strong>esclude</strong> l'asma.<br>
+          Test positivo: confirma iperreattività bronchiale (caratteristica anche di altre malattie).<br>
+          Riduzione del FEV1 basale ≥20% = <strong>PD20</strong>.<br>
+          <strong>Controindicato</strong> se FEV1 &lt;70% o sospetto infarto/ictus.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.2 Classificazione di gravità e altri esami</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione (in assenza di terapia)</div>
+        <div class="card-content">
+          Basata su 3 parametri: sintomi giornalieri, sintomi notturni, valori FEV1 o PEF.<br>
+          <strong>STEP 1</strong> Intermittente · <strong>STEP 2</strong> Persistente lieve<br>
+          <strong>STEP 3</strong> Moderata persistente · <strong>STEP 4</strong> Grave persistente
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">PEF (Peak Expiratory Flow)</div>
+        <div class="card-content">Parametro molto comodo, misurabile al domicilio. Il <em>trend</em> giornaliero indica il grado di controllo. La gravità è più comunemente valutata tramite il <strong>grado di trattamento richiesto</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia a 5 step (GINA)</div>
+        <div class="card-content">
+          <strong>Asma lieve</strong>: STEP 1–2 → ICS bassa dose al bisogno<br>
+          <strong>Asma moderata</strong>: STEP 3 → ICS + β₂-LABA<br>
+          <strong>Asma grave</strong>: STEP 4–5 → ICS/LABA dosi alte + anticolinergici + <strong>farmaci biologici</strong> (Mepolizumab, Benralizumab, Dupilumab)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altri esami strumentali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Prove allergometriche cutanee</span>
+            <span class="pill">Dosaggio IgE totali e specifiche</span>
+            <span class="pill">Conta eosinofili ematici</span>
+            <span class="pill">Emogas analisi</span>
+            <span class="pill">ECG</span>
+            <span class="pill">Visita otorinolaringoiatra</span>
+            <span class="pill">RX torace</span>
+            <span class="pill">Prick test</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Riacutizzazione — Pazienti a rischio di vita</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione</div>
+        <div class="card-content">Rapido peggioramento dei sintomi: dispnea, tosse, sibilante, costrizione toracica + riduzione del flusso espiratorio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pazienti a rischio</div>
+        <div class="card-content">
+          <ul>
+            <li>Pregresso intubazione tracheale (near fatal asthma)</li>
+            <li>Ricoveri ospedalieri per asma nell'ultimo anno</li>
+            <li>Sospensione recente degli steroidi</li>
+            <li>Assunzione irregolare della terapia inalatoria</li>
+            <li>SABA in quantità ≥1 confezione/mese</li>
+            <li>Problemi psico-sociali, malattie mentali, largo uso di sedativi</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gradi di gravità della riacutizzazione</div>
+        <div class="card-content">
+          <strong>Lieve</strong>: cammina, discorsi<br>
+          <strong>Moderata</strong>: parla a frasi, FR aumentata<br>
+          <strong>Grave</strong>: a riposo, bambini smettono di mangiare, FR &gt;30/min, uso muscoli accessori<br>
+          <strong>Arresto imminente</strong>: sonnolento, confuso, bradicardia, sibili assenti
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Diagnosi Differenziale e Terapia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diagnosi differenziale principale</div>
+        <div class="card-content">
+          <strong>BPCO</strong>: ostruzione irreversibile, paziente anziano e fumatore<br>
+          <strong>ACO</strong> (Asthma-COPD Overlap): caratteristiche miste, area di confine<br>
+          Scompenso cardiaco, disfunzione corde vocali, sinusite, reflusso gastroesofageo
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Farmaci biologici (asma grave)</div>
+        <div class="card-content">
+          <strong>Mepolizumab</strong>: inibisce la produzione di IL-5<br>
+          <strong>Benralizumab</strong>: blocca il recettore di IL-5<br>
+          <strong>Dupilumab</strong>: inibitore di IL-13 e IL-4<br>
+          Indicazioni diverse ma possono essere usati indifferentemente.
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l1 -->
+
+
+<!-- ═══════════════════════════════════ LEZ 1.1 ══════════════════ -->
+<div id="l11" class="page l11">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1.1 · Prof. Luppi</div>
+    <div class="lesson-title">BPCO e Tubercolosi Polmonare</div>
+    <div class="lesson-meta">Riferimento linee guida GOLD · goldcopd.org</div>
+  </div>
+
+  <!-- BPCO -->
+  <div class="section">
+    <div class="section-title">1. BPCO — Definizione ed Epidemiologia</div>
+    <div class="highlight">
+      <strong>BPCO / COPD</strong>: malattia comune, prevenibile e curabile, caratterizzata da sintomi respiratori persistenti ed <strong>ostruzione bronchiale irreversibile</strong>, dovuta ad anomalie delle vie aeree e/o alveolari causate dall'esposizione a particelle nocive o gas.<br>
+      Terza causa di morte dal 2020. Epidemiologia in crescita per fattori di aging. Variazione mortalità USA 1965-1998: <strong>+163%</strong> BPCO vs -59% coronaropatie.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2. Fattori di Rischio</div>
+        <div class="card-content">
+          <strong>Fumo di sigaretta</strong> (principale, >4500 composti chimici)<br>
+          Inquinanti professionali · Fumo passivo · Inquinanti domestici · Età<br>
+          Geni · Crescita polmonare · Sesso (maschi più colpiti) · Infezioni respiratorie in infanzia · Stato socioeconomico basso
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fumo e storia naturale</div>
+        <div class="card-content">
+          Non tutti i fumatori sviluppano BPCO (solo 50%). Il fumo rappresenta comunque un fattore di rischio per il cancro ai polmoni.<br>
+          La <strong>sospensione del fumo</strong> è l'unico provvedimento che modifica la storia naturale.<br>
+          Pazienti <strong>frequenti riacutizzatori</strong> (&ge;2/anno): declino più rapido della funzione ventilatoria.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polveri sul luogo di lavoro</div>
+        <div class="card-content">Circa il <strong>15%</strong> dei casi di BPCO è attribuibile a esposizione professionale. Mestieri a rischio: manifattura di plastica, tessile, gomma, pelle; cuochi, meccanici ecc.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Inquinamento ambienti interni</div>
+        <div class="card-content">Fattore principale nei paesi in via di sviluppo. Circa 3 miliardi di persone esposte ai fumi da <strong>combustione della biomassa</strong> (legno, carbone, escrementi…).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Genetica — Deficit di α1-antitripsina</div>
+        <div class="card-content">Modello genetico: deficit di <strong>α1-antitripsina</strong> (proteasi prodotta nel fegato) → danno polmonare. Mutazione più frequente: gene <strong>SERPINA1</strong> → allele Z. Causa enfisema <strong>panlobulare</strong> a 30-40 anni (vs enfisema centrolobulare del fumatore, 50-60 anni).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Meccanismi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fisiopatologia</div>
+        <div class="card-content">
+          Malattia infiammatoria. Fumo → attivazione macrofagi alveolari e neutrofili → proteasi + radicali liberi → <strong>distruzione parenchima polmonare</strong> (enfisema) + <strong>ipersecrezione muco</strong>.<br>
+          La BPCO raramente è pura: ha componente <strong>enfisematosa</strong> e componente <strong>bronchitica</strong>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4. Flusso, Pressione e Resistenza</div>
+        <div class="card-content">
+          FLUSSO = PRESSIONE / RESISTENZA<br>
+          Nella BPCO si riduce il flusso per:<br>
+          • <strong>↓ Pressione</strong>: distruzione parenchima → ↓ ritorno elastico<br>
+          • <strong>↑ Resistenza</strong>: ostruzione bronchiale + infiammazione piccole vie aeree
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">5. Elementi ambientali</div>
+        <div class="card-content">Particelle e gas nocivi → infiammazione polmonare + <strong>stress ossidativo</strong> → BPCO (nonostante i meccanismi riparativi). Il fumo entra anche nel torrente circolatorio → infiammazione sistemica (↑ proteina C reattiva, ↑ TNF-α).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Diagnosi BPCO</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi principali</div>
+        <div class="card-content"><strong>Tosse produttiva</strong> e <strong>dispnea</strong> (inizialmente da sforzo). In anamnesi: esposizione a fattori di rischio. Conferma: <strong>spirometria</strong> (FEV1/FVC post-broncodilatatore &lt;0.7).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classificazione GOLD 1-4</div>
+        <div class="card-content">
+          Basata su FEV1 (% del predetto):<br>
+          GOLD 1 ≥80% · GOLD 2 50-79% · GOLD 3 30-49% · GOLD 4 &lt;30%<br>
+          <strong>mMRC</strong> e <strong>CAT</strong> valutano sintomi → quadranti A/B/C/D per la terapia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Quadri Clinici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Broncopolmonari — Fenotipi</div>
+        <div class="card-content">
+          <strong>Pink puffer</strong> (prevalente enfisema): dispnea da sforzo, aspetto astenico, tachipnea, torace a botte, basi ipomobili, iperfonesi plessica<br>
+          <strong>Blue bloater</strong> (prevalente bronchite): tosse produttiva, espettorato abbondante, dispnea anche a riposo, edemi inferiori, cianosi
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Extrapolmonari — Comorbidità</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Cardiovascolari</span>
+            <span class="pill">Diabete tipo II</span>
+            <span class="pill">Ansia/Depressione</span>
+            <span class="pill">Ipercoagulabilità / anemia</span>
+            <span class="pill">Reflusso gastroesofageo</span>
+            <span class="pill">Muscolo: debolezza progressiva</span>
+            <span class="pill">Osteoporosi</span>
+          </div>
+          Lo scompenso cardiaco <strong>raddoppia la mortalità</strong> nei pazienti con BPCO.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riacutizzazione BPCO</div>
+        <div class="card-content">Peggioramento dei sintomi che richiede <strong>modificazione della terapia</strong>. Cause principali: infezioni (batteri e virus), inquinamento ambientale. Accelerano il declino del FEV1.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Confronto Asma-BPCO</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Asma</div>
+        <div class="card-content">Giovane, atopico. Infiammazione: linfociti CD4+, mastociti, eosinofili. Ostruzione <strong>completamente reversibile</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">BPCO</div>
+        <div class="card-content">Anziano, fumatore. Infiammazione: linfociti CD8+, macrofagi, neutrofili. Ostruzione <strong>completamente irreversibile</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TUBERCOLOSI -->
+  <div class="section">
+    <div class="section-title">9–17. Tubercolosi Polmonare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">9. Epidemiologia TBC</div>
+        <div class="card-content">~2 miliardi di persone infette; 8 milioni nuovi casi/anno; 2 milioni di morti/anno. Prima causa di morte da singolo agente infettivo nel mondo. Circa 30% dei casi sarebbero evitabili.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Agente eziologico — Mycobacterium TBC</div>
+        <div class="card-content">
+          <ul>
+            <li>Patogeno intracellulare, trasmissione interumana</li>
+            <li>Lento tempo di replicazione (30-40 gg)</li>
+            <li><strong>Alcol/acido resistente</strong> → colorazione Ziehl-Neelsen (fondo blu, bacilli rosa-rossi). Alternativa: Auramina-Rodamina (fluorescente)</li>
+            <li>Granulomi <strong>caseificanti</strong> (≠ granulomi sarcoidei)</li>
+            <li>La maggior parte degli antibiotici comuni è inefficace</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10–11. Dall'esposizione alla malattia</div>
+        <div class="card-content">
+          <div class="flow">
+            <span class="flow-step">Esposizione</span><span class="flow-arrow">→</span>
+            <span class="flow-step">Non infezione (95%): MΦ uccidono MTB</span>
+          </div>
+          <div class="flow" style="margin-top:6px">
+            <span class="flow-step">Infezione latente (95% dei casi)</span><span class="flow-arrow">→</span>
+            <span class="flow-step">MTB quiescente</span>
+          </div>
+          <div class="flow" style="margin-top:6px">
+            <span class="flow-step">TB attiva (5%)</span><span class="flow-arrow">→</span>
+            <span class="flow-step">contagiosa</span>
+          </div>
+          Risposta immunitaria: <strong>cellulo-mediata</strong> (linfociti T CD4+).<br>
+          Fattori che ↓ linfociti CD4+: HIV, età, farmaci immunosoppressori.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12. Infezione e Granuloma</div>
+        <div class="card-content">MTB prolifera nello spazio extracellulare → reclutamento cellule infiammatorie → formazione <strong>granuloma (tubercolo)</strong> nel sito della lesione primaria con linfociti, MΦ, cellule epiteloidi e cellule giganti. <strong>Necrosi caseosa centrale</strong> → confina MTB.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">13. Malattia Attiva — Forme</div>
+        <div class="card-content">
+          <strong>Infezione latente</strong>: subclinica, mantoux positivo, RX normale.<br>
+          <strong>Malattia primaria</strong>: bambini, campi medi/inferiori, focolaio di Ghon (lifoadenopatia ilare + strie linfangitiche + addensamento polmonare). In immunocompetenti: pochi sintomi, spesso autolimitante.<br>
+          <strong>Malattia postprimaria</strong>: da riattivazione; lobi superiori/posteriori; caverne; polmonite tubercolare.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi</div>
+        <div class="card-content">
+          <strong>Fasi precoci</strong>: febbre (basso grado, intermittente), sudorazione notturna, perdita di peso, anoressia, astenia.<br>
+          <strong>Fasi successive</strong>: tosse (poi produttiva), emottisi, dolore toracico, dispnea.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Forme extrapolmonari</div>
+        <div class="card-content">Linfonodi, pleura, tratto genitourinario, ossa, articolazioni, meningi, peritoneo. Più frequenti in HIV+.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">13. Diagnosi di malattia attiva</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Microscopia diretta</strong>: fluidi respiratori (espettorato, BAL, lavaggio alveolare). Colorazione Ziehl-Neelsen. Bassa sensibilità per bassa carica batterica.</li>
+            <li><strong>Esame colturale</strong>: gold standard assoluto. Richiede 4-8 settimane (ridotto a 2-3 sett. con terreni liquidi radiometrici).</li>
+            <li><strong>Amplificazione acidi nucleici (PCR)</strong>: diagnosi in poche ore; bassa sensibilità; mai sostituisce colturale.</li>
+            <li><strong>Test sensibilità ai farmaci</strong>: isoniazide, rifampicina, etambutolo</li>
+            <li><strong>Esame radiologico</strong>: quadro classico — lobi superiori, infiltrati e caverne.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi di infezione latente (LTBI)</div>
+        <div class="card-content">
+          <strong>TST / Mantoux</strong>: iniezione intradermica PPD, lettura a 48-72h, si misura l'infiltrazione. Limiti: falsi positivi (BCG, cross-reazione), falsi negativi (farmaci immunosoppressivi).<br>
+          <strong>IFN-γ based test</strong>:<br>
+          • QuantiFERON-TB Gold: misura IFN-γ via ELISA (più semplice)<br>
+          • T-SPOT.TB: misura n° linfociti T che producono IFN-γ via Elispot (più sensibile)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">16. Terapia TBC</div>
+        <div class="card-content">
+          <strong>Policemioterapia</strong> (≥4 farmaci antitubercolari).<br>
+          Schema classico <strong>2x4</strong>: 2 mesi con Isoniazide + Rifampicina + Etambutolo + Pirazinamide, poi 4 mesi con solo Rifampicina + Isoniazide.<br>
+          Dopo &lt;2 sett. di trattamento efficace: <strong>contagiosità si annulla</strong>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">17. TBC Multiresistente (MDR)</div>
+        <div class="card-content">Resistenza almeno a Isoniazide e Rifampicina. Quasi sempre MDR secondaria (incongruità terapeutica o mancata compliance). Scarso successo terapeutico (40% guarigione in Italia). Gestione in centri specializzati. <strong>DOT</strong> (Direct Observed Therapy) nei paesi in via di sviluppo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">15. Vaccinazione BCG</div>
+        <div class="card-content">Da M. bovis attenuato. Raccomandata alla nascita nei paesi ad alta prevalenza. Efficacia 0-80%, protegge i bambini da forme severe (meningiti, miliare). Determina positività al TST.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l11 -->
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappe Malattie Apparato Respiratorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --muted: #7a6e62;
+    --accent1: #c94040; /* rosso */
+    --accent2: #2a6496; /* blu */
+    --accent3: #3d8b6a; /* verde */
+    --accent4: #b07d2a; /* ocra */
+    --accent5: #7b4fa6; /* viola */
+    --card: #fffef9;
+    --border: #d4ccc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  header {
+    background: var(--ink);
+    padding: 18px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #f5f0e8;
+    font-size: 1.1rem;
+    letter-spacing: .04em;
+    margin-bottom: 14px;
+    opacity: .85;
+  }
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    background: none;
+    border: none;
+    color: #c9bfaf;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  nav button.active, nav button:hover {
+    color: #f5f0e8;
+    border-bottom-color: currentColor;
+  }
+  nav button.l1  { --c: #c94040; }
+  nav button.l11 { --c: #c95a20; }
+  nav button.l2  { --c: #2a6496; }
+  nav button.l3  { --c: #3d8b6a; }
+  nav button.l4  { --c: #b07d2a; }
+  nav button.l5  { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+
+  /* PAGES */
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* LESSON HEADER */
+  .lesson-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .lesson-tag {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .lesson-meta {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* SECTION CARDS */
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    background: color-mix(in srgb, var(--c, var(--accent1)) 8%, transparent);
+    border-left: 3px solid var(--c, var(--accent1));
+    border-radius: 0 4px 4px 0;
+  }
+  .cards {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    transform: translateY(-1px);
+  }
+  .card-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .card-content {
+    font-size: .86rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .card-content ul {
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .card-content li {
+    margin-bottom: 3px;
+  }
+  .card-content strong {
+    color: var(--c, var(--accent1));
+  }
+
+  /* PILL TAGS (for lists of short items) */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .pill {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 30%, #fff);
+    color: color-mix(in srgb, var(--c, var(--accent1)) 90%, #000);
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+
+  /* FLOW ARROW */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .flow-step {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 25%, #fff);
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .flow-arrow {
+    color: var(--c, var(--accent1));
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 6%, var(--bg));
+    border: 1.5px solid color-mix(in srgb, var(--c, var(--accent1)) 35%, transparent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  .highlight strong { color: var(--c, var(--accent1)); }
+
+  /* Utility */
+  .wide { grid-column: 1 / -1; }
+
+  /* Colors per lesson */
+  .l1  { --c: #c94040; }
+  .l11 { --c: #c95a20; }
+  .l2  { --c: #2a6496; }
+  .l3  { --c: #3d8b6a; }
+  .l4  { --c: #b07d2a; }
+  .l5  { --c: #7b4fa6; }
+
+  @media (max-width: 480px) {
+    .lesson-title { font-size: 1.4rem; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Mappe</h1>
+  <nav><span style="font-weight:600;font-size:14px;color:#e8eaf0">Lez 3 — Fibrosi Cistica e Bronchiectasie</span></nav>
+<!-- ═══════════════════════════════════ LEZ 3 ══════════════════ -->
+<div id="l3" class="page l3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Prof.ssa Faverio</div>
+    <div class="lesson-title">Fibrosi Cistica e Bronchiectasie</div>
+    <div class="lesson-meta">14/10/2022</div>
+  </div>
+
+  <!-- FIBROSI CISTICA -->
+  <div class="section">
+    <div class="section-title">1. Fibrosi Cistica</div>
+    <div class="highlight">
+      Chiamata anche <strong>mucoviscidosi</strong>: patologia autosomica recessiva con produzione di muco denso (non solo polmone, ma anche pancreas e altre ghiandole). Manifesta richiede entrambi i genitori eterozigoti. Manifestazioni più severe a livello polmonare; complicanze gastroenteriche.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Gene CFTR</div>
+        <div class="card-content">Localizzato sul cromosoma 7. Codifica per la proteina CFTR, sulla membrana apicale dell'epitelio delle vie aeree, tratto digerente, ghiandole sudoripare, apparato genito-urinario. CFTR è implicata nel trasporto dello ione Cl⁻ all'esterno della cellula → regola anche il trasporto di acqua → regola la viscosità delle secrezioni. Nuovi farmaci che "correggono" CFTR.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.1 Patogenesi</div>
+        <div class="card-content">
+          Secrezioni anomale: <strong>sudore ricco in Na e Cl</strong>, <strong>muco denso e vischioso</strong> → ostruzione dotti → infezioni croniche → rimodellamento parenchima. Il muco denso crea tappi → i batteri colonizzano → <strong>bronchiectasie</strong>. Può causare atelettasie.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.2 Complicanze polmonari</div>
+        <div class="card-content">
+          Ostruzione + infiammazione + infezione croniche. Batteri: <strong>Staphylococcus aureus</strong> (stadi precoci) e <strong>Pseudomonas aeruginosa</strong> (stadi avanzati, in biofilm). Anche Burkholderia cepacia (7% adulti FC). Insufficienza respiratoria → O₂-terapia, ipertensione polmonare, cuore polmonare.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.3 Complicanze extrapolmonari</div>
+        <div class="card-content">
+          <strong>Insufficienza pancreatica</strong> (85-90%): esocrina → steatorrea, malassorbimento; endocrina (10%) → diabete insulino-dipendente. Via biliare: cirrosi biliare 4-5%. Sterilità maschile.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.4 Diagnosi FC</div>
+        <div class="card-content">
+          <strong>Test del sudore</strong> (primo livello): concentrazione Cl⁻ nel sudore >60 mEq/L → diagnosi.<br>
+          <strong>Analisi genetica</strong> (gold standard): ricerca di tutte le possibili mutazioni CFTR.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.5 Gestione del paziente FC</div>
+        <div class="card-content">
+          Approccio <strong>multidisciplinare</strong>: pneumologo + broncoscopista + infettivologo + infermiere + psicologo + nutrizionista + fisioterapista. Centro di riferimento per la Lombardia: Policlinico di Milano.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRONCHIECTASIE -->
+  <div class="section">
+    <div class="section-title">2. Bronchiectasie</div>
+    <div class="highlight">
+      <strong>Dilatazione dei bronchi</strong> (forme variabili di gravità). Forme meno gravi quando l'anatomia del bronco è conservata (<strong>cilindriche o fusiformi</strong>, sistema ciliare conservato); più gravi quando l'anatomia è alterata (<strong>varicoidi o cistiche</strong>). Circolo vizioso: alterazione anatomica → difficile eliminazione secrezioni → infezione + infiammazione → ulteriore rimodellamento.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2.1 Diagnosi</div>
+        <div class="card-content">
+          <strong>TC torace ad alta risoluzione</strong>: gold standard. Se bronco ha dimensione maggiore del vaso adiacente → bronchiectasia. RX torace non fa diagnosi, ma bronchiectasie significative con pareti ispessite danno "immagine a binario". Broncorafia (pre-TAC): inalazione sostanza radio-opaca.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.2 Cause (non-FC)</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Fumo di sigaretta</span>
+            <span class="pill">Pregresse infezioni</span>
+            <span class="pill">Patologie autoimmuni (AR, Sjögren)</span>
+            <span class="pill">ABPA (Aspergillosi allergica)</span>
+            <span class="pill">Immunodeficienze</span>
+            <span class="pill">Patologie intestinali croniche (Crohn, colite)</span>
+            <span class="pill">BPCO</span>
+            <span class="pill">Deficit α1-antitripsina</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.3 Sintomatologia</div>
+        <div class="card-content">
+          <strong>Tosse cronica</strong>, <strong>catarro abbondante</strong> spesso purulento, <strong>emoftoe</strong>, storia di <strong>infezioni polmonari frequenti</strong>. Caso tipico: giovane, non fumatore, tosse persistente.<br>
+          Diagnosi differenziale principale: <strong>BPCO</strong> (età e storia del paziente distinguono).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.4 Valutazione della gravità</div>
+        <div class="card-content">Non legata solo all'evidenza radiologica: valutare infezioni in atto, colonie batteriche (spesso Pseudomonas), esacerbazioni frequenti, funzionalità (spirometria).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.5 Infezioni correlate</div>
+        <div class="card-content">
+          Batteri più coinvolti: <em>Haemophilus influenzae</em>, <em>Streptococcus pneumoniae</em> (più facili da gestire vs FC); anche <em>S. aureus</em>, <em>Moraxella catharralis</em>, micobatteri non-TBC (difficili da eradicare: almeno 1 anno + 3 mesi di terapia antibiotica).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fisioterapia Respiratoria</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Scopo</div>
+        <div class="card-content">Disostruire i bronchi + favorire buona prestazione meccanica dei muscoli respiratori. Obiettivo: evitare ristagno secrezioni, evitare atelettasie, ridurre riacutizzazioni (soprattutto FC).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tecniche principali</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>PEP bottiglia</strong>: pressione espiratoria positiva, allena muscoli respiratori</li>
+            <li><strong>Acapella</strong>: soffia contro una molla + sistema vibratorio</li>
+            <li><strong>Drenaggio posturale</strong>: posizioni che facilitano il drenaggio</li>
+            <li><strong>Coach</strong>: rinforza muscolatura respiratoria</li>
+            <li><strong>Cough assist</strong>: pressioni inspiratorie ed espiratorie simulate via maschera per pazienti con secrezioni dense</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Il Fumo (cenni, non argomento d'esame)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">4.1 Abitudine tabagica</div>
+        <div class="card-content">L'80% dei pazienti vorrebbe smettere; solo il 3% riesce senza supporto; sale all'8% con supporto psicologico, al 30-40% con counselling + farmaci.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.2 Sospensione del fumo</div>
+        <div class="card-content">
+          Fase pre-contemplativa / contemplativa → preparazione → azione → mantenimento → (ricaduta).<br>
+          <strong>Test di Fagerstrom</strong> (6 domande): classifica la dipendenza da nicotina in 4 categorie → indirizza al centro anti-fumo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.3 Centro anti-fumo</div>
+        <div class="card-content">Ambulatorio pneumologico con visite settimanali per 4-6 settimane. Terapia farmacologica: <strong>nicotina</strong> (cerotto o gomma), <strong>bupropione</strong>, <strong>vareniclina</strong> (duplice effetto: agonista recettori nicotinici, evita crisi di astinenza).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.4 Sigaretta elettronica</div>
+        <div class="card-content">Non contiene prodotti di combustione (no catrame) ma contiene metalli pesanti. Genera vapore via glicole propilenico + glicerolo. Mancano controlli standardizzati. Non si conosce l'effetto a lungo termine.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l3 -->
+
+</body>
+</html>
