@@ -27,9 +27,9 @@
       "categoryId": "altro"
     {
     {
-  "id": "Polmoniti",
+  "id": "polmoniti",
   "label": "Polmoniti",
-  "file": "apps/lez2_polmoniti.html",
+  "file": "apps/Pneumo/lez2_polmoniti.html",
   "categoryId": "Pneumologia"
 }
   ]
