@@ -9,13 +9,6 @@
   ],
   "categories": [
     {
-      "id": "cardiologia",
-      "name": "Cardiologia",
-      "icon": "🫀",
-      "color": "#e05b6b",
-      "groupId": "pmc1"
-    },
-    {
       "id": "pneumologia",
       "name": "Pneumologia",
       "icon": "🫁",
@@ -23,7 +16,7 @@
       "groupId": "pmc1"
     },
     { "id": "metodologia-clinica", "name": "Metodologia Clinica", "icon": "🩺", "color": "#e0c45b", "groupId": "pmc1" },
-    { "id": "malattie-cv", "name": "Malattie Cardiovascolari", "icon": "❤️", "color": "#e07c5b", "groupId": "pmc1" },
+    { "id": "malattie-cv", "name": "Malattie Cardiovascolari", "icon": "🫀", "color": "#e07c5b", "groupId": "pmc1" },
     { "id": "chirurgia-vascolare", "name": "Chirurgia Vascolare", "icon": "🩸", "color": "#5bcfe0", "groupId": "pmc1" },
     {
       "id": "altro",
