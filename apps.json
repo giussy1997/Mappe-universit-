@@ -65,7 +65,7 @@
 { "id": "cv-lez2", "label": "Fattori di Rischio", "file": "apps/Malattie cardiovascolari/lez2_fattori_rischio.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez3", "label": "Sonno", "file": "apps/Malattie cardiovascolari/lez3_sonno.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez4", "label": "Aritmie Brambilla", "file": "apps/Malattie cardiovascolari/lez4_aritmie_brambilla.html", "categoryId": "malattie-cv" },
-{ "id": "cv-lez5", "label": "Scompenso", "file": "apps/Malattie cardiovascolari/lez5-6_scompenso.html", "categoryId": "malattie-cv" },
+{ "id": "cv-lez5-6", "label": "Scompenso", "file": "apps/Malattie cardiovascolari/lez5-6_scompenso.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez7", "label": "Elettrofisiologia", "file": "apps/Malattie cardiovascolari/lez7_elettrofisiologia.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez8", "label": "Telemedicina", "file": "apps/Malattie cardiovascolari/lez8_telemedicina.html", "categoryId": "malattie-cv" },
 { "id": "cv-lez9", "label": "Ipertensione Polmonare", "file": "apps/Malattie cardiovascolari/lez9_ipertensione_polmonare.html", "categoryId": "malattie-cv" },
