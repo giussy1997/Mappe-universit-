@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch. Cardiovascolare #4 — Succlavia & Aneurismi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chirurgia Cardiovascolare #4 — Prof. Froio · 28/10/2022</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Furto Succlavia</button>
+    <button class="s2"        onclick="show('s2',this)">Aneurismi — Classificazione</button>
+    <button class="s3"        onclick="show('s3',this)">Aneurismi — Clinica & Screening</button>
+    <button class="s4"        onclick="show('s4',this)">Pseudoaneurisma</button>
+  </nav>
+</header>
+
+<!-- S1: Furto Succlavia -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #4 · Prof. Froio</div>
+    <div class="lesson-title">Sindrome da Furto della Succlavia</div>
+    <div class="lesson-meta">28/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Meccanismo del furto</div>
+    <div class="highlight">
+      Stenosi all'ostio della succlavia sx (7 mm vs anonima dx ~14 mm → stesso ateroma produce stenosi 70% a sx ma solo 33% a dx) → calo pressione → gradiente → la succlavia ruba sangue dalla <strong>vertebrale</strong>: sangue sale dall'anonima → vertebrale dx → tronco encefalico → vertebrale sx <em>contromano</em> → succlavia.<br>
+      Il furto avviene soprattutto quando ↑ attività metabolica dell'arto superiore.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Circoli collaterali della succlavia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Via della mammaria interna</div>
+        <div class="card-content">
+          Succlavia occlusa → sangue sale da: iliaca esterna → epigastrica inferiore (contromano) → epigastrica superiore (contromano) → <strong>mammaria interna</strong> (contromano) → arto superiore.<br>
+          ⚠️ Una fistola artero-venosa da dialisi all'avambraccio può <strong>rubare sangue al bypass di mammaria interna</strong> (resistenze vena &lt;&lt; resistenze miocardio).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Occlusione aorta addominale (inverso)</div>
+        <div class="card-content">Sangue scende: mammaria interna → epigastrica superiore → epigastrica inferiore (contromano) → iliaca esterna.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Clinica & Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi — TIA vertebrobasilare</div>
+        <div class="card-content">
+          Ipoperfusione del tronco encefalico (cervelletto) → <strong>caduta, disturbi della vista, sincope, vertigine, atassia</strong>.<br>
+          Nei casi gravi: ictus.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">
+          EO: <strong>pressione differenziale</strong> tra le due braccia (sempre misurare entrambi i lati).<br>
+          Polso assente o ridotto sul lato stenotico.<br>
+          Misurare la pressione bilateralmente anche nei <strong>pazienti dissecati</strong> (la succlavia sx può chiudersi).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Aneurismi - Classificazione -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #4 · Aneurismi</div>
+    <div class="lesson-title">Aneurismi — Classificazione & Fisiopatologia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione e diametri di riferimento</div>
+    <div class="highlight">
+      <strong>Aneurisma</strong>: dilatazione dell'arteria &gt;50% del diametro normale (sicuramente se raddoppiato).<br>
+      <strong>Ectasia</strong>: dilatazione iniziale, a metà tra normale e aneurismatico.<br>
+      Diametri normali: carotide interna 5 mm, coronarie/cerebrali/tibiali 3 mm, <strong>aorta addominale 15 mm</strong> → aneurisma se &gt;30 mm.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Aneurisma vero</div>
+        <div class="card-content">Parete costituita da tutte e 3 le tonache (intima, media, avventizia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pseudoaneurisma (falso)</div>
+        <div class="card-content">Cedimento della parete → sangue fuoriescito coagula formando una sacca. Parete fatta di <strong>coagulo</strong>, non di tonache.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione morfologica e per sede (AAA)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fusiforme</div>
+        <div class="card-content">50% dx + 50% sx. Patologia della tonaca media degenerativa. Forma più comune.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sacciforme ⚠️ più pericoloso</div>
+        <div class="card-content">Tutto l'aumento di diametro su un solo lato (punto di debolezza focale). Spesso intracranico, malformativo (nei giovani). I fusiformi sono degenerativi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sottorenale</div>
+        <div class="card-content">Colletto sano sotto le renali → clampaggio sottorenale tollerato per ore (circoli collaterali). Più comune.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Juxtarenale</div>
+        <div class="card-content">Diametro normale sotto le renali ma senza colletto.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Para-renale / Soprarenale</div>
+        <div class="card-content">Clampaggio soprarenale max <strong>15-20 min</strong> (necrosi renale dopo 40 min) → perfusione fredda renale (tolleranza fino a 50 min) → se toraco-addominale: circolazione assistita.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia & Fattori di rischio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismo</div>
+        <div class="card-content">
+          Patologia cronica, degenerativa, infiammatoria della <strong>tonaca media</strong>. MMP degradano la matrice extracellulare:<br>
+          Elastina degradata → vaso rigido.<br>
+          Collagene degradato → matrice lassa → ↑ diametro.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori di rischio</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Fumo di sigaretta</strong> (principale)</li>
+            <li>Ipertensione</li>
+            <li>Età (media 75 anni)</li>
+            <li>Genere maschile</li>
+            <li>Familiarità (1 su 6 è familiare) → screening da 50 anni</li>
+            <li>Aterosclerosi</li>
+          </ul>
+          Il diabete <strong>rallenta</strong> la crescita di 0.51 mm/anno.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polidistrettualità</div>
+        <div class="card-content">Sempre indagare le 3 sedi: <strong>aorta toracica</strong> (10% dei pazienti con AAA), <strong>aorta addominale</strong>, <strong>arteria poplitea</strong> (1-10%).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Aneurismi - Clinica & Screening -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #4 · Aneurismi — Clinica</div>
+    <div class="lesson-title">Aneurismi — Clinica, Screening & Trattamento</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Epidemiologia & prognosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Dati epidemiologici</div>
+        <div class="card-content">
+          13ª causa di morte. <strong>3000 morti/anno</strong> in Italia (un eco addome salverebbe tutti).<br>
+          Incidenza: 21/100.000. Prevalenza: 9% sopra i 75 anni.<br>
+          Incidenza in calo (↓ fumo).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mortalità</div>
+        <div class="card-content">
+          Tutti gli aneurismi non trattati si rompono. Mortalità in caso di rottura: <strong>80%</strong>.<br>
+          Intervento di elezione: mortalità <strong>3%</strong> (chirurgia aperta) o <strong>1%</strong> (endovascolare EVAR).<br>
+          50% dei sopravvissuti alla rottura muore in TI per danno da ischemia-riperfusione.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Studio RESCAN — crescita e rischio di rottura</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Crescita media</div>
+        <div class="card-content">
+          2.2 mm/anno (media).<br>
+          Piccoli: 1.3 mm/anno · Grandi: 3.6 mm/anno.<br>
+          Fumo: +16% crescita. Diabete: −0.51 mm/anno.<br>
+          <strong>Legge di Laplace</strong>: T = P×r/2h → crescita esponenziale.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Rischio di rottura per diametro</div>
+        <div class="card-content">
+          <strong>&lt;4 cm</strong>: 0%/anno<br>
+          <strong>4-5 cm</strong>: 0.5-5%<br>
+          <strong>5-6 cm</strong>: 3-15%<br>
+          <strong>6-7 cm</strong>: 10-20%<br>
+          <strong>7-8 cm</strong>: 20-40%<br>
+          <strong>&gt;8 cm</strong>: 30-50%
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Indicazioni all'intervento</div>
+        <div class="card-content">
+          <strong>&lt;5.0 cm</strong>: no intervento (rischi op. &gt; benefici)<br>
+          <strong>5.0-5.5 cm</strong>: area grigia (discutere col paziente)<br>
+          <strong>&gt;5.5 cm</strong>: operare<br>
+          Controllo ogni 3 mesi a &gt;50 mm, annuale a 3.9-4.9 cm.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Valutazione clinica e diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi alla rottura ⚠️ emergenza</div>
+        <div class="card-content">
+          <ul>
+            <li>Dolore addominale o lombalgia</li>
+            <li>Massa pulsante periombelicale espandibile</li>
+            <li>Shock ipovolemico</li>
+            <li>Scomparsa dei polsi femorali</li>
+            <li>Arresto cardiaco</li>
+          </ul>
+          ⚠️ Può presentarsi con sola lombalgia (diagnosi differenziale con colica renale!).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">
+          <strong>Ecodoppler</strong>: lume centrale + apposizione trombotica periferica (rischio emboligeno quasi nullo → no scoagulazione, ma <strong>antiaggregante</strong>).<br>
+          <strong>D-dimero</strong>: aspecifico. Se nella norma: 99.5% no patologia trombotica attiva.<br>
+          <strong>TAC</strong>: per pianificazione intervento.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">EVAR (endovascolare) 🟢 preferito</div>
+        <div class="card-content">Endoprotesi impiantata dall'inguine, diametro 20% più grande del colletto aortico → si ancora alle pareti. Mortalità 1%. Necessita TAC pre-operatoria per misurare colletti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Chirurgia aperta 🟢</div>
+        <div class="card-content">Clampaggio aorta sottorenale + sostituzione con tubo protesico retto o biforcato. Mortalità 3%.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Pseudoaneurisma -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #4 · Pseudoaneurisma</div>
+    <div class="lesson-title">Pseudoaneurisma — Cause, Clinica & Trattamento</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Post-cateterizzazione (più freq., 2%)</div>
+        <div class="card-content">
+          Puntura in sede errata (non in femorale comune ma più in basso → no piano osseo → no emostasi efficace).<br>
+          Sede corretta: femorale comune a livello della testa del femore, sotto il legamento inguinale.<br>
+          ⚠️ Nei pazienti obesi la piega inguinale scende di 3-15 cm rispetto al legamento → usare ecografo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Traumatico</div>
+        <div class="card-content">Trauma diretto all'arteria.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Infettivo (anastomotico)</div>
+        <div class="card-content">Batterio lisa la parete arterio nella zona di anastomosi/sutura vascolare.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori di rischio per PSA post-cateterizzazione</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Fattori principali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Sito di puntura errato (troppo alto o basso)</span>
+            <span class="pill">Dispositivi &gt;9 Fr</span>
+            <span class="pill">Obesità</span>
+            <span class="pill">Compressione post-procedurale inadeguata (&lt;15 min)</span>
+            <span class="pill">Mobilizzazione precoce</span>
+            <span class="pill">Terapia antiaggregante/anticoagulante</span>
+            <span class="pill">Arteria con ateroma (no piano solido + flap intimale)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Clinica & Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Segni all'ispezione</div>
+        <div class="card-content">Tumefazione, ecchimosi (nell'uomo si estende verso pene/scroto), dolore, <strong>massa pulsante</strong>, soffio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi differenziale con emorragia</div>
+        <div class="card-content">
+          Entrambi si presentano allo stesso modo clinicamente.<br>
+          <strong>Emorragia</strong>: paziente ipoteso → emergenza.<br>
+          <strong>Ematoma non rifornito</strong>: paziente normoteso → valutare Hb.<br>
+          Conferma: <strong>ecodoppler</strong> (segnale tipico: flusso entra in sistole ed esce in diastole).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Medicazioni compressive 🟢</div>
+        <div class="card-content">Se Hb stabile e no shock → medicazioni compressive + rivalutazione nei giorni successivi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iniezione di trombina 🟢 (90% dei casi)</div>
+        <div class="card-content">Se Hb scende → iniezione di <strong>trombina</strong> eco-guidata nel PSA (converte fibrinogeno → fibrina → coagulo). Richiede la presenza di un colletto. Trattamento del 90% dei PSA iatrogeni.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Chirurgia 🟢</div>
+        <div class="card-content">Se: no colletto, infezione del PSA, trombina inefficace, complicanze.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trauma chiuso dell'aorta toracica (BTAI)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Epidemiologia</div>
+        <div class="card-content">1% di tutti gli incidenti ma 16% delle morti. 80% dei pazienti muore prima di arrivare in ospedale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classificazione gradi (aorta istimica)</div>
+        <div class="card-content">
+          <strong>Grado I</strong>: rottura tonaca intima<br>
+          <strong>Grado II</strong>: ematoma intramurale<br>
+          <strong>Grado III</strong>: pseudoaneurisma<br>
+          <strong>Grado IV</strong>: sanguinamento attivo = morte certa<br>
+          Trattamento: TEVAR (endoprotesi toracica).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

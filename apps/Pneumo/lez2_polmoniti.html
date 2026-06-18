@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 2 — Polmoniti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Lezione 2</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Eziologia & Classificazione</button>
+    <button class="s2"        onclick="show('s2',this)">Polmonite lobare</button>
+    <button class="s3"        onclick="show('s3',this)">Diagnosi & Score</button>
+    <button class="s4"        onclick="show('s4',this)">Terapia antibiotica</button>
+  </nav>
+</header>
+
+<!-- S1: Eziologia & Classificazione -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Prof. Faverio</div>
+    <div class="lesson-title">Polmoniti</div>
+    <div class="lesson-meta">12/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione e diagnosi</div>
+    <div class="highlight">
+      Infiammazione del parenchima polmonare ad <strong>eziologia infettiva</strong>. Può iniziare a livello bronchiale poi diffondersi al parenchima, o arrivare per via ematogena. Consolidamento all'Rx torace (non sempre presente, es. polmonite interstiziale). <strong>3 elementi per la diagnosi: clinica + Rx torace + esami laboratorio</strong> (PCR, procalcitonina, emocromo).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Eziologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Batteri principali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">S. Pneumoniae (più comune)</span>
+            <span class="pill">S. Aureus (setting ospedalieri)</span>
+            <span class="pill">Legionella pneumophila</span>
+            <span class="pill">Chlamydophila pneumoniae</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Virus</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Coronavirus</span>
+            <span class="pill">Influenzavirus</span>
+            <span class="pill">Adenovirus</span>
+            <span class="pill">Rhinovirus</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Patogeni opportunisti (immunodepressi)</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Pneumocystis jirovecii</span>
+            <span class="pill">Aspergillo</span>
+            <span class="pill">Parassiti</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fattori predisponenti</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fattori principali</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Immunodepressione</strong></li>
+            <li>Fumo di sigaretta (↓ clearance ciliare)</li>
+            <li>Abuso alcolico</li>
+            <li>Terapia corticosteroidea / immunosoppressori</li>
+            <li>Età avanzata</li>
+            <li>Patologie polmonari pre-esistenti (BPCO, fibrosi cistica, bronchiectasie)</li>
+            <li>Alterato riflesso della tosse (post-chirurgia toracica o addominale, ictus, disfagia)</li>
+            <li>Intubazione / ventilazione meccanica</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite da aspirazione</div>
+        <div class="card-content">
+          Disfagia → inalazione cibo/secrezioni. Anche insulto chimico da succhi gastrici (pH basso). Più frequente in anziani neurologici.<br>
+          Diagnosi: tossisce molto mentre beve/mangia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.1 Classificazione epidemiologica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">CAP — acquisita in comunità</div>
+        <div class="card-content">Acquisita fuori dall'ospedale. Prevalentemente batteri <strong>non multiresistenti</strong>. Terapia di prima linea, no necessità di coprire MDR.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">HAP — acquisita in ospedale</div>
+        <div class="card-content">
+          <strong>Early onset</strong>: prime 72–96h dal ricovero.<br>
+          <strong>Late onset</strong>: dopo 96h (flora MDR ospedaliera sostituisce quella normale → terapia più aggressiva).<br>
+          S. Aureus HAP: molto probabilmente <strong>meticillino-resistente (MRSA)</strong> → antibiotici 2°/3° linea.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite da aspirazione</div>
+        <div class="card-content">Coprire <strong>batteri anaerobi</strong> (non necessario nella CAP) + gram-negativi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite da immunocompromesso</div>
+        <div class="card-content">Anche patogeni non frequenti (Pneumocystis, Aspergillo). Accertamenti microbiologici urgenti. Multiterapia immediata (3–4 antibiotici + antifungini + antiparassitari). Impatto epatico rilevante.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.3 Classificazione anatomopatologica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Polmonite lobare tipica</div>
+        <div class="card-content">Consolidamento lobare in Rx. Causata da batteri. Alveoli riempiti di essudato in 4 fasi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite interstiziale atipica</div>
+        <div class="card-content">Causa virale (COVID-19, influenza). Pattern interstiziale, non consolidamento classico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Broncopolmonite</div>
+        <div class="card-content">Infezione bronchiale → espansione al parenchima. Pattern <em>patchy</em> all'Rx (tanti piccoli focolai).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite necrotizzante</div>
+        <div class="card-content">Forma più grave. Focolai di necrosi con buchi nel consolidamento lobare alla lastra. Spesso causata da <strong>S. Aureus</strong>. Parziale necrosi parenchimale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Polmonite lobare -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Polmonite lobare</div>
+    <div class="lesson-title">Le 4 Fasi della Polmonite Lobare Tipica</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.3.1 Le 4 fasi della polmonite lobare (1 settimana-10 giorni)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1. Congestione</div>
+        <div class="card-content">
+          Batterio raggiunge l'alveolo → risposta infiammatoria → stravaso di materiale del sistema immunitario (ancora liquido).<br>
+          <strong>EO</strong>: <em>crepitii</em> al posto del murmure vescicolare (<em>crepitatio indux</em>).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2. Epatizzazione rossa</div>
+        <div class="card-content">
+          Alveoli completamente riempiti di essudato solidificato. Extravaso di GB, GR, PLT. Polmone assume aspetto di organo parenchimatoso + colore rosso per GR.<br>
+          <strong>EO</strong>: abolizione MV + assenza crepiti. Percussione: ottusità. Fremito vocale tattile: <strong>aumentato</strong> (trasmissione del suono attraverso essudato).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">3. Epatizzazione grigia</div>
+        <div class="card-content">
+          I GR si lisano. L'essudato diventa grigio. Sistema immunitario + antibiotico in piena azione.<br>
+          <strong>EO</strong>: stessi segni dell'epatizzazione rossa.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4. Risoluzione</div>
+        <div class="card-content">
+          L'essudato viene riassorbito e il polmone torna normale. Si risentono i crepiti (<em>crepitatio redux</em>) e poi ritorna il MV.<br>
+          La febbre scende.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Differenze EO polmonite vs atelettasia vs versamento</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Confronto reperti</div>
+        <div class="card-content">
+          <strong>Polmonite</strong>: MV abolito, fremito aumentato (bronchi pervi → suono condotto dall'essudato).<br>
+          <strong>Atelettasia</strong>: MV abolito, fremito ridotto (bronco ostruito → nessuna conduzione del suono).<br>
+          <strong>Versamento pleurico</strong>: MV ridotto/assente, fremito ridotto, ottusità "in salita" alle basi.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Diagnosi & Score -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Diagnosi & Score</div>
+    <div class="lesson-title">Diagnosi e Stratificazione del Rischio</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Diagnosi microbiologica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Espettorato</div>
+        <div class="card-content">Coltura batterica. Prelevare prima dell'antibiotico per massimizzare la resa. Poca sensibilità (spesso contaminato).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Broncoaspirato / BAL</div>
+        <div class="card-content">Più specifico dell'espettorato perché meno contaminato dalle prime vie aeree.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Emocoltura</div>
+        <div class="card-content">Permetterebbe di trovare il batterio nel sangue. Positiva nel 10–15% delle CAP gravi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Antigeni urinari</div>
+        <div class="card-content"><strong>Legionella</strong> e <strong>S. Pneumoniae</strong>: antigeni urinari disponibili in circa 15 minuti. Molto utili per diagnosi rapida.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sierologia</div>
+        <div class="card-content">Per batteri atipici. Richiede siero acuto + siero in convalescenza (IgM/IgG). Poco pratica ma utile retroattivamente.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Score di gravità CAP — PSI e CURB-65</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">CURB-65 (più usato in Italia)</div>
+        <div class="card-content">
+          1 punto per ciascuno:<br>
+          <strong>C</strong>: Confusione mentale<br>
+          <strong>U</strong>: Urea &gt;7 mmol/L<br>
+          <strong>R</strong>: FR ≥30/min<br>
+          <strong>B</strong>: PAS &lt;90 o PAD ≤60 mmHg<br>
+          <strong>65</strong>: età ≥65 anni<br>
+          <em>0–1</em>: ambulatoriale · <em>2</em>: ospedale · <em>≥3</em>: UTI
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">PSI (Pneumonia Severity Index)</div>
+        <div class="card-content">
+          Score più dettagliato. Classi I–V.<br>
+          Considera: età, comorbidità, esame obiettivo, laboratorio, Rx.<br>
+          Classi I–III: bassa mortalità, domicilio.<br>
+          Classi IV–V: alta mortalità, ospedale/UTI.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Terapia -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Terapia</div>
+    <div class="lesson-title">Terapia Antibiotica delle Polmoniti</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Approccio alla terapia antibiotica empirica</div>
+    <div class="highlight">
+      La terapia va iniziata <strong>empiricamente</strong> (prima del risultato microbiologico) in base alla classificazione epidemiologica. Si <strong>descala</strong> quando arrivano i risultati.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">CAP — trattamento ambulatoriale</div>
+        <div class="card-content">
+          <strong>No comorbidità</strong>: Amoxicillina o Doxiciclina o Macrolide.<br>
+          <strong>Con comorbidità</strong> (DM, BPCO, alcol, immunosoppressione): Amoxicillina-clavulanato + macrolide o fluorochinolone respiratorio.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">CAP — ospedalizzata</div>
+        <div class="card-content">
+          <strong>Non severa</strong>: β-lattamico + macrolide oppure fluorochinolone.<br>
+          <strong>Severa (UTI)</strong>: β-lattamico + macrolide IV o fluorochinolone IV. Se sospetto Pseudomonas: piperacillina-tazobactam o carbapenemico.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">HAP / VAP</div>
+        <div class="card-content">
+          Early onset: coprire batteri gram-negativi comuni.<br>
+          Late onset: <strong>MDR coverage</strong> — piperacillina-tazobactam, cefalosporine 3°–4° gen., carbapenemici. Se sospetto MRSA: <strong>Vancomicina o Linezolid</strong>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite da aspirazione</div>
+        <div class="card-content">
+          Aggiungere copertura per <strong>anaerobi</strong>: Amoxicillina-clavulanato o Clindamicina + β-lattamico. Gram-negativi enteropatogeni anch'essi da coprire.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite da Legionella</div>
+        <div class="card-content">
+          <strong>Fluorochinolone (Levofloxacina)</strong> o Azitromicina IV. I β-lattamici non sono efficaci (batterio intracellulare).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite virale / COVID-19</div>
+        <div class="card-content">
+          Trattamento di supporto (ossigenoterapia, CPAP, ventilazione meccanica).<br>
+          COVID-19 grave: <strong>Desametasone</strong> (immunomodulatore) + eventuali antivirali.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

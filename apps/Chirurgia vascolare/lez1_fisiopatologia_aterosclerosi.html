@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lez 1 — Fisiopatologia Vascolare & Aterosclerosi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; } nav button.s5 { --c: #7b4ea6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; } .s5 { --c: #7b4ea6; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chirurgia Cardiovascolare — Lez. 1 · Prof. Froio · 30/09/2022</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Anatomia & Concetti</button>
+    <button class="s2"        onclick="show('s2',this)">Embolia & Trombosi</button>
+    <button class="s3"        onclick="show('s3',this)">Aterosclerosi</button>
+    <button class="s4"        onclick="show('s4',this)">Placca & Complicanze</button>
+    <button class="s5"        onclick="show('s5',this)">Esame Obiettivo</button>
+  </nav>
+</header>
+
+<!-- S1: Anatomia & Concetti -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Prof. Froio</div>
+    <div class="lesson-title">Fisiopatologia Vascolare & Aterosclerosi</div>
+    <div class="lesson-meta">30/09/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Anatomia vascolare — 3 tonache</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tonaca Intima</div>
+        <div class="card-content">Sede dell'<strong>aterosclerosi</strong> (spazio sub-endoteliale: tra lamina basale e lamina elastica interna). Endotelio: ruolo antinfiammatorio, antitrombotico, antiproliferativo in condizioni fisiologiche → diventa <strong>pro-trombotico</strong> in caso di disfunzione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tonaca Media</div>
+        <div class="card-content">Cellule muscolari lisce, collagene, elastina. Sede della <strong>patologia aneurismatica</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tonaca Avventizia</div>
+        <div class="card-content">Ospita i <strong>vasa vasorum</strong> → accesso delle cellule infiammatorie. Un tempo ritenuta superflua, oggi fondamentale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Concetti chiave: gradiente di gravità</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Ipoperfusione</div>
+        <div class="card-content">↓ quantità di sangue al parenchima. Durata variabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ipossia</div>
+        <div class="card-content">Sangue poco ossigenato (problema respiratorio) o assenza di perfusione (emodinamica). Evento <strong>transitorio</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ischemia</div>
+        <div class="card-content">Apporto insufficiente per le normali funzioni metaboliche. <strong>Reversibile</strong>. Muscolo → acido lattico → dolore (angina pectoris). Cervello → perdita di funzione (non dolore).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Necrosi</div>
+        <div class="card-content">Morte cellulare. Evento <strong>irreversibile</strong>. L'infarto può avvenire in qualsiasi parenchima (cervello, rene, intestino, polmone…).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Anastomosi & Circoli collaterali</div>
+    <div class="highlight">
+      Le anastomosi garantiscono backup in caso di compressione posturale o occlusione. L'<strong>arteria terminale</strong> (es. coronarie) non ha collaterali → occlusione = necrosi nel 100% dei casi. Il <strong>Poligono di Willis</strong> è il sistema anastomotico più efficiente del corpo (7–9 lati).
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Arteria femorale superficiale</div>
+        <div class="card-content">Prima a chiudersi nei vasculopatici → spesso asintomatica grazie ai <strong>circoli collaterali</strong> della femorale profonda (bypass naturale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Poligono di Willis (da sapere)</div>
+        <div class="card-content">Arteria basilare + 2 cerebrali posteriori (P1) + 2 comunicanti posteriori + 2 cerebrali anteriori (A1) + comunicante anteriore (± 2 carotidi interne = 9 lati). Compensa il circolo dx con sx e anteriore con posteriore.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Declinazioni per distretto</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Capo</div>
+        <div class="card-content"><strong>TIA</strong> (transitorio) / <strong>Ictus</strong> (necrotico). 80% ischemici, 20% emorragici. Amaurosi fugace = equivalente oculare ("tenda nera su un occhio").</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Torace</div>
+        <div class="card-content">Miocardio: <strong>angina pectoris</strong> (transitoria) → <strong>infarto</strong> (necrotico); esame dirimente: troponina. Polmone: doppia vascolarizzazione → infarto infrequente; è l'<strong>embolia</strong> a essere fatale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Addome</div>
+        <div class="card-content">Infarto intestinale: mortale, clinica vaga, no esami dirimenti. Rene: basta 25% funzionante per evitare dialisi. Fegato/Milza: doppia vascolarizzazione → infarto raro.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arti inferiori</div>
+        <div class="card-content"><strong>Claudicatio intermittens</strong> (ischemica transitoria). <strong>Gangrena</strong> = forma necrotica → amputazione. TVP → ristagno, edema, dolore, rischio <strong>embolia polmonare</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Embolia & Trombosi -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Embolia & Trombosi</div>
+    <div class="lesson-title">Meccanismi Tromboembolici</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trombosi</div>
+    <div class="highlight">
+      Occlusione di un vaso (arteria o vena), completa o parziale. Meccanismo finale dell'<strong>aterosclerosi</strong>: rottura del cappuccio fibroso → core lipidico a contatto con il lume → attivazione coagulazione (fattore tissutale) → occlusione.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Origini dell'embolo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cardio-embolica ★</div>
+        <div class="card-content">Trombo dal cuore → migra in periferia. <strong>Prima causa: fibrillazione atriale</strong> (terapia: anticoagulanti). Altre cause: endocardite, cedimento parete VS (aneurisma post-IMA), pervietà forame ovale (embolia paradossa).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Atero-embolica</div>
+        <div class="card-content">Rottura di ateroma su arteria grande (es. carotide interna 5–6 mm) → il trombo viene lavato via → <strong>embolizzazione</strong>. Arterie piccole (coronarie, cerebrali ~3 mm) → <strong>trombosi</strong> completa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Shaggy Aorta</div>
+        <div class="card-content">Rete di cristalli di colesterolo instabili (<em>loosely bound</em>) nella parete aortica → "pioggia di microemboli" verso cute, cervello, rene, tratto GI, midollo. <strong>Controindicazione assoluta allo stent carotideo</strong>. Diagnosi TAC: protrusioni ≥5 mm su ≥50% diametro.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trombofilia</div>
+        <div class="card-content">Coagulazione aumentata. Cause: tumori (trombosi paraneoplastica, può essere <strong>primo segno</strong> di neoplasia), terapia estro-progestinica.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fibrinolisi & risposta del corpo</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Sostanze fibrinolitiche endoteliali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Attivatore tissutale del plasminogeno (tPA)</span>
+            <span class="pill">Urochinasi</span>
+            <span class="pill">Streptochinasi</span>
+          </div>
+          Se occlusione piccola + fibrinolisi efficace → forma transitoria. Se no → necrosi. Obiettivo clinico: minimizzare la quota necrotica (es. trombectomia meccanica nell'ictus).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sindrome compartimentale</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Effetto massa in spazio chiuso</div>
+        <div class="card-content">Liquido incomprimibile in compartimento chiuso → ↑ pressione. Sedi: <strong>scatola cranica</strong> (→ craniectomia), <strong>logge muscolari</strong> (→ fasciotomia), <strong>cavità addominale</strong> (→ VAC therapy). Non risolvibile con paracentesi se il sangue è coagulato.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Aterosclerosi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Aterosclerosi</div>
+    <div class="lesson-title">Aterosclerosi — Fisiopatologia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & caratteristiche</div>
+    <div class="highlight">
+      Patologia delle arterie di <strong>medio-grande calibro</strong> (&gt;3 mm). Accumulo di lipidi nello spazio subendoteliale, alterato metabolismo lipidico, infiammazione cronica. Sede preferenziale: <strong>biforcazioni vascolari</strong> (turbolenza + basso shear stress). Carattere <strong>eccentrico</strong>: lesione sempre sulla parete laterale.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Componenti meccanica ed emodinamica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Componente meccanica</div>
+        <div class="card-content">Sede tipica: <strong>parete postero-laterale del seno carotideo</strong> (unica biforcazione dove il diametro all'origine è maggiore che a valle → struttura a campana → altissima turbolenza → rischio lesione endoteliale). <br><em>Seno carotideo</em> = barocettore. <em>Glomo carotideo</em> = chemocettore (pO₂, pCO₂).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Componente emodinamica</div>
+        <div class="card-content">Alterazione dello <strong>shear stress</strong> → endotelio modifica equilibrio tra fattori pro- e anti-trombotici.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Evoluzione della placca</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1. Stria lipidica (fatty streaks)</div>
+        <div class="card-content">Strisce gialle sull'endotelio (visibili post-mortem). Inizia a <strong>10–20 anni</strong>. <strong>Reversibile</strong>. Macrofagi (foam cells).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2. Placca fibrosa</div>
+        <div class="card-content">Cellule schiumose incluse in un core subendoteliale. Stenosi parziale <strong>fino al 30%</strong> circa. Non ancora emodinamicamente significativa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3. Ateroma</div>
+        <div class="card-content">Da stenosi <strong>40%</strong>. Necrosi nello spazio subendoteliale. Indicazione a <strong>terapia antiaggregante</strong>. Impatto emodinamico da <strong>50%</strong> in su (↓ pressione a valle).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Statine — farmaco chiave</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label" style="color: #3d8b6a;">Meccanismo & Indicazioni</div>
+        <div class="card-content">Inibitori dell'<strong>HMG-CoA reduttasi</strong> → ↓ sintesi endogena di colesterolo (via mevalonato). Usate non solo per ↓ LDL ma soprattutto per <strong>spegnere l'infiammazione</strong> dell'ateroma (↓ metalloproteasi → stabilizzazione cappuccio fibroso). <br>Target LDL: &lt;50 nei diabetici. <strong>Il 90% dei pazienti vascolari</strong> dovrebbe assumerle. Effetti pleiotropici: antitrombotici + antiossidanti.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Placca & Complicanze -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Placca vulnerabile</div>
+    <div class="lesson-title">Placca Vulnerabile & Rimodellamento</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Composizione dell'ateroma e vulnerabilità</div>
+    <div class="highlight">
+      La <strong>rottura della placca è imprevedibile</strong>. Stenosi del 50% sono più pericolose del 90% (rischio rottura). Componenti: calcio, lipidi, emorragia intraplacca, collagene.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Fattori destabilizzanti</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Core lipidico</strong> abbondante</li>
+            <li><strong>Emorragia intraplacca</strong> (neo-angiogenesi dai vasa vasorum → rottura in sistole → espansione improvvisa)</li>
+            <li><strong>Noduli calcifici</strong> (calcificazioni puntiformi)</li>
+            <li>↑ metalloproteasi (MMP-9) → assottigliamento cappuccio fibroso</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#3d8b6a;">Fattori stabilizzanti</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Collagene</strong> (cappuccio fibroso spesso)</li>
+            <li><strong>Calcificazioni circonferenziali</strong> (diffuse)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cellula schiumosa (effettrice)</div>
+        <div class="card-content">Macrofago CD68+ attivato dai <strong>linfociti T</strong>. Secerne: MMP, IL-1, TNF-α → ↓ collagene del cappuccio fibroso. Le statine spengono le cellule schiumose.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Calcificazione: Calcium Score (Agatston)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Calcium Score Index</div>
+        <div class="card-content">TAC coronarica multistrato senza mdc. <strong>Score 0</strong>: rischio bassissimo di morte cardiaca a 7 anni. <strong>1–300</strong>: rischio intermedio. <strong>&gt;300</strong>: rischio elevato (HR 3,9). <em>Limite</em>: non distingue placca vulnerabile da stabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">IVUS vs Calcium Score</div>
+        <div class="card-content">Le placche <strong>colpevoli</strong> (da IVUS post-infarto) hanno <strong>poco calcio</strong>. Calcificazione non è né buona né cattiva in sé: conta il <strong>tipo</strong> (puntiforme = pericolosa; circonferenziale = stabile).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Complicanze dell'ateroma</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Ulcerazione</div>
+        <div class="card-content">Rottura del cappuccio fibroso → core lipidico svuotato → <strong>cratere</strong> che si riempie di piastrine → trombo → distacco → <strong>focolaio emboligeno</strong> → recidive ictus.</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Rottura di placca</div>
+        <div class="card-content">
+          <div class="flow">
+            <span class="flow-step">Trombolisi spontanea</span><span class="flow-arrow">→</span>
+            <span class="flow-step">guarigione</span>
+          </div>
+          <div class="flow" style="margin-top:6px">
+            <span class="flow-step">Piccola arteria</span><span class="flow-arrow">→</span>
+            <span class="flow-step">trombosi (es. coronarie)</span>
+          </div>
+          <div class="flow" style="margin-top:6px">
+            <span class="flow-step">Arteria grande</span><span class="flow-arrow">→</span>
+            <span class="flow-step">embolizzazione (es. carotide)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Rimodellamento vascolare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Positivo (↑ diametro avventizia-avventizia)</div>
+        <div class="card-content">↑ attività MMP → parete più lassa → <strong>placca vulnerabile</strong>. Inizialmente sembra benefico ma poi porta a rottura. MMP-9 = la più pericolosa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#3d8b6a;">Negativo (↓ diametro intima-intima)</div>
+        <div class="card-content">Stenosi progressiva → <strong>placca stabile</strong>. Causa angina da sforzo (non morte acuta). Processo lento → tempo per circoli collaterali.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Limiti clinici attuali</div>
+    <div class="highlight">
+      Oggi si indica il trattamento solo sulla <strong>% di stenosi</strong>. Non si valutano: tipo di rimodellamento, quota infiammatoria dell'ateroma. Tecniche sperimentali: <strong>PET</strong> con fluorodesossiglucosio (captato da macrofagi attivi). Approccio pratico: statine a prescindere dai valori di LDL.
+    </div>
+  </div>
+</div>
+
+<!-- S5: Esame Obiettivo -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Esame obiettivo</div>
+    <div class="lesson-title">Esame Obiettivo Vascolare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ispezione — colorazione cute</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Normale / Pallore</div>
+        <div class="card-content"><strong>Roseo</strong> = normale. <strong>Pallore</strong> (bianco) = vasocostrizione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Cianosi</div>
+        <div class="card-content">Colorazione blu = stasi (patologia venosa/respiratoria). <strong>Reversibile</strong>: scompare alla digitopressione (forma iniziale). <strong>Irreversibile</strong>: non scompare (forma cronica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Iperemia</div>
+        <div class="card-content">Colorazione rossa = flogosi (es. erisipela streptococcica). Il 95% delle TVP non è iperemico → la flogosi orienta verso infezione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Marezzatura & Gangrena</div>
+        <div class="card-content"><strong>Marezzatura</strong>: colori misti. <strong>Cancrena secca</strong>: mummificazione, causa ischemica, no batteri (diabete/aterosclerosi). <strong>Cancrena umida</strong>: infezione batterica, più pericolosa. <strong>Cancrena gassosa</strong>: batteri anaerobi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fenomeno di Raynaud</div>
+        <div class="card-content">Vasospasmo del microcircolo → estremità pallide. Eccessiva reattività della muscolatura liscia arteriolare a variazioni termiche o stress.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Edema: diagnosi differenziale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Edema dei tessuti molli (↑ distanza fascia–cute)</div>
+        <div class="card-content">Cause sistemiche (scompenso cardiaco, insufficienza renale, epatica → ipoalbuminemia). Bilaterale. <strong>Segno della fovea positivo</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">TVP (↑ distanza fascia–fascia)</div>
+        <div class="card-content">Mancato drenaggio venoso → accumulo intrafasciale. Prevalentemente <strong>monolaterale</strong>. <strong>Segno della fovea negativo</strong>. Obiettivabile solo con misurazione.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Palpazione — polsi periferici (★ manovra più importante)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Arto superiore</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Carotideo (comune)</span>
+            <span class="pill">Brachiale</span>
+            <span class="pill">Radiale (EGA)</span>
+            <span class="pill">Ulnare</span>
+          </div>
+          <strong>⚠ Non palpare mai entrambe le carotidi contemporaneamente!</strong>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arto inferiore</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Femorale (a metà lig. inguinale)</span>
+            <span class="pill">Popliteo (cavo popliteo)</span>
+            <span class="pill">Tibiale posteriore (retro malleolo mediale)</span>
+            <span class="pill">Pedidio (tendine estensore alluce)</span>
+          </div>
+          Almeno 1 polso periferico presente → non arteriopatico.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Test di Allen & ABI</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Test di Allen (obbligatorio pre-EGA)</div>
+        <div class="card-content">Verifica perfusione ulnare della mano prima di pungere/incannulare l'arteria radiale. <strong>Negativo</strong> (buono): mano torna rosea entro 10 sec dalla decompressione ulnare → idoneo al cateterismo. <strong>Positivo</strong> (patologico): controindicazione al cateterismo radiale → rischio necrosi mano.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ABI (Ankle-Brachial Index) — specialistico</div>
+        <div class="card-content">Pressione sistolica caviglia / pressione sistolica brachiale più alta. Range normale: ~1. Indicazioni: <strong>diabetici e fumatori &gt;50 anni</strong>, ultrasettantenni. Indice predittivo di mortalità cardiovascolare indipendente.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

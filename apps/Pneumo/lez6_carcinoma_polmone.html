@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 6 — Carcinoma del Polmone</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62;
+    --accent1: #c94040; --accent2: #2a6496; --accent3: #3d8b6a;
+    --accent4: #b07d2a; --accent5: #7b4fa6;
+    --card: #fffef9; --border: #d4ccc0;
+    --c: #c94040;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #c94040; } nav button.s2 { --c: #2a6496; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; } nav button.s5 { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; letter-spacing: .02em; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #c94040; } .s2 { --c: #2a6496; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; } .s5 { --c: #7b4fa6; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Lezione 6</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Sintomi & Tipologie</button>
+    <button class="s2"        onclick="show('s2',this)">Diagnosi</button>
+    <button class="s3"        onclick="show('s3',this)">Stadiazione</button>
+    <button class="s4"        onclick="show('s4',this)">Sistemi di guida</button>
+    <button class="s5"        onclick="show('s5',this)">Linfonodi mediastinici</button>
+  </nav>
+</header>
+
+<!-- S1: Sintomi & Tipologie -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 6 · Prof. Marruchella</div>
+    <div class="lesson-title">Carcinoma del Polmone</div>
+    <div class="lesson-meta">19/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Meccanismi di presentazione clinica</div>
+    <div class="highlight">
+      Il tumore del polmone è quasi sempre <strong>asintomatico</strong> finché il nodulo è nel parenchima. La clinica emerge con 4 meccanismi: tumore locale, progressione intratoracica, metastasi, sindromi paraneoplastiche.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1.1 Tumore locale</div>
+        <div class="card-content">
+          Tumori centrali → compressione/ostruzione grandi vie aeree:<br>
+          <ul>
+            <li><em>Tosse</em> (aspecifica)</li>
+            <li><em>Emoftoe</em></li>
+            <li><strong>Polmonite ricorrente nella stessa sede</strong> — campanello d'allarme</li>
+            <li><em>Wheezing</em> da ostruzione</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.2 Progressione intratoracica</div>
+        <div class="card-content">
+          <strong>Sindrome della vena cava superiore</strong>: compressione/invasione → ritorno venoso insufficiente → circoli collaterali, edema a mantellina, gonfiore, cefalea, disturbi visivi.<br><br>
+          <strong>Sindrome di Pancoast</strong>: tumore all'apice (5% NSCLC), invade plesso brachiale (C8–T1) → dolore + debolezza alla spalla con irradiazione ulnare.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sindrome di Horner</div>
+        <div class="card-content">
+          Sottotipo di Pancoast. Compressione catena paravertebrale del simpatico o ganglio stellato → 4 segni:<br>
+          <ul>
+            <li><em>Enoftalmo</em> (infossamento oculare)</li>
+            <li><em>Ptosi</em> palpebrale</li>
+            <li><em>Miosi</em> (pupilla ristretta)</li>
+            <li><em>Anidrosi</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altre sindromi da progressione</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Compressione nervo laringeo ricorrente</strong> → <em>disfonia repentina</em></li>
+            <li><strong>Compressione nervo frenico</strong> → paralisi diaframma ipsilaterale (sniff test positivo)</li>
+            <li><strong>Infiltrazione esofagea</strong> → disfagia progressiva</li>
+            <li><strong>Infiltrazione pericardica</strong> → versamento → tamponamento cardiaco (shock ostruttivo)</li>
+            <li><strong>Infiltrazione pleurica</strong> → versamento + dolore</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.3 Metastasi — sedi più comuni</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Organi bersaglio</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Fegato → insufficienza epatica</span>
+            <span class="pill">Scheletro → dolore + fratture patologiche</span>
+            <span class="pill">Surrene → ins. surrenalica</span>
+            <span class="pill">Encefalo → confusione, paralisi, coma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1.4 Sindromi paraneoplastiche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Principali sindromi</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>SIADH</strong> (secrezione inappropriata ADH) → iponatriemia, stupor, convulsioni, coma — tipica del <em>microcitoma</em></li>
+            <li><strong>Sindrome di Cushing</strong>: ACTH-simile da microcitoma → facies lunaris, obesità tronculare</li>
+            <li><strong>Ipercalcemia</strong>: da carcinoma squamoso (PTH-simile)</li>
+            <li><strong>Ippocratismo digitale</strong>: falange a bacchetta di tamburo + unghia a vetrino d'orologio</li>
+            <li>Sindromi ematologiche, neurologiche</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Tipologie istologiche (95% bronchogenico)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">SCLC — Small Cell (15%)</div>
+        <div class="card-content">
+          <strong>Microcitoma polmonare</strong>, tumore neuroendocrino.<br>
+          Cellule piccole, cromatina granulare, senza nucleolo.<br>
+          Sede: <em>ilare</em> · Crescita: <strong>rapida</strong> · Metastasi: precocissime · Resecabilità: <strong>0</strong>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">NSCLC — Non Small Cell (85%)</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Adenocarcinoma</strong>: forma più comune; sede periferica (&lt;4 cm); marcatore <em>TTF1</em></li>
+            <li><strong>Carcinoma squamoso (epidermoide)</strong>: sede ilare; marcatore <em>p40</em>; correlato a fumo</li>
+            <li><strong>Carcinoma a grandi cellule</strong>: tutti i NSCLC non classificabili altrove</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card wide">
+        <div class="card-label">Mutazioni molecolari in NSCLC — target therapy</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">KRAS 20–25% (fumatori)</span>
+            <span class="pill">EGFR 10–20% (non fumatori, donne, asiatici)</span>
+            <span class="pill">ALK 5% (non fumatori)</span>
+            <span class="pill">ROS1 1–2%</span>
+            <span class="pill">RET · BRAF · MET · HER · NTRK</span>
+          </div>
+          Per ogni mutazione esistono farmaci target specifici.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Diagnosi -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 6 · Diagnosi</div>
+    <div class="lesson-title">Approccio diagnostico al Carcinoma Polmonare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Diagnosi — metodi di prelievo</div>
+    <div class="highlight">
+      La diagnosi precoce è difficile: il tumore ha storia preclinica lunghissima. La maggior parte delle diagnosi avviene tramite <strong>screening (ancora poco diffuso in Italia)</strong> o per sintomi tardivi.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Toracentesi</div>
+        <div class="card-content">
+          Prelievo percutaneo di liquido pleurico. Nel <strong>50–60% dei casi</strong> di tumore il liquido contiene cellule neoplastiche. Semplice, minimamente invasiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Prelievo linfonodale percutaneo</div>
+        <div class="card-content">
+          Agobiopsia diretta su linfonodi ingrossati per campione citologico. Pro: no anestesia, no chirurgia. Controindicato se il tumore è in sede chirurgicamente inoperabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Broncoscopia + Biopsia/FNAB</div>
+        <div class="card-content">
+          Indicata per tumori <strong>centrali</strong> (raggiungibili dall'endoscopio). Permette NGS da almeno 100 cellule tumorali. Biopsia nelle zone di tessuto vivo, non la porzione necrotica.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5.1 Diagnostica tumori centrali (2/3 interni)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Broncoscopia classica</div>
+        <div class="card-content">Quando la massa comprime le vie respiratorie interne. Valutare anatomia e distanza della lesione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecoendoscopia (EBUS lineare)</div>
+        <div class="card-content">Sonda ecografica all'apice del broncoscopio per esplorare la lesione attraverso la parete bronchiale. Utile quando la massa è esterna all'albero bronchiale ma a diretto contatto con esso.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Esplorazione esofagea</div>
+        <div class="card-content">Meno usata, indicata se la lesione è in rapporto anatomico con l'esofago o se il paziente ha BPCO che impedirebbe l'inserimento di un endoscopio bronchiale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5.2 Diagnostica tumori periferici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Via transcutanea</div>
+        <div class="card-content">Elevato tasso di complicanze. Pneumotorace nel <strong>20–25% dei casi</strong>. Usata quando la via endoscopica non è percorribile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Via endoscopica (privilegiata)</div>
+        <div class="card-content">Rischio pneumotorace ridotto al <strong>2–3%</strong>. In caso di emorragia, la via endoscopica permette maggiore controllo. Broncoscopio diametro 5 mm → solo vie aeree &gt;5 mm.</div>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:12px;">Fattibilità diagnostica tumori periferici (dipende da)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Parametri chiave</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Dimensioni lesione</span>
+            <span class="pill">Bronchus sign (TAC)</span>
+            <span class="pill">Localizzazione anatomica</span>
+            <span class="pill">Strumento di prelievo</span>
+            <span class="pill">Sistema di guida</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Stadiazione -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 6 · Stadiazione</div>
+    <div class="lesson-title">Stadiazione del Carcinoma Polmonare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Stadiazione</div>
+    <div class="highlight">
+      La <strong>stadiazione</strong> indica crescita e diffusione rispetto all'origine. Necessaria per scegliere la terapia. Per i NSCLC: vedere link ACS per stadiazione completa.
+    </div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Classificazione stadiazione NSCLC</div>
+        <div class="card-content">
+          Linfonodi mediastinici: si parte sempre dai <strong>più sfavorevoli</strong> (più vicini al tumore) per evitare di sottostimare l'estensione. La biopsia dei linfonodi non deve essere la causa del trasporto di cellule tumorali da una sede all'altra.<br><br>
+          Per la valutazione: 2 metodi disponibili:
+          <ul>
+            <li>Analisi da parte dell'anatomopatologo (classico)</li>
+            <li>Pneumologo-operatore con kit commerciale (vetrino + metanolo + colorante EE) → diagnosi rapida + stadiazione + determinazioni biomolecolari</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Sistemi di guida -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 6 · Sistemi di guida</div>
+    <div class="lesson-title">Sistemi di Guida per Biopsia Polmonare</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Sistemi di guida per tumori periferici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fluoroscopia</div>
+        <div class="card-content">
+          Strumento radiografico in <strong>tempo reale</strong>. Molto diffuso in Italia, poco costoso.<br>
+          Svantaggio: <strong>esposizione alle radiazioni</strong>. Sistema più usato per esperienza storica.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">EBUS Radiale</div>
+        <div class="card-content">
+          Sonda ecografica radiale (diametro &lt;2 mm) → entra molto in profondità rispetto al broncoscopio con sonda. Quando arriva alla massa la localizza → biopsie mirate. Poco costoso.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Navigazione Elettromagnetica (ENB)</div>
+        <div class="card-content">
+          Software che ricostruisce 3D il polmone su TAC precedente. Indica la via più breve per raggiungere la lesione. Costo: ~3000€/procedura. Limitazione: TAC a Capacità Polmonare Totale vs volume corrente durante l'esame → discrepanza.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Mediastinoscopia e linfonodi mediastinici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">TBNA (Agobiopsia transbronchiale)</div>
+        <div class="card-content">Via endoscopica per studiare il mediastino. Gli aghi retrattili rivestiti da guaina vengono inseriti nel canale operativo per campionare i linfonodi mediastinici.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mediastinoscopia</div>
+        <div class="card-content">Metodica chirurgica, relegata a casi selezionatissimi oggi. TBNA la ha quasi sostituita.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stazioni accessibili per via convenzionale</div>
+        <div class="card-content">Stazioni 7 (sottocarenale), 4R, 4L, 3p. Stazioni 2R e 2L richiedono EBUS. Stazioni 8 e 9 → solo via esofagea.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Linfonodi -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 6 · Linfonodi</div>
+    <div class="lesson-title">Valutazione dei Linfonodi Mediastinici</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7.1 Valutazione dei linfonodi (stadiazione)</div>
+    <div class="highlight">
+      Si parte <strong>sempre dai linfonodi più sfavorevoli</strong> (più vicini al tumore). Evitare il trasporto di cellule tumorali da una sede linfonodale all'altra.
+    </div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">14 stazioni linfonodali del mediastino</div>
+        <div class="card-content">
+          <strong>Low cervical nodes</strong>: 1R, 1L<br>
+          <strong>Superior mediastinal nodes</strong>: 2R, 2L (upper paratracheal), 4R, 4L (lower paratracheal)<br>
+          <strong>Inferior mediastinal nodes</strong>: 7 (subcarinale), 8R/8L (paraesofageo), 9R/9L (polmonare ligamento)<br>
+          <strong>Pulmonary nodes</strong>: 10R–14R / 10L–14L (ilari, interlobari, lobari, segmentali, subsegmentali)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

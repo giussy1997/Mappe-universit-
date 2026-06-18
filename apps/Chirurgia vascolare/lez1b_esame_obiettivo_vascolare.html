@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch. Cardiovascolare — Esame Obiettivo Vascolare</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chirurgia Cardiovascolare — Prof. Froio · 30/09/2022</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Ispezione</button>
+    <button class="s2"        onclick="show('s2',this)">Cancrena</button>
+    <button class="s3"        onclick="show('s3',this)">Palpazione & Polsi</button>
+    <button class="s4"        onclick="show('s4',this)">Test di Allen & ABI</button>
+  </nav>
+</header>
+
+<!-- S1: Ispezione -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Esame Obiettivo Vascolare · Ispezione</div>
+    <div class="lesson-title">Esame Obiettivo Vascolare</div>
+    <div class="lesson-meta">30/09/2022 — integrato con sbobina 2021</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Regola generale</div>
+    <div class="highlight">
+      L'EO vascolare è retto da <strong>ispezione e palpazione</strong>. L'auscultazione ha scarsa importanza (scarsa sensibilità e specificità). La percussione non si pratica. Valutare sempre la <strong>simmetria</strong> tra i due lati.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Colorazione cute</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pallore (bianco)</div>
+        <div class="card-content">Vasocostrizione → indice di <strong>ischemia arteriosa</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cianosi (blu)</div>
+        <div class="card-content">
+          Indice di <strong>stasi</strong> (patologia venosa/respiratoria).<br>
+          <strong>Reversibile</strong>: scompare alla digitopressione → forma lieve iniziale.<br>
+          <strong>Irreversibile</strong>: non scompare → forma cronica.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iperemia (rosso/fucsia)</div>
+        <div class="card-content">Vasodilatazione per <strong>flogosi</strong> (rubor). Cause: erisipela (streptococco), cellulite. Spesso confusa con TVP (ma la TVP nel 95% dei casi non ha iperemia).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Marezzatura</div>
+        <div class="card-content">Mescolanza di colori diversi. Tipica dell'<strong>ischemia critica</strong> degli arti inferiori.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iperpigmentazione</div>
+        <div class="card-content">Area più scura, può essere focale. <strong>Ecchimosi</strong> (livido visibile) ≠ <strong>ematoma</strong> (massa palpabile di sangue raccolto) ≠ <strong>emorragia</strong> (sanguinamento in corso).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fenomeno di Raynaud</div>
+        <div class="card-content">Pallore da <strong>vasospasmo del microcircolo</strong>. Eccessiva reattività della muscolatura liscia delle arteriole a variazioni termiche o stress → estremità pallide.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Edema: diagnosi differenziale tra le cause</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Edema tessuti molli (fovea +)</div>
+        <div class="card-content">
+          Distanza ↑ tra <strong>fascia e cute</strong>.<br>
+          Cause sistemiche bilaterali: scompenso cardiaco, insufficienza renale, epatopatia con ipoalbuminemia.<br>
+          <strong>Unica eccezione unilaterale</strong>: insufficienza venosa cronica.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Edema TVP (fovea −)</div>
+        <div class="card-content">
+          Distanza ↑ tra <strong>fascia e fascia</strong> (spazio intrafasciale).<br>
+          Mancato drenaggio venoso → accumulo intrafasciale.<br>
+          Prevalentemente <strong>monolaterale</strong>. Eccezione bilaterale: TVP della vena cava (es. tumore renale/addominale).<br>
+          Si misura con la vista (misurazione perimetrale).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Cicatrici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Vena grande safena</div>
+        <div class="card-content">
+          Nasce davanti al malleolo mediale, lunga ~70 cm. <strong>Unica struttura vascolare sacrificabile</strong> (calibro 5-6 mm).<br>
+          Contesa tra cardiochirurgo (bypass coronarico, 2ª scelta dopo mammaria interna) e chirurgo vascolare. La cicatrice differisce a seconda di chi l'ha prelevata.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Linfedema post-chirurgico</div>
+        <div class="card-content">Sezionamento delle vie linfatiche dopo linfoadenectomia ascellare (tumore mammella) o inguinale (ca. vulva).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Cancrena -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Esame Obiettivo Vascolare · Necrosi e Cancrena</div>
+    <div class="lesson-title">Necrosi, Cancrena e Lesioni Trofiche</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tipi di cancrena</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cancrena umida (bagnata) ⚠️</div>
+        <div class="card-content">
+          Infezione batterica da ferita aperta non trattata (o endocardite settica). Causa prevalentemente <strong>ischemica + proliferazione batterica</strong>.<br>
+          Più pericolosa: alto rischio di diffusione batterica sistemica.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cancrena secca</div>
+        <div class="card-content">Tipica complicanza di <strong>diabete e aterosclerosi</strong>. Progressivo rattrappimento (mummificazione). Causa ischemica <strong>senza</strong> proliferazione batterica. Può evolvere in umida.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cancrena gassosa</div>
+        <div class="card-content">Tossine prodotte da <strong>batteri anaerobi</strong> (vivono nell'intestino e nel terreno) che infettano tessuti lesi da ferita.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Note cliniche importanti</div>
+    <div class="highlight">
+      Non tutti i pazienti con cancrena/necrosi sono operabili (es. grande anziano). La necrosi non è necessariamente dolorosa: dolore → flogosi o ischemia attiva. Il <strong>piede diabetico</strong> è asintomatico per <strong>neuropatia periferica</strong>.<br>
+      Importanza fondamentale delle medicazioni quotidiane: cambio ogni 24h per prevenire osteomielite → amputazione.
+    </div>
+  </div>
+</div>
+
+<!-- S3: Palpazione & Polsi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Esame Obiettivo Vascolare · Palpazione</div>
+    <div class="lesson-title">Palpazione — Polsi Periferici</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Parametri da valutare alla palpazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Temperatura</div>
+        <div class="card-content">Normotermia / Ipotermia (valutare se bilaterale: fisiologica; se unilaterale: patologica) / Ipertermia (flogosi). <strong>L'asimmetria ha maggior valenza patologica.</strong></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Edema (segno della fovea)</div>
+        <div class="card-content">Impronta del pollice a livello pretibiale. Segno + = edema dei tessuti molli (patologia sistemica). Segno − = TVP (accumulo intrafasciale, non comprimibile).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ballottabilità e tensione</div>
+        <div class="card-content">Muscolo ballottabile = normale. Muscolo in tensione (loggia tesa e dura) → <strong>TVP</strong>: polpaccio estremamente teso e gonfio, non ballottabile, dolorabile.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Polsi periferici — la manovra più importante dell'EO vascolare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Carotideo</div>
+        <div class="card-content">Arteria carotide comune. Importante per valutare arresto cardiaco. <strong>⚠️ Mai massaggiare il seno carotideo</strong> → rischio bradicardizzazione. Non palpare mai entrambe contemporaneamente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arto superiore</div>
+        <div class="card-content">
+          <strong>Brachiale</strong><br>
+          <strong>Radiale</strong>: molto semplice, fondamentale per l'EGA<br>
+          <strong>Ulnare</strong>: più difficile, specialmente in vasocostretti/ipotesi/anemici
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Femorale</div>
+        <div class="card-content">
+          A metà del <strong>legamento inguinale</strong>. Manovra a due mani (mano dominante sulla cute, l'altra preme sopra). Nei soggetti obesi la <strong>piega inguinale è spostata in basso</strong> di 3-15 cm rispetto al legamento inguinale → rischio di pungere troppo in basso (no piano osseo → no emostasi).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Popliteo</div>
+        <div class="card-content">Uno dei più difficili da apprezzare. Nel cavo popliteo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tibiale posteriore</div>
+        <div class="card-content">Dietro il malleolo mediale. Mantenere il piede esteso (non flesso) per apprezzarlo correttamente.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pedidio</div>
+        <div class="card-content">
+          Punto di repere: tendine estensore dell'alluce. Dita "a piatto" sul dorso del piede.<br>
+          <strong>Assente nel 10%</strong> dei pazienti (es. ipotensione). Non premere troppo (rischio occlusione dell'arteria).
+        </div>
+      </div>
+      <div class="card wide">
+        <div class="card-label">Interpretazione clinica</div>
+        <div class="card-content">
+          Se a livello periferico si individua <strong>almeno un polso</strong> → paziente <strong>non</strong> arteriopatico → inutile richiedere ecodoppler.<br>
+          Se assenti i polsi periferici → arteriopatico <em>oppure</em> polso non rilevabile alla palpazione (paziente scompensato con edemi declivi, pressione sistolica 80 mmHg).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Auscultazione — Soffi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Soffi carotidei</div>
+        <div class="card-content">Dovuti a stenosi (↑ velocità di flusso e turbolenza). Valutazione <strong>poco specifica e poco sensibile</strong>: falsi positivi (stenosi aortica) e falsi negativi frequenti. Non è detto che una stenosi carotidea si manifesti con un soffio.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Test di Allen & ABI -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Esame Obiettivo Vascolare · Test Speciali</div>
+    <div class="lesson-title">Test di Allen & Indice Caviglia-Braccio (ABI)</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Test di Allen</div>
+    <div class="highlight">
+      Da eseguire <strong>sempre</strong> prima di pungere l'arteria radiale (EGA, catetere arterioso, cateterismo coronarico). Verifica se la perfusione della mano è sostenuta sia dalla radiale che dall'ulnare → si può occludere la radiale senza conseguenze ischemiche.
+    </div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Esecuzione del test</div>
+        <div class="card-content">
+          <div class="flow">
+            <div class="flow-step">1. Braccio verticale</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">2. Stringer pugno 30s</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">3. Comprimi ulnare + radiale</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">4. Riaprire la mano (pallida)</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">5. Rilascia solo l'ulnare</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">6. Osserva colorito</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Test Negativo ✅ (normale)</div>
+        <div class="card-content">Entro <strong>10 secondi</strong> il palmo riprende il colorito roseo → valida perfusione ulnare → <strong>idoneo</strong> per cateterismo radiale (EGA).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Test Positivo ⚠️ (patologico)</div>
+        <div class="card-content">Il palmo non riprende il colorito roseo → scarso apporto ulnare → <strong>controindicazione</strong> al cateterismo radiale. Rischio di trombosi iatrogena (5-10% dei prelievi radiali) → ischemia della mano.<br>
+          Se positivo per entrambe le mani → passare all'arteria femorale.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Indice Caviglia-Braccio (ABI, Ankle-Brachial Index)</div>
+    <div class="highlight">
+      <strong>ABI = pressione sistolica alla caviglia / pressione sistolica brachiale</strong> (usa la pressione brachiale più alta).<br>
+      Indice predittivo di mortalità, IMA, ictus e altri eventi cardiovascolari indipendente dai fattori di rischio tradizionali.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tecnica di misurazione</div>
+        <div class="card-content">
+          Sonda doppler su arteria tibiale ant. o post. + sfigmomanometro alla gamba.<br>
+          Gonfiare fino a silenzio → sgonfiare lentamente → primo suono = pressione sistolica della caviglia.<br>
+          Eseguire su entrambi i lati, prendere il valore maggiore tra tibiale ant. e post. per ciascun lato.<br>
+          La pressione brachiale si misura con manicotto + fonendo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Valori ABI</div>
+        <div class="card-content">
+          <strong>≈1</strong>: normale (soggetto sano, uguale dx e sx)<br>
+          <strong>0.50–0.90</strong>: claudicatio intermittens (Stadio 2)<br>
+          <strong>0.21–0.49</strong>: dolore a riposo (Stadio 3)<br>
+          <strong>&lt;0.21</strong>: lesioni trofiche / gangrena (Stadio 4)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Indicazioni alla misurazione ABI</div>
+        <div class="card-content">
+          <ul>
+            <li>Diabetici ultracinquantenni</li>
+            <li>Fumatori ultracinquantenni</li>
+            <li>Ultrasettantenni senza altre indicazioni</li>
+          </ul>
+          ⚠️ Misurare sempre la pressione su <strong>entrambe le braccia</strong> (almeno una volta): la stenosi succlavia può far sottostimare un'ipertensione.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

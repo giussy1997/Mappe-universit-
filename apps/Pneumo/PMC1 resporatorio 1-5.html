@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappe Malattie Apparato Respiratorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --muted: #7a6e62;
+    --accent1: #c94040; /* rosso */
+    --accent2: #2a6496; /* blu */
+    --accent3: #3d8b6a; /* verde */
+    --accent4: #b07d2a; /* ocra */
+    --accent5: #7b4fa6; /* viola */
+    --card: #fffef9;
+    --border: #d4ccc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  header {
+    background: var(--ink);
+    padding: 18px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #f5f0e8;
+    font-size: 1.1rem;
+    letter-spacing: .04em;
+    margin-bottom: 14px;
+    opacity: .85;
+  }
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    background: none;
+    border: none;
+    color: #c9bfaf;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 8px 16px 10px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  nav button.active, nav button:hover {
+    color: #f5f0e8;
+    border-bottom-color: currentColor;
+  }
+  nav button.l1  { --c: #c94040; }
+  nav button.l11 { --c: #c95a20; }
+  nav button.l2  { --c: #2a6496; }
+  nav button.l3  { --c: #3d8b6a; }
+  nav button.l4  { --c: #b07d2a; }
+  nav button.l5  { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+
+  /* PAGES */
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* LESSON HEADER */
+  .lesson-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .lesson-tag {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .lesson-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .lesson-meta {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* SECTION CARDS */
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    background: color-mix(in srgb, var(--c, var(--accent1)) 8%, transparent);
+    border-left: 3px solid var(--c, var(--accent1));
+    border-radius: 0 4px 4px 0;
+  }
+  .cards {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,.10);
+    transform: translateY(-1px);
+  }
+  .card-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--c, var(--accent1));
+    margin-bottom: 6px;
+  }
+  .card-content {
+    font-size: .86rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .card-content ul {
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .card-content li {
+    margin-bottom: 3px;
+  }
+  .card-content strong {
+    color: var(--c, var(--accent1));
+  }
+
+  /* PILL TAGS (for lists of short items) */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .pill {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 30%, #fff);
+    color: color-mix(in srgb, var(--c, var(--accent1)) 90%, #000);
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+
+  /* FLOW ARROW */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .flow-step {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 10%, #fff);
+    border: 1px solid color-mix(in srgb, var(--c, var(--accent1)) 25%, #fff);
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .flow-arrow {
+    color: var(--c, var(--accent1));
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: color-mix(in srgb, var(--c, var(--accent1)) 6%, var(--bg));
+    border: 1.5px solid color-mix(in srgb, var(--c, var(--accent1)) 35%, transparent);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  .highlight strong { color: var(--c, var(--accent1)); }
+
+  /* Utility */
+  .wide { grid-column: 1 / -1; }
+
+  /* Colors per lesson */
+  .l1  { --c: #c94040; }
+  .l11 { --c: #c95a20; }
+  .l2  { --c: #2a6496; }
+  .l3  { --c: #3d8b6a; }
+  .l4  { --c: #b07d2a; }
+  .l5  { --c: #7b4fa6; }
+
+  @media (max-width: 480px) {
+    .lesson-title { font-size: 1.4rem; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Mappe</h1>
+  <nav>
+    <button class="l1  active" onclick="show('l1',this)">#1 Asma</button>
+    <button class="l11"        onclick="show('l11',this)">#1.1 BPCO &amp; TBC</button>
+    <button class="l2"         onclick="show('l2',this)">#2 Polmoniti</button>
+    <button class="l3"         onclick="show('l3',this)">#3 Fibrosi Cistica &amp; Bronchiectasie</button>
+    <button class="l4"         onclick="show('l4',this)">#4 Pneumotorace &amp; Sintomi</button>
+    <button class="l5"         onclick="show('l5',this)">#5 Versamento Pleurico</button>
+  </nav>
+</header>
+
+<!-- ═══════════════════════════════════ LEZ 1 ═══════════════════ -->
+<div id="l1" class="page active l1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1 · Prof. Luppi</div>
+    <div class="lesson-title">Asma Bronchiale</div>
+    <div class="lesson-meta">Riferimento linee guida GINA · ginasthma.org</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione</div>
+    <div class="highlight">
+      <strong>Malattia eterogenea</strong> caratterizzata da infiammazione cronica delle vie aeree.<br>
+      Due caratteristiche cliniche specifiche:<br>
+      • <strong>Sintomi variabili</strong>: respiro sibilante, dispnea, costrizione toracica, tosse (variano nel tempo e in intensità)<br>
+      • <strong>Ostruzione bronchiale episodica</strong> (≠ variabile) e <strong>reversibile</strong> spirometricamente — criterio discrimine vs BPCO
+    </div>
+    <div class="highlight">
+      L'asma è soprattutto una <strong>malattia infiammatoria</strong>: lo stato infiammatorio → <strong>iperreattività bronchiale</strong> → bronco-ostruzione → sintomi. L'infiammazione provoca anche direttamente ipersecrezione di muco.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Epidemiologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Prevalenza</div>
+        <div class="card-content">Malattia cronica molto diffusa; prevalenza <strong>in aumento</strong>, soprattutto nei bambini. Causa importante di assenza da scuola e lavoro.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mortalità</div>
+        <div class="card-content">Non è patologia benigna: <strong>1–5/100.000 abitanti muore ogni anno</strong>. I casi mortali spesso riguardano forme lievi/intermittenti non adeguatamente trattate.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.1 Controllo dell'asma</div>
+        <div class="card-content">Solo il <strong>15%</strong> dei pazienti diagnosticati è ben controllato; 50% non è controllato affatto. Proposta: piano scritto di gestione + monitoraggio delle riacutizzazioni → migliorare l'aderenza alla terapia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fattori di Rischio</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Individuali (genetici)</div>
+        <div class="card-content">
+          <strong>Atopia</strong>: predisposizione all'allergia determinata geneticamente — fattore di rischio principale.<br>
+          <strong>Polisensibilizzazione</strong> aumenta il rischio e la gravità.<br>
+          Tratto genetico complesso: GENOTIPO + AMBIENTE → FENOTIPO
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ambientali (allergeni)</div>
+        <div class="card-content">
+          Il paziente asmatico è <strong>atopico</strong> in oltre la metà dei casi.<br>
+          <strong>Domestici</strong>: acari, pelo di animali (gatto, cane, coniglio), scarafaggi, miceti<br>
+          <strong>Esterni</strong>: graminacee, altre piante
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Asma da sforzo</div>
+        <div class="card-content">Fenotipo che si manifesta solo durante l'esercizio fisico. Compare con esercizio in aria fredda o bassa umidità.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Patogenesi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Immunità Th2 (tipo 2)</div>
+        <div class="card-content">
+          <strong>Linfociti T<sub>H2</sub></strong> producono pattern citochinico:<br>
+          <ul>
+            <li><strong>IL-4</strong>: recluta linfociti B → producono IgE → degranulazione mastociti → mediatori proinfiammatori</li>
+            <li><strong>IL-5</strong>: richiama eosinofili (cellule chiave dell'asma)</li>
+            <li><strong>IL-13</strong>: interferisce col tono muscolare liscio → broncospasmo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Via non-Th2</div>
+        <div class="card-content">Fumo, infezioni, inquinamento → macrofagi + neutrofili → proteasi + radicali liberi → danno parenchimale + ipersecrezione muco. Via mediata da <strong>Linfociti T<sub>H17</sub></strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Anatomia Patologica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Reperti istologici</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Desquamazione / disepitelizzazione</strong> (≠ BPCO dove c'è ipertrofia epiteliale)</li>
+            <li><strong>Ispessimento della membrana basale</strong></li>
+            <li><strong>Infiltrato infiammatorio di eosinofili</strong> (colorati in rosso)</li>
+            <li>Lume ristretto da ispessimento + muco</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Clinica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fasi cliniche</div>
+        <div class="card-content">
+          • <strong>Fase intercritica</strong>: sostanziale quiescenza, spesso spirometria normale<br>
+          • <strong>Fase di acutizzazione</strong>: tosse, respiro sibilante, senso di oppressione, dispnea
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.1 Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">6.1 Approccio diagnostico</div>
+        <div class="card-content">
+          Fondamentale: <strong>storia clinica + storia familiare</strong>. Occorre <strong>conferma obiettiva</strong> di bronco-ostruzione reversibile.<br>
+          In acutizzazione: diagnosi clinica, poi da confermare.<br>
+          Se paziente stabile: spirometria → se normale → test di broncoprovocazione (metacolina)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6.1.1 Spirometria — 3 parametri</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>FEV1</strong>: aria espirata nel primo secondo</li>
+            <li><strong>FVC</strong>: capacità vitale forzata (aria totale espirata)</li>
+            <li><strong>FEV1/FVC</strong>: deve essere &lt;0.70 per spirometria ostruttiva</li>
+          </ul>
+          In clinica si usa sempre il rapporto FEV1/FVC (non l'indice di Tiffenau).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6.1.2 Test di broncodilatazione</div>
+        <div class="card-content">
+          Somministrazione di <strong>salbutamolo</strong> (4 dosi da 100 µg). Attesa 15 min, poi spirometria.<br>
+          <strong>Positivo</strong>: aumento ≥12% e ≥200 mL di FEV1 e/o FVC rispetto al basale → ostruzione reversibile → diagnosi di asma.<br>
+          Nell'asmatico il potere broncodilatatorio del β₂-agonista è molto maggiore che nella BPCO.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6.1.3 Test di iperreattività bronchiale (metacolina)</div>
+        <div class="card-content">
+          Test negativo: <strong>esclude</strong> l'asma.<br>
+          Test positivo: confirma iperreattività bronchiale (caratteristica anche di altre malattie).<br>
+          Riduzione del FEV1 basale ≥20% = <strong>PD20</strong>.<br>
+          <strong>Controindicato</strong> se FEV1 &lt;70% o sospetto infarto/ictus.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6.2 Classificazione di gravità e altri esami</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione (in assenza di terapia)</div>
+        <div class="card-content">
+          Basata su 3 parametri: sintomi giornalieri, sintomi notturni, valori FEV1 o PEF.<br>
+          <strong>STEP 1</strong> Intermittente · <strong>STEP 2</strong> Persistente lieve<br>
+          <strong>STEP 3</strong> Moderata persistente · <strong>STEP 4</strong> Grave persistente
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">PEF (Peak Expiratory Flow)</div>
+        <div class="card-content">Parametro molto comodo, misurabile al domicilio. Il <em>trend</em> giornaliero indica il grado di controllo. La gravità è più comunemente valutata tramite il <strong>grado di trattamento richiesto</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia a 5 step (GINA)</div>
+        <div class="card-content">
+          <strong>Asma lieve</strong>: STEP 1–2 → ICS bassa dose al bisogno<br>
+          <strong>Asma moderata</strong>: STEP 3 → ICS + β₂-LABA<br>
+          <strong>Asma grave</strong>: STEP 4–5 → ICS/LABA dosi alte + anticolinergici + <strong>farmaci biologici</strong> (Mepolizumab, Benralizumab, Dupilumab)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altri esami strumentali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Prove allergometriche cutanee</span>
+            <span class="pill">Dosaggio IgE totali e specifiche</span>
+            <span class="pill">Conta eosinofili ematici</span>
+            <span class="pill">Emogas analisi</span>
+            <span class="pill">ECG</span>
+            <span class="pill">Visita otorinolaringoiatra</span>
+            <span class="pill">RX torace</span>
+            <span class="pill">Prick test</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Riacutizzazione — Pazienti a rischio di vita</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione</div>
+        <div class="card-content">Rapido peggioramento dei sintomi: dispnea, tosse, sibilante, costrizione toracica + riduzione del flusso espiratorio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Pazienti a rischio</div>
+        <div class="card-content">
+          <ul>
+            <li>Pregresso intubazione tracheale (near fatal asthma)</li>
+            <li>Ricoveri ospedalieri per asma nell'ultimo anno</li>
+            <li>Sospensione recente degli steroidi</li>
+            <li>Assunzione irregolare della terapia inalatoria</li>
+            <li>SABA in quantità ≥1 confezione/mese</li>
+            <li>Problemi psico-sociali, malattie mentali, largo uso di sedativi</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gradi di gravità della riacutizzazione</div>
+        <div class="card-content">
+          <strong>Lieve</strong>: cammina, discorsi<br>
+          <strong>Moderata</strong>: parla a frasi, FR aumentata<br>
+          <strong>Grave</strong>: a riposo, bambini smettono di mangiare, FR &gt;30/min, uso muscoli accessori<br>
+          <strong>Arresto imminente</strong>: sonnolento, confuso, bradicardia, sibili assenti
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Diagnosi Differenziale e Terapia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diagnosi differenziale principale</div>
+        <div class="card-content">
+          <strong>BPCO</strong>: ostruzione irreversibile, paziente anziano e fumatore<br>
+          <strong>ACO</strong> (Asthma-COPD Overlap): caratteristiche miste, area di confine<br>
+          Scompenso cardiaco, disfunzione corde vocali, sinusite, reflusso gastroesofageo
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Farmaci biologici (asma grave)</div>
+        <div class="card-content">
+          <strong>Mepolizumab</strong>: inibisce la produzione di IL-5<br>
+          <strong>Benralizumab</strong>: blocca il recettore di IL-5<br>
+          <strong>Dupilumab</strong>: inibitore di IL-13 e IL-4<br>
+          Indicazioni diverse ma possono essere usati indifferentemente.
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l1 -->
+
+
+<!-- ═══════════════════════════════════ LEZ 1.1 ══════════════════ -->
+<div id="l11" class="page l11">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 1.1 · Prof. Luppi</div>
+    <div class="lesson-title">BPCO e Tubercolosi Polmonare</div>
+    <div class="lesson-meta">Riferimento linee guida GOLD · goldcopd.org</div>
+  </div>
+
+  <!-- BPCO -->
+  <div class="section">
+    <div class="section-title">1. BPCO — Definizione ed Epidemiologia</div>
+    <div class="highlight">
+      <strong>BPCO / COPD</strong>: malattia comune, prevenibile e curabile, caratterizzata da sintomi respiratori persistenti ed <strong>ostruzione bronchiale irreversibile</strong>, dovuta ad anomalie delle vie aeree e/o alveolari causate dall'esposizione a particelle nocive o gas.<br>
+      Terza causa di morte dal 2020. Epidemiologia in crescita per fattori di aging. Variazione mortalità USA 1965-1998: <strong>+163%</strong> BPCO vs -59% coronaropatie.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2. Fattori di Rischio</div>
+        <div class="card-content">
+          <strong>Fumo di sigaretta</strong> (principale, >4500 composti chimici)<br>
+          Inquinanti professionali · Fumo passivo · Inquinanti domestici · Età<br>
+          Geni · Crescita polmonare · Sesso (maschi più colpiti) · Infezioni respiratorie in infanzia · Stato socioeconomico basso
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fumo e storia naturale</div>
+        <div class="card-content">
+          Non tutti i fumatori sviluppano BPCO (solo 50%). Il fumo rappresenta comunque un fattore di rischio per il cancro ai polmoni.<br>
+          La <strong>sospensione del fumo</strong> è l'unico provvedimento che modifica la storia naturale.<br>
+          Pazienti <strong>frequenti riacutizzatori</strong> (&ge;2/anno): declino più rapido della funzione ventilatoria.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polveri sul luogo di lavoro</div>
+        <div class="card-content">Circa il <strong>15%</strong> dei casi di BPCO è attribuibile a esposizione professionale. Mestieri a rischio: manifattura di plastica, tessile, gomma, pelle; cuochi, meccanici ecc.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Inquinamento ambienti interni</div>
+        <div class="card-content">Fattore principale nei paesi in via di sviluppo. Circa 3 miliardi di persone esposte ai fumi da <strong>combustione della biomassa</strong> (legno, carbone, escrementi…).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Genetica — Deficit di α1-antitripsina</div>
+        <div class="card-content">Modello genetico: deficit di <strong>α1-antitripsina</strong> (proteasi prodotta nel fegato) → danno polmonare. Mutazione più frequente: gene <strong>SERPINA1</strong> → allele Z. Causa enfisema <strong>panlobulare</strong> a 30-40 anni (vs enfisema centrolobulare del fumatore, 50-60 anni).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Meccanismi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fisiopatologia</div>
+        <div class="card-content">
+          Malattia infiammatoria. Fumo → attivazione macrofagi alveolari e neutrofili → proteasi + radicali liberi → <strong>distruzione parenchima polmonare</strong> (enfisema) + <strong>ipersecrezione muco</strong>.<br>
+          La BPCO raramente è pura: ha componente <strong>enfisematosa</strong> e componente <strong>bronchitica</strong>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4. Flusso, Pressione e Resistenza</div>
+        <div class="card-content">
+          FLUSSO = PRESSIONE / RESISTENZA<br>
+          Nella BPCO si riduce il flusso per:<br>
+          • <strong>↓ Pressione</strong>: distruzione parenchima → ↓ ritorno elastico<br>
+          • <strong>↑ Resistenza</strong>: ostruzione bronchiale + infiammazione piccole vie aeree
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">5. Elementi ambientali</div>
+        <div class="card-content">Particelle e gas nocivi → infiammazione polmonare + <strong>stress ossidativo</strong> → BPCO (nonostante i meccanismi riparativi). Il fumo entra anche nel torrente circolatorio → infiammazione sistemica (↑ proteina C reattiva, ↑ TNF-α).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Diagnosi BPCO</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi principali</div>
+        <div class="card-content"><strong>Tosse produttiva</strong> e <strong>dispnea</strong> (inizialmente da sforzo). In anamnesi: esposizione a fattori di rischio. Conferma: <strong>spirometria</strong> (FEV1/FVC post-broncodilatatore &lt;0.7).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classificazione GOLD 1-4</div>
+        <div class="card-content">
+          Basata su FEV1 (% del predetto):<br>
+          GOLD 1 ≥80% · GOLD 2 50-79% · GOLD 3 30-49% · GOLD 4 &lt;30%<br>
+          <strong>mMRC</strong> e <strong>CAT</strong> valutano sintomi → quadranti A/B/C/D per la terapia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Quadri Clinici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Broncopolmonari — Fenotipi</div>
+        <div class="card-content">
+          <strong>Pink puffer</strong> (prevalente enfisema): dispnea da sforzo, aspetto astenico, tachipnea, torace a botte, basi ipomobili, iperfonesi plessica<br>
+          <strong>Blue bloater</strong> (prevalente bronchite): tosse produttiva, espettorato abbondante, dispnea anche a riposo, edemi inferiori, cianosi
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Extrapolmonari — Comorbidità</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Cardiovascolari</span>
+            <span class="pill">Diabete tipo II</span>
+            <span class="pill">Ansia/Depressione</span>
+            <span class="pill">Ipercoagulabilità / anemia</span>
+            <span class="pill">Reflusso gastroesofageo</span>
+            <span class="pill">Muscolo: debolezza progressiva</span>
+            <span class="pill">Osteoporosi</span>
+          </div>
+          Lo scompenso cardiaco <strong>raddoppia la mortalità</strong> nei pazienti con BPCO.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Riacutizzazione BPCO</div>
+        <div class="card-content">Peggioramento dei sintomi che richiede <strong>modificazione della terapia</strong>. Cause principali: infezioni (batteri e virus), inquinamento ambientale. Accelerano il declino del FEV1.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Confronto Asma-BPCO</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Asma</div>
+        <div class="card-content">Giovane, atopico. Infiammazione: linfociti CD4+, mastociti, eosinofili. Ostruzione <strong>completamente reversibile</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">BPCO</div>
+        <div class="card-content">Anziano, fumatore. Infiammazione: linfociti CD8+, macrofagi, neutrofili. Ostruzione <strong>completamente irreversibile</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TUBERCOLOSI -->
+  <div class="section">
+    <div class="section-title">9–17. Tubercolosi Polmonare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">9. Epidemiologia TBC</div>
+        <div class="card-content">~2 miliardi di persone infette; 8 milioni nuovi casi/anno; 2 milioni di morti/anno. Prima causa di morte da singolo agente infettivo nel mondo. Circa 30% dei casi sarebbero evitabili.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Agente eziologico — Mycobacterium TBC</div>
+        <div class="card-content">
+          <ul>
+            <li>Patogeno intracellulare, trasmissione interumana</li>
+            <li>Lento tempo di replicazione (30-40 gg)</li>
+            <li><strong>Alcol/acido resistente</strong> → colorazione Ziehl-Neelsen (fondo blu, bacilli rosa-rossi). Alternativa: Auramina-Rodamina (fluorescente)</li>
+            <li>Granulomi <strong>caseificanti</strong> (≠ granulomi sarcoidei)</li>
+            <li>La maggior parte degli antibiotici comuni è inefficace</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10–11. Dall'esposizione alla malattia</div>
+        <div class="card-content">
+          <div class="flow">
+            <span class="flow-step">Esposizione</span><span class="flow-arrow">→</span>
+            <span class="flow-step">Non infezione (95%): MΦ uccidono MTB</span>
+          </div>
+          <div class="flow" style="margin-top:6px">
+            <span class="flow-step">Infezione latente (95% dei casi)</span><span class="flow-arrow">→</span>
+            <span class="flow-step">MTB quiescente</span>
+          </div>
+          <div class="flow" style="margin-top:6px">
+            <span class="flow-step">TB attiva (5%)</span><span class="flow-arrow">→</span>
+            <span class="flow-step">contagiosa</span>
+          </div>
+          Risposta immunitaria: <strong>cellulo-mediata</strong> (linfociti T CD4+).<br>
+          Fattori che ↓ linfociti CD4+: HIV, età, farmaci immunosoppressori.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12. Infezione e Granuloma</div>
+        <div class="card-content">MTB prolifera nello spazio extracellulare → reclutamento cellule infiammatorie → formazione <strong>granuloma (tubercolo)</strong> nel sito della lesione primaria con linfociti, MΦ, cellule epiteloidi e cellule giganti. <strong>Necrosi caseosa centrale</strong> → confina MTB.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">13. Malattia Attiva — Forme</div>
+        <div class="card-content">
+          <strong>Infezione latente</strong>: subclinica, mantoux positivo, RX normale.<br>
+          <strong>Malattia primaria</strong>: bambini, campi medi/inferiori, focolaio di Ghon (lifoadenopatia ilare + strie linfangitiche + addensamento polmonare). In immunocompetenti: pochi sintomi, spesso autolimitante.<br>
+          <strong>Malattia postprimaria</strong>: da riattivazione; lobi superiori/posteriori; caverne; polmonite tubercolare.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi</div>
+        <div class="card-content">
+          <strong>Fasi precoci</strong>: febbre (basso grado, intermittente), sudorazione notturna, perdita di peso, anoressia, astenia.<br>
+          <strong>Fasi successive</strong>: tosse (poi produttiva), emottisi, dolore toracico, dispnea.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Forme extrapolmonari</div>
+        <div class="card-content">Linfonodi, pleura, tratto genitourinario, ossa, articolazioni, meningi, peritoneo. Più frequenti in HIV+.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">13. Diagnosi di malattia attiva</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Microscopia diretta</strong>: fluidi respiratori (espettorato, BAL, lavaggio alveolare). Colorazione Ziehl-Neelsen. Bassa sensibilità per bassa carica batterica.</li>
+            <li><strong>Esame colturale</strong>: gold standard assoluto. Richiede 4-8 settimane (ridotto a 2-3 sett. con terreni liquidi radiometrici).</li>
+            <li><strong>Amplificazione acidi nucleici (PCR)</strong>: diagnosi in poche ore; bassa sensibilità; mai sostituisce colturale.</li>
+            <li><strong>Test sensibilità ai farmaci</strong>: isoniazide, rifampicina, etambutolo</li>
+            <li><strong>Esame radiologico</strong>: quadro classico — lobi superiori, infiltrati e caverne.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi di infezione latente (LTBI)</div>
+        <div class="card-content">
+          <strong>TST / Mantoux</strong>: iniezione intradermica PPD, lettura a 48-72h, si misura l'infiltrazione. Limiti: falsi positivi (BCG, cross-reazione), falsi negativi (farmaci immunosoppressivi).<br>
+          <strong>IFN-γ based test</strong>:<br>
+          • QuantiFERON-TB Gold: misura IFN-γ via ELISA (più semplice)<br>
+          • T-SPOT.TB: misura n° linfociti T che producono IFN-γ via Elispot (più sensibile)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">16. Terapia TBC</div>
+        <div class="card-content">
+          <strong>Policemioterapia</strong> (≥4 farmaci antitubercolari).<br>
+          Schema classico <strong>2x4</strong>: 2 mesi con Isoniazide + Rifampicina + Etambutolo + Pirazinamide, poi 4 mesi con solo Rifampicina + Isoniazide.<br>
+          Dopo &lt;2 sett. di trattamento efficace: <strong>contagiosità si annulla</strong>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">17. TBC Multiresistente (MDR)</div>
+        <div class="card-content">Resistenza almeno a Isoniazide e Rifampicina. Quasi sempre MDR secondaria (incongruità terapeutica o mancata compliance). Scarso successo terapeutico (40% guarigione in Italia). Gestione in centri specializzati. <strong>DOT</strong> (Direct Observed Therapy) nei paesi in via di sviluppo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">15. Vaccinazione BCG</div>
+        <div class="card-content">Da M. bovis attenuato. Raccomandata alla nascita nei paesi ad alta prevalenza. Efficacia 0-80%, protegge i bambini da forme severe (meningiti, miliare). Determina positività al TST.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l11 -->
+
+
+<!-- ═══════════════════════════════════ LEZ 2 ═══════════════════ -->
+<div id="l2" class="page l2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 2 · Prof.ssa Faverio</div>
+    <div class="lesson-title">Polmoniti</div>
+    <div class="lesson-meta">PMC1 — 12/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione e Diagnosi</div>
+    <div class="highlight">
+      Infiammazione del <strong>parenchima polmonare</strong> con origine infettiva. Può iniziare a livello bronchiale e diffondersi, o arrivare per via ematogena.<br>
+      Per diagnosi occorrono sempre 3 elementi: <strong>Clinica</strong> (febbre, tosse, espettorazione) + <strong>Rx torace</strong> (addensamento) + <strong>Esami di laboratorio</strong> (PCR, pro-calcitonina, emocromo).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Eziologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Batteri più comuni</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">S. pneumoniae</span>
+            <span class="pill">Legionella pneumophila</span>
+            <span class="pill">Chlamydophila pneumoniae</span>
+            <span class="pill">Mycoplasma pneumoniae</span>
+            <span class="pill">S. aureus</span>
+            <span class="pill">H. influenzae</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Virus e altri agenti</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Coronavirus (COVID-19)</span>
+            <span class="pill">Influenza virus</span>
+            <span class="pill">Adenovirus</span>
+            <span class="pill">Rhinovirus</span>
+            <span class="pill">Pneumocystis jirovecii (funghi)</span>
+            <span class="pill">Parassiti</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fattori Predisponenti</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Principali</div>
+        <div class="card-content">
+          <ul>
+            <li>Immunodepressione</li>
+            <li>Fumo di sigaretta (↓ difese ciliari)</li>
+            <li>Abuso alcolico</li>
+            <li>Terapia corticosteroidea</li>
+            <li>Età avanzata</li>
+            <li>Patologie polmonari pre-esistenti (BPCO, bronchiectasie, FC)</li>
+            <li>Alterato riflesso della tosse (post-chirurgia toracica/addominale)</li>
+            <li>Riduzione clearance muco-ciliare</li>
+            <li>Pazienti intubati in ventilazione meccanica</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Classificazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">4.1 Epidemiologica</div>
+        <div class="card-content">
+          <strong>CAP</strong> (Community Acquired Pneumonia): acquisita fuori dall'ospedale; batteri tendenzialmente antibiotico-sensibili.<br>
+          <strong>HAP</strong> (Hospital Acquired Pneumonia): acquisita in ospedale ≥48h dal ricovero; più spesso batteri multiresistenti, gram-negativi, P. aeruginosa, S. aureus meticillino-resistente.<br>
+          <em>Early onset</em> HAP (&lt;96h) vs <em>late onset</em> (&gt;96h o post-dimissione 24-48h).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.3 Anatomopatologica</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Polmonite interstiziale atipica</strong>: COVID-19, virus, funghi</li>
+            <li><strong>Polmonite lobare tipica</strong>: consolidamento in RX</li>
+            <li><strong>Broncopolmonite</strong>: infezione patchy, tanti piccoli focolai</li>
+            <li><strong>Polmonite necrotizzante</strong>: focolai di necrosi nel consolidamento (spesso S. aureus)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altre categorie</div>
+        <div class="card-content">
+          <strong>Polmonite da aspirazione</strong>: paziente con disfagia + anaerobi + gram-negativi.<br>
+          <strong>Polmonite da immunocompromesso</strong>: ampio spettro patogeni, esami microbiologici urgenti.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.3.1 Polmonite lobare — 4 Fasi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fase 1 — Congestione</div>
+        <div class="card-content">Batterio raggiunge l'alveolo → risposta infiammatoria → stravaso di materiale semiliquido. All'esame obiettivo: <strong>crepitii</strong> (crepitatio indux).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fase 2 — Epatizzazione rossa</div>
+        <div class="card-content">Alveoli completamente riempiti da essudato → solidificazione → aspetto di organo parenchimatoso. <strong>↑ Fremito vocale tattile</strong>, <strong>assenza murmure vescicolare</strong>, assenza crepitii. Extravaso di GR, GB, piastrine.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fase 3 — Epatizzazione grigia</div>
+        <div class="card-content">Risoluzione: emoglobina riassorbita (perde colore rosso), fibrina ultima a essere riassorbita (colore bianco-grigiastro). Esame obiettivo simile alla fase 2.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fase 4 — Risoluzione</div>
+        <div class="card-content">Completo riassorbimento del materiale, ritorno dell'aria. All'esame obiettivo: ritorno murmure vescicolare + <strong>crepitii</strong> (crepitatio redux).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Segni, Sintomi e Differenza Tipica/Atipica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">5 — Sintomi</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Febbre alta</span>
+            <span class="pill">Dispnea</span>
+            <span class="pill">Tosse produttiva/non</span>
+            <span class="pill">Dolore toracico (pleurite)</span>
+            <span class="pill">Sepsi, diarrea, vomito, nausea</span>
+          </div>
+          Negli anziani: sintomi sfumati, confusione mentale, caduta a terra.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">5.1 Polmonite tipica vs atipica</div>
+        <div class="card-content">
+          <strong>Tipica</strong>: tosse+catarro, grosso innalzamento flogosi (PCR, pro-calcitonina), GB alti, neutrofilia. Eziologia batterica.<br>
+          <strong>Atipica</strong>: sintomi sfumati, può sembrare bronchite. GB non sempre elevati (COVID: linfocitopenia). All'esame obiettivo: crepitio tele-inspiratorio modesto; all'RX: pattern interstiziale.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Quadri Radiologici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">RX Torace — Reperti</div>
+        <div class="card-content">
+          <strong>Infiltrato infiammatorio</strong> = addensamento bianco (radiopaco).<br>
+          <strong>Broncogrammi aerei</strong>: bronchi ancora visibili (segno di benignità — nel tumore i bronchi vengono invasi).<br>
+          Per localizzare: segno della silhouette — se il profilo cardiaco è visibile → addensamento posteriore; se nasconde il cuore → addensamento anteriore/contiguo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmonite interstiziale</div>
+        <div class="card-content">Difficile alla RX. All'RX: reticolazione simile a ragnatela. Alla <strong>TAC</strong>: zone a <strong>vetro smerigliato</strong> (ground glass) — caratteristico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Broncopolmonite</div>
+        <div class="card-content">Molti <strong>focolai patchy</strong> localizzati in modo sparso. L'albero bronchiale è via di trasmissione → grande espansione in tutto il polmone.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">7.1 Esami di primo livello</div>
+        <div class="card-content">
+          Parametri vitali → <strong>RX torace + Esami sangue</strong> (emocromo, PCR, pro-calcitonina, creatinina, elettroliti) + Emogas + Esami microscopici (emocolture, coltura espettorato, antigeni urinari pneumococco/legionella).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">7.2 Esami di secondo livello (invasivi)</div>
+        <div class="card-content">
+          <strong>Toracentesi</strong>: se si sviluppa pleurite con versamento parapneumonico.<br>
+          <strong>Broncoscopia</strong>: fondamentale nell'immunocompromesso (ampio spettro patogeni); esame MULTIPLEX (DNA di >20 patogeni); lavaggio bronchiale/catarro purulento.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">TAC torace</div>
+        <div class="card-content">Se polmonite interstiziale poco chiara, o per discriminare da cancro o altre patologie. In caso di cancro: permette di vedere metastasi e linfonodi patologici.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8–12. Eziologia, Complicazioni, Prevenzione, HAP</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">8.1 Eziologia CAP</div>
+        <div class="card-content">S. pneumoniae, batteri atipici (Mycoplasma, Chlamydia, Legionella), H. influenzae, S. aureus. Gram-negativi (enterobacteriaceae, P. aeruginosa) più rari ma antibiotico-resistenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">8.2 Eziologia HAP</div>
+        <div class="card-content">Gram-negativi (enterobacteriaceae, <strong>P. aeruginosa</strong>) + <strong>S. aureus</strong> (probabilmente meticillino-resistente). Spesso batteri multiresistenti.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">9. Complicazioni</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Versamento pleurico parapneumonico</span>
+            <span class="pill">Batteriemia → shock settico</span>
+            <span class="pill">Ascesso polmonare</span>
+            <span class="pill">Insufficienza respiratoria</span>
+          </div>
+          In era antibiotica sono molto meno frequenti.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">11. Prevenzione — Vaccini</div>
+        <div class="card-content">
+          Pazienti >65 anni e pazienti a rischio: <strong>vaccini pneumococcici</strong>.<br>
+          • Vaccino 13-valente (proteina coniugata), tutta la vita<br>
+          • Vaccino 23-valente (polisaccaridico, Pneumovax), tutta la vita<br>
+          I due vaccini si raccomandano entrambi, a 6 mesi di distanza.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12. Polmonite HAP</div>
+        <div class="card-content">Cut-off: ≥48h dall'ospedalizzazione. Più tardi viene acquisita → maggiore probabilità di MDR. >96h dal ricovero o dopo dimissione 24-48h → alta probabilità di patogeni multiresistenti.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l2 -->
+
+
+<!-- ═══════════════════════════════════ LEZ 3 ══════════════════ -->
+<div id="l3" class="page l3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Prof.ssa Faverio</div>
+    <div class="lesson-title">Fibrosi Cistica e Bronchiectasie</div>
+    <div class="lesson-meta">14/10/2022</div>
+  </div>
+
+  <!-- FIBROSI CISTICA -->
+  <div class="section">
+    <div class="section-title">1. Fibrosi Cistica</div>
+    <div class="highlight">
+      Chiamata anche <strong>mucoviscidosi</strong>: patologia autosomica recessiva con produzione di muco denso (non solo polmone, ma anche pancreas e altre ghiandole). Manifesta richiede entrambi i genitori eterozigoti. Manifestazioni più severe a livello polmonare; complicanze gastroenteriche.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Gene CFTR</div>
+        <div class="card-content">Localizzato sul cromosoma 7. Codifica per la proteina CFTR, sulla membrana apicale dell'epitelio delle vie aeree, tratto digerente, ghiandole sudoripare, apparato genito-urinario. CFTR è implicata nel trasporto dello ione Cl⁻ all'esterno della cellula → regola anche il trasporto di acqua → regola la viscosità delle secrezioni. Nuovi farmaci che "correggono" CFTR.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.1 Patogenesi</div>
+        <div class="card-content">
+          Secrezioni anomale: <strong>sudore ricco in Na e Cl</strong>, <strong>muco denso e vischioso</strong> → ostruzione dotti → infezioni croniche → rimodellamento parenchima. Il muco denso crea tappi → i batteri colonizzano → <strong>bronchiectasie</strong>. Può causare atelettasie.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.2 Complicanze polmonari</div>
+        <div class="card-content">
+          Ostruzione + infiammazione + infezione croniche. Batteri: <strong>Staphylococcus aureus</strong> (stadi precoci) e <strong>Pseudomonas aeruginosa</strong> (stadi avanzati, in biofilm). Anche Burkholderia cepacia (7% adulti FC). Insufficienza respiratoria → O₂-terapia, ipertensione polmonare, cuore polmonare.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.3 Complicanze extrapolmonari</div>
+        <div class="card-content">
+          <strong>Insufficienza pancreatica</strong> (85-90%): esocrina → steatorrea, malassorbimento; endocrina (10%) → diabete insulino-dipendente. Via biliare: cirrosi biliare 4-5%. Sterilità maschile.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.4 Diagnosi FC</div>
+        <div class="card-content">
+          <strong>Test del sudore</strong> (primo livello): concentrazione Cl⁻ nel sudore >60 mEq/L → diagnosi.<br>
+          <strong>Analisi genetica</strong> (gold standard): ricerca di tutte le possibili mutazioni CFTR.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">1.5 Gestione del paziente FC</div>
+        <div class="card-content">
+          Approccio <strong>multidisciplinare</strong>: pneumologo + broncoscopista + infettivologo + infermiere + psicologo + nutrizionista + fisioterapista. Centro di riferimento per la Lombardia: Policlinico di Milano.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRONCHIECTASIE -->
+  <div class="section">
+    <div class="section-title">2. Bronchiectasie</div>
+    <div class="highlight">
+      <strong>Dilatazione dei bronchi</strong> (forme variabili di gravità). Forme meno gravi quando l'anatomia del bronco è conservata (<strong>cilindriche o fusiformi</strong>, sistema ciliare conservato); più gravi quando l'anatomia è alterata (<strong>varicoidi o cistiche</strong>). Circolo vizioso: alterazione anatomica → difficile eliminazione secrezioni → infezione + infiammazione → ulteriore rimodellamento.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2.1 Diagnosi</div>
+        <div class="card-content">
+          <strong>TC torace ad alta risoluzione</strong>: gold standard. Se bronco ha dimensione maggiore del vaso adiacente → bronchiectasia. RX torace non fa diagnosi, ma bronchiectasie significative con pareti ispessite danno "immagine a binario". Broncorafia (pre-TAC): inalazione sostanza radio-opaca.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.2 Cause (non-FC)</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Fumo di sigaretta</span>
+            <span class="pill">Pregresse infezioni</span>
+            <span class="pill">Patologie autoimmuni (AR, Sjögren)</span>
+            <span class="pill">ABPA (Aspergillosi allergica)</span>
+            <span class="pill">Immunodeficienze</span>
+            <span class="pill">Patologie intestinali croniche (Crohn, colite)</span>
+            <span class="pill">BPCO</span>
+            <span class="pill">Deficit α1-antitripsina</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.3 Sintomatologia</div>
+        <div class="card-content">
+          <strong>Tosse cronica</strong>, <strong>catarro abbondante</strong> spesso purulento, <strong>emoftoe</strong>, storia di <strong>infezioni polmonari frequenti</strong>. Caso tipico: giovane, non fumatore, tosse persistente.<br>
+          Diagnosi differenziale principale: <strong>BPCO</strong> (età e storia del paziente distinguono).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.4 Valutazione della gravità</div>
+        <div class="card-content">Non legata solo all'evidenza radiologica: valutare infezioni in atto, colonie batteriche (spesso Pseudomonas), esacerbazioni frequenti, funzionalità (spirometria).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.5 Infezioni correlate</div>
+        <div class="card-content">
+          Batteri più coinvolti: <em>Haemophilus influenzae</em>, <em>Streptococcus pneumoniae</em> (più facili da gestire vs FC); anche <em>S. aureus</em>, <em>Moraxella catharralis</em>, micobatteri non-TBC (difficili da eradicare: almeno 1 anno + 3 mesi di terapia antibiotica).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fisioterapia Respiratoria</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Scopo</div>
+        <div class="card-content">Disostruire i bronchi + favorire buona prestazione meccanica dei muscoli respiratori. Obiettivo: evitare ristagno secrezioni, evitare atelettasie, ridurre riacutizzazioni (soprattutto FC).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tecniche principali</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>PEP bottiglia</strong>: pressione espiratoria positiva, allena muscoli respiratori</li>
+            <li><strong>Acapella</strong>: soffia contro una molla + sistema vibratorio</li>
+            <li><strong>Drenaggio posturale</strong>: posizioni che facilitano il drenaggio</li>
+            <li><strong>Coach</strong>: rinforza muscolatura respiratoria</li>
+            <li><strong>Cough assist</strong>: pressioni inspiratorie ed espiratorie simulate via maschera per pazienti con secrezioni dense</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Il Fumo (cenni, non argomento d'esame)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">4.1 Abitudine tabagica</div>
+        <div class="card-content">L'80% dei pazienti vorrebbe smettere; solo il 3% riesce senza supporto; sale all'8% con supporto psicologico, al 30-40% con counselling + farmaci.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.2 Sospensione del fumo</div>
+        <div class="card-content">
+          Fase pre-contemplativa / contemplativa → preparazione → azione → mantenimento → (ricaduta).<br>
+          <strong>Test di Fagerstrom</strong> (6 domande): classifica la dipendenza da nicotina in 4 categorie → indirizza al centro anti-fumo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.3 Centro anti-fumo</div>
+        <div class="card-content">Ambulatorio pneumologico con visite settimanali per 4-6 settimane. Terapia farmacologica: <strong>nicotina</strong> (cerotto o gomma), <strong>bupropione</strong>, <strong>vareniclina</strong> (duplice effetto: agonista recettori nicotinici, evita crisi di astinenza).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4.4 Sigaretta elettronica</div>
+        <div class="card-content">Non contiene prodotti di combustione (no catrame) ma contiene metalli pesanti. Genera vapore via glicole propilenico + glicerolo. Mancano controlli standardizzati. Non si conosce l'effetto a lungo termine.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l3 -->
+
+
+<!-- ═══════════════════════════════════ LEZ 4 ══════════════════ -->
+<div id="l4" class="page l4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 4 · Prof.ssa Faverio</div>
+    <div class="lesson-title">Pneumotorace e Sintomi Pneumologici Comuni</div>
+    <div class="lesson-meta">17/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Pneumotorace — Definizione e Diagnosi</div>
+    <div class="highlight">
+      <strong>Presenza di aria nello spazio pleurico</strong> → collasso parziale o completo del polmone. All'RX: polmone piccolo e schiacciato, cavità pleurica nera (iperdiafana). Il dolore toracico è uno dei sintomi principali (ma anche delle pleuriti).
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2. Eziologia</div>
+        <div class="card-content">
+          <strong>Spontaneo</strong>: primitivo o secondario<br>
+          <strong>Traumatico</strong>: penetrante, da frattura costale, da compressione<br>
+          <strong>Iatrogeno</strong>: posizionamento CVC, toracentesi, ventilazione meccanica
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.1 Pnx spontaneo primitivo</div>
+        <div class="card-content">Pazienti <strong>senza patologie</strong> sottostanti. Rottura di piccole bolle nell'apice del polmone. Giovani uomini longilinei 15-30 anni, fumatori. Rischio di recidiva molto alto → intervento di <strong>bullectomia</strong>. Bolle (blebs) di diametro &lt;1-2 cm.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.2 Pnx spontaneo secondario</div>
+        <div class="card-content">
+          Patologie con formazione di bolle o alterazione anatomica.<br>
+          <div class="pills">
+            <span class="pill">BPCO (enfisema)</span>
+            <span class="pill">Bronchiectasie e FC</span>
+            <span class="pill">Fibrosi polmonare idiopatica</span>
+            <span class="pill">Polmonite da pneumocystis</span>
+            <span class="pill">Endometriosi</span>
+            <span class="pill">Scleroderma / collagenopatie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fisiopatologia Pneumotorace</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Aperto</div>
+        <div class="card-content">Soluzione di continuità fra interno e esterno rimane pervia (ferita lacero-contusa da accoltellamento/fratture).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Chiuso (da "lesioni da scoppio")</div>
+        <div class="card-content">Nessuna soluzione di continuità con l'esterno. Alterazione all'interno (barotrauma da ventilazione meccanica).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iperteso ⚠️ (emergenza chirurgica)</div>
+        <div class="card-content">
+          Meccanismo a <strong>valvola</strong>: inspirazione → aria entra nel cavo pleurico; espirazione → la soluzione si chiude. Accumulo vertiginoso di pressione nel cavo → <strong>compressione strutture mediastiniche</strong> (vena cava sup/inf, vena azygos) → cuore compresso → ↓↓ precarico → <strong>shock ipovolemico</strong> in pochi minuti.<br>
+          All'esame obiettivo: assenza MV + suono ipertimpanico + sbandamento tracheale controlaterale.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4–7. Entità, Valutazione obiettiva, Sintomi, Diagnostica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">4. Entità del pnx</div>
+        <div class="card-content">
+          <strong>Marginale</strong>: riposo + O₂-terapia<br>
+          <strong>Moderato</strong>: drenaggio<br>
+          <strong>Massivo</strong>: drenaggio urgente
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">5. Valutazione obiettiva (pnx moderato/massivo)</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Iperfonesi</strong> alla percussione</li>
+            <li>Difficoltà percezione del fremito vocale tattile</li>
+            <li><strong>Assenza di murmure vescicolare</strong> (silenzio auscultatorio)</li>
+          </ul>
+          Pnx marginale: segni difficili da percepire.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">6. Sintomatologia</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Dolore toracico</strong> (70/90% dei casi): tipo trafittivo, monolaterale, aumenta con tosse e atti respiratori; risponde a antalgici</li>
+            <li><strong>Dispnea</strong> (40-70%): antalgica (respiri piccoli)</li>
+            <li><strong>Tosse secca</strong>: raramente</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">7. Diagnostica</div>
+        <div class="card-content">
+          <strong>RX torace</strong>: in inspirio ed espirio (meglio in espirio). Idealmente entrambe le lastre.<br>
+          <strong>TC torace</strong>: se dubbi clinici; migliore osservazione del parenchima e delle bolle.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8–9. Enfisema Sottocutaneo e Trattamento</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">8. Enfisema sottocutaneo</div>
+        <div class="card-content">Nei traumi "aperti" con continuità fra piani esterni, parenchima e pleura → separazione piani cutanei con aria. Palpazione simile a "calpestare la neve fresca appena caduta". Trattamento: drenaggio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">9. Trattamento pnx</div>
+        <div class="card-content">
+          Falda &lt;2-3 cm + non rifornito → <strong>toracentesi</strong>.<br>
+          Rifornito o massivo → <strong>drenaggio toracico</strong> (catetere nel 2° spazio intercostale sull'emiclaveare, sistema di bottiglie con valvola ad acqua).<br>
+          Indicazioni chirurgiche: <strong>bullectomia</strong> per prevenire recidive in pazienti giovani con blebs.<br>
+          <strong>Pleurodesi</strong> chimica (talco) o chirurgica per prevenire recidive.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10. Dal sintomo alla diagnosi</div>
+    <div class="highlight">
+      Sintomi pneumologici più comuni: <strong>Tosse</strong>, <strong>Dispnea</strong>, <strong>Emoftoe/Emottisi</strong>. Possono avere diverse cause; diagnosi differenziale fondamentale.
+    </div>
+
+    <div class="section-title" style="margin-top:16px">11. Tosse</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione per durata</div>
+        <div class="card-content">
+          <strong>Acuta</strong>: &lt;3 settimane · <strong>Subacuta</strong>: 3-8 settimane · <strong>Cronica</strong>: &gt;8 settimane
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause tosse secca (principali)</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Asma</strong>: stagionale, notturna, dopo cambio temperatura/allergeni</li>
+            <li><strong>MRGE</strong>: tosse in posizione supina, peggiora dopo pasti</li>
+            <li><strong>Sindrome della tosse delle alte vie aeree</strong>: rinite/sinusite cronica, post-nasal drip</li>
+            <li><strong>Fumo di sigaretta</strong></li>
+            <li><strong>ACE-inibitori</strong> (effetto collaterale)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause tosse meno comuni</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Bronchiectasie</span>
+            <span class="pill">BPCO</span>
+            <span class="pill">Tumore del polmone</span>
+            <span class="pill">Interstiziopatie</span>
+            <span class="pill">TBC / micobatteri</span>
+            <span class="pill">Tosse psicogena (TIC)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">11.1 Diagnosi differenziale tosse</div>
+        <div class="card-content">
+          9 domande chiave: quando è iniziata, produttiva o secca, quando è più frequente, luoghi/ambienti, lavoro, fumo, preceduta da raffreddore, farmaci, sintomi associati. Anche il momento di insorgenza è importante (notte → asma/MRGE; risveglio → fumo/BPCO; esercizio → asma da sforzo).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">12. Dispnea</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione</div>
+        <div class="card-content">
+          <strong>Per momento di insorgenza</strong>: a riposo (grave), sotto sforzo, notturna (scompenso cardiaco → ortopnea).<br>
+          <strong>Per durata</strong>: acuta · subacuta · cronica.<br>
+          <strong>Per intensità</strong>: scala <strong>MRC</strong> (soggettiva: quanto rallenta il cammino), scala <strong>Borg</strong> (soggettiva nel test del cammino 0-10).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo di sensazione</div>
+        <div class="card-content">
+          <strong>Fame d'aria</strong>: scompenso cardiaco, edema polmonare<br>
+          <strong>Costrizione</strong>: non si espande il torace, tipico dell'asma<br>
+          <strong>Sforzo respiratorio aumentato</strong>: interstiziopatie (polmone duro, fibrotico)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12.1 Dispnea acuta</div>
+        <div class="card-content">
+          Insorgenza improvvisa → urgenza. Valutare: saturazione, FR, EGA.<br>
+          Cause principali: <strong>pneumotorace</strong> (dolore trafittivo monolaterale) o <strong>embolia polmonare</strong> (dolore pleuritico, D-Dimero negativo esclude EP ma positivo non la conferma → TAC con contrasto).<br>
+          D-Dimero: alto valore predittivo <em>negativo</em>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">12.2 Dispnea cronica</div>
+        <div class="card-content">
+          Valutazione: saturazione + EGA + RX torace + spirometria + test del cammino + ECG/ecocg.<br>
+          <strong>Dispnea parossistica notturna</strong>: compare di notte, non da sforzo.<br>
+          Cause: insufficienza ventricolare sinistra, asma, OSAS, paralisi diaframmatica.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">13. Emottisi ed Emoftoe</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizioni</div>
+        <div class="card-content">
+          <strong>Emottisi</strong>: presenza massiva di sangue dalle vie aeree.<br>
+          <strong>Emoftoe</strong>: strisci di sangue nell'espettorato.<br>
+          Differenza: entità del sanguinamento.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause se ricorrenti</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Bronchiectasie</span>
+            <span class="pill">Fibrosi cistica</span>
+            <span class="pill">Tubercolosi</span>
+            <span class="pill">Cavità colonizzate da aspergillomi</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause primo episodio</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Neoplasia polmonare</strong> (lesioni centrali, grossi bronchi)</li>
+            <li>Tubercolosi</li>
+            <li>Embolia polmonare (infarto polmonare)</li>
+            <li>Vasculiti</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fattori predisponenti</div>
+        <div class="card-content">
+          <ul>
+            <li>Terapia antiaggregante o anticoagulante</li>
+            <li>Disordini della coagulazione (piastrinopenia)</li>
+            <li>Ipertrofia delle arterie bronchiali</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">13.1–13.3 Diagnosi e Trattamento</div>
+        <div class="card-content">
+          In PS: emocromo + coagulazione + indagare terapia anticoagulante.<br>
+          RX torace → se non dirimente → <strong>TAC con contrasto</strong>.<br>
+          <strong>Broncoscopia</strong>: capire lato e entità sanguinamento. Se massiva → ricovero + eventuale intubazione selettiva. Arterie ipertrofiche → <strong>embolizzazione</strong> (chiuderle). In extremis: chirurgia.
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l4 -->
+
+
+<!-- ═══════════════════════════════════ LEZ 5 ══════════════════ -->
+<div id="l5" class="page l5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 5 · Prof. Luppi</div>
+    <div class="lesson-title">Versamento Pleurico, Pleurite e Mesotelioma</div>
+    <div class="lesson-meta">18/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Anatomia e Fisiologia della Pleura</div>
+    <div class="highlight">
+      La <strong>pleura</strong> è una membrana sierosa, trasparente e sottile, che ricopre il polmone (pleura viscerale) e la cavità toracica (pleura parietale). I due foglietti si toccano a livello dell'ilo polmonare. Lo spazio pleurico contiene quantità minime di liquido lubrificante. La pressione endopleurica è <strong>negativa di circa -5 cmH₂O</strong> (tendenza del polmone a retrarsi vs tendenza della gabbia toracica ad espandersi).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Versamento Pleurico</div>
+    <div class="highlight">
+      <strong>Accumulo di liquido nello spazio pleurico in eccesso</strong> rispetto alle quantità fisiologiche (normalmente 10-20 ml). Epidemiologia USA: 1000 casi ogni 100.000 abitanti.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2.1 Pleurite</div>
+        <div class="card-content"><strong>Flogosi della pleura</strong> da cause infettive (più frequenti), immunologiche o neoplastiche. Versamenti di tipo essudativo, contenuto proteico maggiore. La pleurite può causare versamento ma non sempre i due fenomeni sono associati.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.2 Meccanismi di genesi</div>
+        <div class="card-content">
+          <ul>
+            <li>Aumento della <strong>pressione idrostatica</strong> dei capillari (→ trasudati)</li>
+            <li>Diminuzione della <strong>pressione oncotica</strong> nel plasma (→ trasudati)</li>
+            <li>Aumento della <strong>permeabilità capillare</strong> (→ essudati)</li>
+            <li>Aumento della negatività della <strong>pressione intrapleurica</strong></li>
+            <li>Compromissione del <strong>drenaggio linfatico</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.3 Trasudati ed Essudati</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Trasudati</div>
+        <div class="card-content">
+          Dovuti a ↑ pressione idrostatica o ↓ pressione oncotica. Si manifestano <strong>in assenza di patologia pleurica primitiva</strong> (malattie sistemiche).<br>
+          Contenuto proteico &lt;2,5 g per 100 ml.<br>
+          <strong>Cause di trasudati bilaterali</strong>: insufficienza cardiaca congestizia (80%), cirrosi epatica (8%), sindrome nefrosica (4%), atelettasia, dialisi, ipoalbuminemia…
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Essudati</div>
+        <div class="card-content">
+          Patologie primitive della pleura → aumento permeabilità capillari pleurici.<br>
+          Contenuto proteico &gt;2,5 g per 100 ml.<br>
+          <strong>Cause di essudati monolaterali</strong>: infezioni polmonari 50% (polmoniti, TBC), neoplasie 25% (cancro polmone, mesotelioma, linfoma, metastasi), malattie autoimmuni, cause extrapleuriche (embolia polmonare, pancreatite), pleuriti idiopatiche 25%.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipi di versamento per aspetto</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Empiema (pus)</span>
+            <span class="pill">Emotorace (sangue)</span>
+            <span class="pill">Pseudoemotorace (ematocrito 3-4%)</span>
+            <span class="pill">Chilotorace (chilo, lattescente)</span>
+          </div>
+          Pseudoemotorace ematocrito del LB &lt;40-50% di quello del sangue → macchina emogas.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Distinguere trasudato/essudato</div>
+        <div class="card-content">
+          <strong>Criteri di Light</strong>: proteine LB/plasma &gt;0.5; LDH LB/plasma &gt;0.6; LDH LB &gt;2/3 del normale siero → essudato.<br>
+          <strong>Criteri semplificati</strong>: LDH LB &gt;0.45 del siero + colesterolo LB &gt;45 mg/dl + proteine LB &gt;2.9 g/dl.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.4 Sintomatologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi</div>
+        <div class="card-content">
+          15% dei versamenti è asintomatico (poco liquido, formazione lenta).<br>
+          • <strong>Dolore toracico</strong>: trafittivo, peggiora con gli atti del respiro — tipico di <strong>pleurite secca</strong>. Scompare quando si forma il versamento (le pleure non si sfregano più). Se c'è molto liquido → atelettasia da compressione.<br>
+          • <strong>Tosse</strong>: secca, stizzosa, accessionale.<br>
+          • <strong>Dispnea</strong>: legata all'entità del versamento.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">2.5 Esame Obiettivo</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Ispezione</strong>: ipomobilità dell'emitorace</li>
+            <li><strong>Palpazione</strong>: ↓/assenza fremito vocale tattile ("trentatré")</li>
+            <li><strong>Percussione</strong>: ipofonesi plessica fino all'ottusità di coscia<br>
+              3 aree: <em>Linea di Damoiseau-Ellis</em> (ipofonesi), <em>Triangolo di Garland</em>, <em>Triangolo di Grocco</em></li>
+            <li><strong>Auscultazione</strong>: sfregamenti pleurici (pleurite secca), ↓/assenza MV, soffio bronchiale</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2–3. Diagnosi del versamento e Toracentesi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Diagnosi — Passi</div>
+        <div class="card-content">
+          <ol style="padding-left:14px; font-size:.84rem; line-height:1.55">
+            <li><strong>Anamnesi</strong>: familiare (mesotelioma?), lavorativa (asbesto?)</li>
+            <li><strong>Radiografia del torace</strong>: 175 ml di LB occorrono per obliterare l'angolo costofrenico. Aspetto tipico: menisco ascendente, lateralmente (versamento libero monoloculare o falciforme)</li>
+            <li><strong>Percussione colonna vertebrale</strong>: ipofonesi → versamento libero (si sposta controlateralmente); ottusità → versamento saccato</li>
+          </ol>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">3. Toracentesi</div>
+        <div class="card-content">
+          Per estrarre il liquido e determinarne le caratteristiche. Non deve essere toracentizzato: 1) liquido scarsissimo; 2) scompenso cardiaco congestizio; 3) cause note di trasudato.<br>
+          <strong>MAI più di 2L</strong>: rischio di shock pleurico e sindrome vaso-vagale.<br>
+          Tecnica: ago lungo il margine superiore della costa inferiore (evitare arteria intercostale che corre sul versante inferiore).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">4. Caratteristiche macroscopiche del versamento</div>
+        <div class="card-content">
+          Si osservano: colore, viscosità, odore (anaerobi → odore nauseante). Classificazione:<br>
+          <div class="pills">
+            <span class="pill">Sieroso (limpido, trasudato)</span>
+            <span class="pill">Suppurativo/purulento (empiema)</span>
+            <span class="pill">Lattescente (chilotorace)</span>
+            <span class="pill">Emorragico</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /l5 -->
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>

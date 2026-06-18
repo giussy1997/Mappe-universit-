@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lez 3 — Patologie Cerebrovascolari</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chirurgia Cardiovascolare — Lez. 3 · Prof. Froio · 28/10/2022</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Anatomia & Circolo</button>
+    <button class="s2"        onclick="show('s2',this)">Ictus</button>
+    <button class="s3"        onclick="show('s3',this)">Diagnosi Carotidea</button>
+    <button class="s4"        onclick="show('s4',this)">Linee Guida & Terapia</button>
+  </nav>
+</header>
+
+<!-- S1: Anatomia -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Prof. Froio</div>
+    <div class="lesson-title">Patologie Cerebrovascolari</div>
+    <div class="lesson-meta">28/10/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Anatomia vascolare cerebrale</div>
+    <div class="highlight">
+      Dall'arco aortico nascono: <strong>anonima (brachiocefalica)</strong> a destra, <strong>carotide comune sinistra</strong> e <strong>succlavia sinistra</strong>. Esistono <strong>6 carotidi</strong> (comune, interna, esterna × 2). Perfusione cerebrale: <strong>40% carotide interna</strong> + 10% vertebrale per lato = 100%.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Carotide interna</div>
+        <div class="card-content">No collaterali extracranici. Intracranicamente contribuisce al <strong>Poligono di Willis</strong>. Aterosclerosi tipica al <strong>seno carotideo</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Carotide esterna</div>
+        <div class="card-content">Riccamente anastomizzata con la controlaterale → <strong>non esiste ischemia</strong> di volto, lingua, faringe, tiroide.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arteria vertebrale — 4 segmenti</div>
+        <div class="card-content"><strong>V1</strong>: extra-vertebrale. <strong>V2</strong>: nei forami vertebrali. <strong>V3</strong>: extracranico. <strong>V4</strong>: intracranico → si fonde con la controlaterale → <strong>arteria basilare</strong>. Vascolarizza il tronco encefalico (centri della vita).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mammaria interna (dalla succlavia)</div>
+        <div class="card-content">Usata dal cardiochirurgo per <strong>bypass coronarico</strong>. Non viene deconnessa (anastomosi diretta). I chirurghi vascolari curano la succlavia solo se da essa nasce il bypass coronarico.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Vascolarizzazione settoriale cerebrale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">A. cerebrale anteriore</div>
+        <div class="card-content">Territorio <strong>giallo</strong> (mediale, ~10% per lato).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">A. cerebrale media ★</div>
+        <div class="card-content">Territorio <strong>rosso</strong> (laterale, ~30% per lato). Più grande. Embolia da carotide interna → lesione della media.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">A. cerebrale posteriore</div>
+        <div class="card-content">Territorio <strong>blu</strong> (~10% per lato). Vascolarizzata dalle vertebrali (ma nel <strong>2%</strong> dei casi da origine fetale → dalla carotide interna: se ischemia posteriore cercare embolo nella carotide!).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Importanza del Poligono di Willis pre-chirurgia</div>
+    <div class="highlight">
+      Prima di una chirurgia carotidea: TC con mdc per valutare il poligono. Se mancano le comunicanti → la carotide interna è arteria terminale → clampaggio tollerato solo <strong>3 minuti</strong>. In tal caso preferire <strong>stent carotideo</strong> invece della chirurgia open.
+    </div>
+  </div>
+</div>
+
+<!-- S2: Ictus -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Ictus</div>
+    <div class="lesson-title">Ictus — Cause, Sintomi, Placche</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Epidemiologia</div>
+    <div class="highlight">
+      USA: 1 ictus ogni 40 sec. Italia: 1 ogni 3 minuti. <strong>Prima causa di disabilità</strong> nei Paesi occidentali. <strong>87% ischemici</strong>, 13% emorragici. TIA: dura &lt;24h. Ictus: visibile alla TAC dopo 24h (la clinica conta!).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause di ictus (da sapere a memoria)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Aterosclerosi grandi arterie (15–40%)</div>
+        <div class="card-content">Soprattutto carotide interna con stenosi <strong>≥50%</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cardio-embolico (15–30%)</div>
+        <div class="card-content">Cause: <strong>fibrillazione atriale</strong>, endocardite infettiva, aneurisma ventricolare post-infarto, pervietà forame ovale (shunt), mixoma atriale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Patologia microvascolare (15–30%)</div>
+        <div class="card-content"><strong>Infarti lacunari</strong> per occlusione di arteriole cerebrali.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause ignote / ESUS (40%) ★</div>
+        <div class="card-content">Ictus criptogenetico. La percentuale più alta! Ricerca del focolaio emboligeno per esclusione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause minori (&lt;5%)</div>
+        <div class="card-content">Vasculiti, displasia fibromuscolare, trombofilia…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sintomi dell'ictus (da riconoscere)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi veri ✓</div>
+        <div class="card-content">
+          <ul>
+            <li>Deficit sensitivo</li>
+            <li><strong>Deficit motorio</strong>: emiplegia/emiparesi (controlaterale alla lesione)</li>
+            <li><strong>Disturbo del linguaggio</strong>: afasia (emisfero dominante = sinistro 95%) o disartria</li>
+            <li><strong>Disturbo visivo</strong>: deficit di campo, amaurosi (embolo arteria retinica)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">NON sono sintomi carotidei ✗</div>
+        <div class="card-content">Vertigine, scotomi, confusione, emicrania, amnesia globale transitoria, <strong>sincope</strong> (quasi sempre problema cardiaco/pressorio), incontinenza vescicale (→ epilessia).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Placca carotidea: composizione e morfologia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Placca molle (soft) — vulnerabile</div>
+        <div class="card-content">Prevalgono <strong>core lipidico</strong> ed <strong>emorragia intraplacca</strong>. All'eco-Doppler: <strong>ipoecogena (nera)</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:#3d8b6a;">Placca calcifica (hard) — stabile</div>
+        <div class="card-content">Prevalgono <strong>tessuto fibroso</strong> e <strong>calcificazione</strong>. All'eco-Doppler: <strong>iperecogena (bianca)</strong>. Con cono d'ombra = molto calcificata.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Quota infiammatoria (macrofagi CD68+)</div>
+        <div class="card-content">↑ macrofagi → ↑ metalloproteasi → cappuccio più sottile → ↑ vulnerabilità. Solo visibile con immunoistochimica (non con H&amp;E).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Placca rottasi (post-ictus)</div>
+        <div class="card-content">Spesso ha un <strong>coagulo residuo</strong> → rischio secondo ictus. Motivo per cui il paziente va operato entro 14 giorni dal primo ictus.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione sintomatico / asintomatico</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Sintomatico</div>
+        <div class="card-content">Ha causato TIA o ictus negli <strong>ultimi 6 mesi</strong>. Operare entro <strong>14 giorni</strong> (alto rischio recidiva).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Asintomatico</div>
+        <div class="card-content">TIA/ictus più di 6 mesi fa. Tempistica chirurgica: circa <strong>2 mesi</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Diagnosi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Diagnosi</div>
+    <div class="lesson-title">Diagnosi della Stenosi Carotidea</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Screening — chi va studiato</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Indicazioni all'eco-Doppler TSA</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Arteriopatia periferica</span>
+            <span class="pill">Claudicatio</span>
+            <span class="pill">Diabete</span>
+            <span class="pill">Cardiopatia ischemica</span>
+            <span class="pill">Coronaropatia (40% ha anche stenosi carotidea)</span>
+          </div>
+          Over 65 con: dislipidemia, ipertensione, diabete, fumo, storia di ischemia cerebrale.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1° livello — Eco-Doppler TSA</div>
+    <div class="highlight">
+      Valuta: <strong>IMT</strong> (spessore intima-media), presenza di ateroma, <strong>PSV</strong> (peak systolic velocity) nel punto di massima stenosi. Principio di Bernoulli: stenosi &gt;50% → ↑ velocità, ↓ pressione a valle. <strong>Non può esistere stenosi significativa senza accelerazione di flusso!</strong>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">IMT (spessore intima-media)</div>
+        <div class="card-content">Misurata in <strong>carotide comune</strong>. Normale ≤0,8 mm, patologica da 1,0 mm. Non è patologia ma spia di esposizione ai fattori di rischio CV. Per ogni +0,1 mm: <strong>+10% rischio</strong> ictus e IMA nel tempo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Corrispondenza PSV / stenosi</div>
+        <div class="card-content">
+          <strong>PSV &lt;1,0 m/s</strong> → NASCET 10% / ECST 50%<br>
+          <strong>PSV 1,3 m/s</strong> → NASCET 50% / ECST 70%<br>
+          <strong>PSV 2,0 m/s</strong> → NASCET 70% / ECST 80% ← <em>cut-off europeo</em><br>
+          Accuratezza 90% (10% falsi positivi/negativi).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Morfologia placca all'eco</div>
+        <div class="card-content"><strong>Bianca (iperecogena)</strong>: collagene. <strong>Nera (ipoecogena)</strong>: lipidi o emorragia. <strong>Cono d'ombra</strong>: calcio. Superficie irregolare/ulcerata: focolaio emboligeno attivo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2° livello — TAC con mdc (angioTAC)</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Informazioni fornite</div>
+        <div class="card-content">
+          <ul>
+            <li>Conferma % stenosi (eco ha 10% inaccuratezza)</li>
+            <li><strong>Quantità di calcio</strong>: se &gt;50% circonferenza → <strong>controindicazione assoluta allo stent</strong></li>
+            <li><strong>Morfologia arco aortico</strong>: tipo I (giovani) / tipo II-III (anziani con arco allungato) → tipo II-III controindicano lo stent carotideo</li>
+            <li>Anomalie anatomiche, tortuosità (kinking), lesioni tandem</li>
+            <li><strong>Shaggy aorta</strong>: controindicazione assoluta allo stent carotideo</li>
+            <li>Area ischemico-necrotica, neoplasie</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Metodi di calcolo stenosi (NASCET vs ECST)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">NASCET (preferito)</div>
+        <div class="card-content">Rapporto A/C (punto di massima stenosi / carotide interna distale). Dà valori più bassi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ECST</div>
+        <div class="card-content">Rapporto A/B (punto di massima stenosi / diametro avventizia-avventizia). Dà valori più alti dello stesso 20%. Confonde il paziente!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Linee Guida & Terapia -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 3 · Linee Guida</div>
+    <div class="lesson-title">Linee Guida & Terapia</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia farmacologica</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label" style="color:#3d8b6a;">Antiaggregante — obbligatorio</div>
+        <div class="card-content">
+          <strong>100% dei pazienti</strong> con stenosi carotidea (≥40%) devono assumere antiaggregante.<br>
+          <strong>Prima scelta: cardioaspirina 100 mg</strong> (anche con gastrite/reflusso; sospesa solo se sintomi intollerabili).<br>
+          <strong>Alternativa: clopidogrel 75 mg</strong> (PLAVIX — pathway diverso).<br>
+          <strong>Doppia terapia antiaggregante</strong>: disponibile farmaco combinato.<br>
+          Il chirurgo vascolare è l'unico che <strong>non sospende</strong> la terapia antiaggregante pre-operatorio (rischio IMA 2%).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Indicazioni chirurgiche (linee guida)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label" style="color:#c94040;">Paziente sintomatico</div>
+        <div class="card-content">Stenosi <strong>&gt;50% NASCET</strong> (PSV &gt;1,3 m/s). Operare entro <strong>14 giorni</strong> dall'evento.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Paziente asintomatico</div>
+        <div class="card-content">Stenosi <strong>&gt;70% NASCET</strong> (PSV &gt;2,0 m/s). Tempistica: circa 2 mesi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Endoarteriectomia carotidea (accenno)</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label" style="color:#3d8b6a;">Procedura (solo accenno — esame del 6° anno)</div>
+        <div class="card-content">
+          Si incide la carotide interna, si rimuove l'ateroma (ultimo cm carotide comune + pezzetto esterna + intera placca interna). Zona senza epitelio post-chirurgia → tende a trombizzare → anticoagulante intra-operatorio + antiaggregante post-operatorio.<br>
+          Alternativa: <strong>stent carotideo</strong> (endovascolare, monitoraggio su schermo RX).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi dell'ictus in PS</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Flow diagnostico</div>
+        <div class="card-content">
+          1. Visita neurologica<br>
+          2. <strong>TAC encefalo basale</strong> → positiva = ictus emorragico / negativa (prime 24h) = ictus ischemico<br>
+          3. Se ischemico: trombolisi endovenosa (tPA) entro la finestra temporale<br>
+          4. Se occlusione cerebrale media: <strong>tromboaspirazione meccanica</strong> (standard of care attuale)<br>
+          La TAC standard è <strong>negativa nelle prime 24h</strong> per l'ictus ischemico → la clinica è determinante!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

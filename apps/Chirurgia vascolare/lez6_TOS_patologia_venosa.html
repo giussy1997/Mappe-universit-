@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch. Vascolare #6 — TOS & Patologia Venosa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chirurgia Vascolare #6 — Prof. Froio · 18/11/2022</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">TOS</button>
+    <button class="s2"        onclick="show('s2',this)">Triade di Virchow</button>
+    <button class="s3"        onclick="show('s3',this)">TVP & TVS</button>
+    <button class="s4"        onclick="show('s4',this)">Diagnosi Differenziale</button>
+  </nav>
+</header>
+
+<!-- S1: TOS -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Vascolare #6 · Prof. Froio</div>
+    <div class="lesson-title">Sindrome dello Stretto Toracico (TOS)</div>
+    <div class="lesson-meta">18/11/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione e anatomia</div>
+    <div class="highlight">
+      Compressione di arteria, vena e/o plesso brachiale a livello dello stretto toracico. <strong>Non confondere con il furto della succlavia</strong> (meccanismo completamente diverso: qui è compressiva). Diagnosi difficile: il paziente vede in media <strong>5 specialisti</strong> prima della diagnosi corretta, 7 prima del trattamento. Età tipica: 30-50 anni.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">3 spazi anatomici</div>
+        <div class="card-content">
+          <strong>Triangolo degli scaleni</strong>: arteria succlavia + radici C5-T1 (no vena succlavia, è anteriore).<br>
+          <strong>Pinza costo-claveare</strong>: vena (ant.) + arteria (centro) + plesso brachiale (post.) → <strong>sede più comune di compressione</strong>.<br>
+          <strong>Inserzione piccolo pettorale</strong> (coracoide): vena succlavia compressa sotto il muscolo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cause della compressione</div>
+        <div class="card-content">
+          <strong>Struttura in più</strong>: costa cervicale (63% della TOS arteriosa), mega apofisi trasversa C7, frattura clavicola con callo osseo, legamenti aggiuntivi (difficile da diagnosticare).<br>
+          <strong>Disfunzione meccanica</strong>: uomini con muscoli ipertrofici che chiudono la pinza; donne asteniche con atrofia dei muscoli che aprono la pinza.<br>
+          Evento scatenante tipico: colpo di frusta (incidente).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tipologie di TOS</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Neurogenica (95%) — più freq.</div>
+        <div class="card-content">
+          Compressione del <strong>plesso brachiale</strong>. Donne 20-40 anni.<br>
+          Sintomi: dolore soprascapolare/collo/spalla, parestesie, formicolio, debolezza nella prensione, cefalea, Raynaud. ↑ con sollevamento del braccio.<br>
+          Diagnosi: EMG + RM.<br>
+          <strong>Trattamento</strong>: fisioterapia (potenziare muscoli che aprono la pinza). Se complicanza vascolare (4-5%): rimozione costa.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Venosa (3%)</div>
+        <div class="card-content">
+          TVP della vena succlavia/ascellare (sindrome di <strong>Paget-Schrotter</strong>, trombosi da sforzo).<br>
+          Alla base di quasi tutte le TVP dell'arto superiore.<br>
+          Diagnosi: ecodoppler + angioTC/angiorisonanza con <strong>manovra dinamica</strong> (arto addotto poi abdotto).<br>
+          <strong>Trattamento</strong>: rimozione della prima costa (unico modo per liberare la vena).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Arteriosa (1%)</div>
+        <div class="card-content">
+          Compressione → <strong>aneurisma post-stenotico</strong> → apposizione trombotica → <strong>embolizzazione periferica</strong> (chiude tutte le arterie a valle). Rischio amputazione arto superiore.<br>
+          Spesso asintomatica fino all'embolia (circoli collaterali).<br>
+          Trattamento: rimozione costa + rimozione aneurisma + bypass (GORE-TEX armato).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Manovre diagnostiche</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Test di Adson</div>
+        <div class="card-content">Iperestensione arto posteriore + rotazione testa omolaterale + inspirazione trattenuta → scomparsa del polso radiale → <strong>compressione arteriosa</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Manovra EAST</div>
+        <div class="card-content">Braccia abdotte a 90°, mani aperte e chiuse per 3 minuti → comparsa di parestesie (compressione plesso brachiale) o pallore. Test positivo se sintomi.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ecodoppler con manovra dinamica</div>
+        <div class="card-content">Accuratezza manovre da sole: 30-76%. Con ecodoppler: <strong>82%</strong>. Fondamentale la manovra dinamica: esami a riposo inutili.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Claudicatio neurogena — D.D. con claudicatio vascolare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Claudicatio neurogena</div>
+        <div class="card-content">
+          Limitazione della deambulazione per compressione radici nervose (artrosi rachide, stenosi canale midollare, ernia discale).<br>
+          ≠ da vascolare: presenza di <strong>parestesie e formicolio</strong> (assenti nella vascolare) e <strong>miglioramento con cambio di posizione</strong>.<br>
+          Diagnosi: RM rachide lombo-sacrale + EMG arti inferiori.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Triade di Virchow -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Vascolare #6 · Triade di Virchow</div>
+    <div class="lesson-title">Patologia Venosa — Triade di Virchow</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Triade di Virchow — patogenesi della TVP</div>
+    <div class="highlight">
+      <strong>1) Danno endoteliale + 2) Stasi ematica + 3) Trombofilia</strong><br>
+      Chiedersi sempre quale componente è implicata nel paziente davanti a noi: aspetto ancora più importante della diagnosi e del trattamento.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Danno endoteliale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cause principali</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Chemioterapici</strong> (più tossici per l'endotelio)</li>
+            <li>Traumi esterni</li>
+            <li>Tossicodipendenti (punture ripetute → sclerosi vene superficiali → poi profonde)</li>
+            <li><strong>Cannulazione</strong>: CVC, ago-cannula (tromboflebite superficiale), PICC/Midline, emodialisi (fistola artero-venosa), Port-a-cath</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Stasi ematica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cause e prevenzione</div>
+        <div class="card-content">
+          Pazienti allettati/ricoverati.<br>
+          Profilassi: <strong>eparina s.c. + calza elastica</strong> (tutti i pazienti operati).<br>
+          Vene varicose → stasi → rischio trombosi.<br>
+          <strong>Sindrome da Economy Class</strong>: volo prolungato → immobilità → rischio TVP.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Calze elastiche — tipi</div>
+        <div class="card-content">
+          <strong>Calza bianca preventiva</strong> (€18-20): solo per pazienti allettati. Livelli 14 e 18 mmHg.<br>
+          <strong>Monocollant terapeutico</strong> (€80-100): TVS (I classe: 18-21 mmHg) o TVP (II classe: 23-32 mmHg). III classe: fino a 46 mmHg.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Trombofilia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Primaria</div>
+        <div class="card-content">Malattie ematologiche → indagata dall'ematologo (proteina C, S, mutazioni genetiche).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Acquisita — terapia ormonale ⚠️</div>
+        <div class="card-content">
+          Anticoncezionale, sostitutiva (menopausa), terapeutica (PCOS).<br>
+          Antiestrogenica (tumore mammella).<br>
+          <strong>Fumo + terapia ormonale + età &gt;35 anni → rischio trombotico altissimo.</strong>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Paraneoplastica ⚠️</div>
+        <div class="card-content">
+          TVP o TVS può essere il <strong>primo sintomo di un tumore</strong>.<br>
+          In paziente 40 anni senza tp ormonale: screening ematologico + RX torace + eco addome + marker tumorali.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: TVP & TVS -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Vascolare #6 · TVP & TVS</div>
+    <div class="lesson-title">Trombosi Venosa Profonda & Superficiale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">TVP — Trombosi Venosa Profonda</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Localizzazioni</div>
+        <div class="card-content">
+          <strong>Più comune</strong>: arti inferiori.<br>
+          Arti superiori: quasi sempre da TOS venosa.<br>
+          Vena cava inferiore: spesso origine paraneoplastica (es. tumore del rene).<br>
+          Bilaterale → pensare a TVP della vena cava (raro).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Clinica</div>
+        <div class="card-content">
+          <strong>Dolore unilaterale</strong> (se bilaterale → vena cava).<br>
+          Incremento dimensionale dell'arto (misurabile).<br>
+          Raramente flogosi (nel 95% dei casi NO iperemia in TVP).<br>
+          <strong>Segno della fovea negativo</strong> (edema intrafasciale, non sovrafasciale).<br>
+          Manovra di Homans (dorsiflessione piede → dolore surale) · Manovra di Bauer (palpazione polpaccio → dolore).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">
+          <strong>D-dimero</strong>: se nella norma → 99.5% esclude TVP/TVS acuta. Se aumentato → aspecifico.<br>
+          <strong>CUS</strong> (Compression UltraSonography): vena non comprimibile = trombosi.<br>
+          <strong>Ecodoppler</strong> (studio del colore): flusso fasico agli atti del respiro = no trombosi prossimale.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia 🟢</div>
+        <div class="card-content">
+          <strong>Anticoagulante</strong> + <strong>calza elastica monocollant</strong> (II classe).<br>
+          Iniezioni s.c. (preferite se terapia breve o interrotta spesso, es. paziente oncologico) o pastiglia (preferita se terapia prolungata: trombofilici, TVP recidivante).<br>
+          TVP periferica (poplitea): 3 mesi. TVP prossimale (iliaco-femorale): 6 mesi.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">TVS — Trombosi Venosa Superficiale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Varicoflebite vs Tromboflebite</div>
+        <div class="card-content">
+          <strong>Varicoflebite</strong>: su vena varicosa (stasi già nota → causa ovvia).<br>
+          <strong>Tromboflebite</strong>: su vena <strong>sana</strong> → causa da ricercare (solo trombofilia primaria o paraneoplastica possibile).<br>
+          La tromboflebite è molto più grave.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Clinica</div>
+        <div class="card-content">
+          <strong>Cordone flebitico</strong>: vena con flogosi palpabile (duro, dolente).<br>
+          Rosso → marrone scuro → scomparsa in settimane (riassorbimento ferro).<br>
+          ⚠️ Può provocare <strong>embolia polmonare</strong> (non più considerata condizione benigna).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia 🟢</div>
+        <div class="card-content">
+          <strong>Anticoagulante</strong> + calza elastica monocollant (I classe: 18-21 mmHg).<br>
+          Rivalutazione a 3-4-6 settimane poi stop terapia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Follow-up ecodoppler</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Esiti possibili</div>
+        <div class="card-content">
+          <strong>Ricanalizzazione totale</strong>: restitutio ad integrum.<br>
+          <strong>Ricanalizzazione parziale</strong>: residuo trombotico.<br>
+          <strong>Occlusione completa</strong>: si lascia così (no chirurgia per rivascolarizzare le vene).<br>
+          Complicanza cronica: <strong>sindrome post-trombotica</strong> (ipertensione venosa, ulcere, iperpigmentazione, incremento dimensionale cronico).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Diagnosi differenziale -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Vascolare #6 · Diagnosi Differenziale</div>
+    <div class="lesson-title">Diagnosi Differenziale del Dolore agli Arti Inferiori</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause di dolore agli arti inferiori — schema</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">TVP</div>
+        <div class="card-content">Dolore + <strong>incremento dimensionale unilaterale</strong>. Fovea −. Ecodoppler: vena non comprimibile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">TVS</div>
+        <div class="card-content">Dolore + <strong>segni di flogosi</strong> (rubor, calor, tumor, dolor) + cordone flebitico palpabile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Strappo muscolare</div>
+        <div class="card-content">Dolore + incremento dimensionale. No trattare con eparina (peggiora). Incremento rapido da stravaso ematico.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cisti di Baker ⚠️ mima più la TVP</div>
+        <div class="card-content">Estroflessione della sinovia nel cavo popliteo piena di liquido articolare. La sua rottura → veloce incremento dimensionale + forte dolore + assenza di flogosi = quasi identico alla TVP.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cellulite / Erisipela</div>
+        <div class="card-content">
+          Incremento dimensionale + <strong>flogosi marcata</strong>.<br>
+          <strong>Cellulite</strong>: infezione tessuti molli senza linfedema.<br>
+          <strong>Erisipela</strong>: cellulite da streptococco.<br>
+          <strong>Linfangite</strong>: infiammazione vasi linfatici → linfedema cronico (post linfoadenectomia ascellare o inguinale).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Artrosi</div>
+        <div class="card-content">Dolore alle articolazioni (ginocchio, caviglia, anca). Coxoartrosi: D.D. con claudicatio intermittens vascolare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Neuropatia</div>
+        <div class="card-content">Formicolii e scosse. Es. neuropatia diabetica, lombosciatalgia da ernia discale.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Claudicatio neurogena</div>
+        <div class="card-content">D.D. con claudicatio vascolare: presenza di parestesie + miglioramento col cambio di posizione. Diagnosi: RM rachide.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ischemia critica degli arti inferiori</div>
+    <div class="highlight">
+      Corrisponde a <strong>Stadio 3-4 Leriche-Fontaine</strong>. Dolore a riposo + lesioni che non guariscono (&gt;2 settimane). Su 100 pazienti: <strong>25 muoiono</strong> di cardiopatia ischemica a 1 anno, <strong>25 subiscono amputazione</strong> di coscia. Impatto prognostico molto significativo.
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

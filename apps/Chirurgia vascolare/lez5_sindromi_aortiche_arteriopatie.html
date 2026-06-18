@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch. Cardiovascolare #5 — Sindromi Aortiche Acute & Arteriopatie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; } nav button.s5 { --c: #7b4ea0; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; } .s5 { --c: #7b4ea0; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chirurgia Cardiovascolare #5 — Prof. Froio · 18/11/2022</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Dissecazione Aortica</button>
+    <button class="s2"        onclick="show('s2',this)">IMH & PAU</button>
+    <button class="s3"        onclick="show('s3',this)">Ischemia Acuta Arti</button>
+    <button class="s4"        onclick="show('s4',this)">Arteriopatia Cronica</button>
+    <button class="s5"        onclick="show('s5',this)">Complicanze Rivascolarizzazione</button>
+  </nav>
+</header>
+
+<!-- S1: Dissecazione Aortica -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #5 · Prof. Froio</div>
+    <div class="lesson-title">Sindromi Aortiche Acute — Dissecazione Aortica</div>
+    <div class="lesson-meta">18/11/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Definizione & Meccanismo</div>
+    <div class="highlight">
+      Rottura dell'intima (1 mm²) → sangue scolla le tonache → <strong>falso lume</strong> (cul-de-sac, pressione maggiore perché resistenze più alte) vs <strong>vero lume</strong> (intima-intima). Il falso lume cresce fino a occupare il 95% del diametro.<br>
+      Conseguenze: 1) parete esterna più sottile (meno tonaca media → rischio rottura). 2) Vero lume compresso → <strong>panischemia</strong>.<br>
+      Direzione: anterograda ma anche retrograda. Andamento <strong>spiraliforme</strong>. Può estendersi per 15-50 cm (imprevedibile).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione di Stanford</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Stanford A — emergenza cardiochirurgica</div>
+        <div class="card-content">
+          Coinvolge l'aorta <strong>ascendente</strong>.<br>
+          <strong>DeBakey I</strong>: dalla valvola aortica alle iliache.<br>
+          <strong>DeBakey II</strong>: solo aorta ascendente.<br>
+          Mortalità: <strong>1% per ora</strong> → dopo 48h muore il 50%.<br>
+          Trattamento: sternotomia d'emergenza, sostituzione dell'ascendente. Mortalità chirurgica 5-6%.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stanford B — terapia intensiva</div>
+        <div class="card-content">
+          Interessamento <strong>dopo la succlavia</strong>.<br>
+          <strong>DeBakey IIIa</strong>: solo aorta toracica discendente.<br>
+          <strong>DeBakey IIIb</strong>: fino alla biforcazione.<br>
+          Non si opera in fase acuta se non complicato. Gestione: ↓ pressione (5-7 farmaci IV), analgesici, TI. Ripetere TC dopo 48-72h.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stanford non A non B</div>
+        <div class="card-content">Nasce tra l'anonima e la succlavia. Trattamento: debranching (bypass aorta ascendente → anonima + carotide comune sx) + endoprotesi. Mortalità molto bassa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Malperfusione d'organo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismo statico</div>
+        <div class="card-content">Il falso lume entra nel collaterale → occupa il lume → sangue coagula → <strong>trombosi del collaterale</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Meccanismo dinamico</div>
+        <div class="card-content">Il foglietto sbandiera in sistole → chiude intermittentemente l'ostio del collaterale → <strong>ischemia intermittente</strong>.</div>
+      </div>
+      <div class="card wide">
+        <div class="card-label">Organi coinvolti e conseguenze</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Coronarie → IMA / arresto cardiaco</span>
+            <span class="pill">Carotide → ictus</span>
+            <span class="pill">Succlavia → ↓ pressione / scomparsa polso</span>
+            <span class="pill">Intercostali → paraplegia</span>
+            <span class="pill">Tripode celiaco → ischemia epatica (transaminasi ↑)</span>
+            <span class="pill">Mesenterica superiore → infarto intestinale ⚠️ letale</span>
+            <span class="pill">Renali → insufficienza renale</span>
+            <span class="pill">Iliache → ischemia arto inferiore</span>
+          </div>
+          ⚠️ L'evento morte sopraggiunge solo per <strong>ischemia intestinale o epatica</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori di rischio & Clinica tipica</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Fattori di rischio</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Ipertensione</strong> (fattore scatenante principale)</li>
+            <li>Disturbi del collagene (Marfan, polimorfismi genetici)</li>
+            <li>Valvola aortica bicuspide</li>
+            <li>Familiarità</li>
+          </ul>
+          Incidenza: 3/100.000/anno. Uomini 4:1. In calo grazie a miglior controllo pressorio.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Caso tipico (2 su 3)</div>
+        <div class="card-content">
+          <strong>Dolore trafittivo</strong> intensità 10, migrante:<br>
+          Retrosternale (ascendente) → intrascapolare → dorsale → lombare (migrazione).<br>
+          <strong>Crisi ipertensiva</strong> (sistema RAA attivato per ischemia renale + stimolazione barocettori).<br>
+          ⚠️ Il <strong>dolore toracico transitorio</strong> è sempre presente anche nelle dissecazioni "senza dolore".
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi in PS</div>
+        <div class="card-content">
+          Escludere IMA (ECG + troponine).<br>
+          Dolore migrante → pensare a dissecazione.<br>
+          <strong>TC con mdc</strong>: vero lume (più bianco/denso) vs falso lume (grigio/ipodenso). Andamento spiraliforme. Calcificazione = lato del vero lume.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento Stanford B complicato</div>
+    <div class="highlight">
+      Complicato = pressione/dolore incontrollabili, <strong>ischemia d'organo</strong>, o diametro aorta ↑ alla TC dopo 48-72h (es. da 30 → 60 mm).<br>
+      Trattamento: <strong>endoprotesi</strong> nel vero lume (TEVAR). In fase acuta rischio di dissecazione retrograda.<br>
+      Se si deve coprire la succlavia sx → prima <strong>bypass carotido-succlavio</strong> (↓ rischio ictus/paraplegia da 7% a 3%) + embolizzazione ostio succlavia sx.
+    </div>
+  </div>
+</div>
+
+<!-- S2: IMH & PAU -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #5 · IMH & PAU</div>
+    <div class="lesson-title">Ematoma Intramurale (IMH) & Ulcera Penetrante Aortica (PAU)</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ematoma Intramurale (IMH)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione e meccanismo</div>
+        <div class="card-content">
+          Sangue nella tonaca media in <strong>assenza di entry tear</strong>.<br>
+          Tipicamente pazienti ipertesi con aterosclerosi.<br>
+          Modalità: 1) Rottura dei <strong>vasa vasorum</strong> nella media → ematoma senza lesione intimale. 2) Complicanza della PAU.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Evoluzione & Diagnosi</div>
+        <div class="card-content">
+          Si comporta come una dissecazione: si estende.<br>
+          Può diventare dissecazione (se si rompe l'intima) o portare a rottura aortica (se si rompe la parete esterna).<br>
+          <strong>Classificazione</strong>: Tipo A (emergenza cardiochirurgica) / Tipo B (TI).<br>
+          <strong>Diagnosi</strong>: TC basale senza mdc → ispessimento parietale con densità compatibile con sangue (scala di grigi).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ulcera Penetrante Aortica (PAU)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione e meccanismo</div>
+        <div class="card-content">
+          Evoluzione della placca ateromasica.<br>
+          Nell'aorta l'ulcera scava la <strong>tonaca media</strong> (diversamente dalla carotide dove scava l'intima).<br>
+          Se intacca i vasa vasorum → IMH. Se buca l'avventizia → rottura aortica.<br>
+          Tipicamente <strong>focale</strong>, spesso su aorta ateromasica. Spesso associata a shaggy aorta.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Clinica e Trattamento</div>
+        <div class="card-content">
+          Stessa clinica della dissecazione: dolore toracico acuto.<br>
+          No linee guida definitive su quando operare.<br>
+          <strong>Se sintomatica</strong> (dolore toracico acuto) → operare.<br>
+          Trattamento: endovascolare (TEVAR).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Ischemia Acuta Arti -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #5 · Ischemia Acuta</div>
+    <div class="lesson-title">Ischemia Acuta degli Arti Inferiori</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cause (ostruzione intrinseca 95%)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Embolia (47%)</div>
+        <div class="card-content">
+          <strong>Sintomi improvvisi</strong> (prima dell'evento: asintomatico). Più grave (no circoli collaterali pre-formati).<br>
+          Origine: cardiaca (FA, endocardite, aneurisma ventricolare, PFO) o artero-arteriosa (PAU embolizzante).<br>
+          L'embolo si ferma a cavaliere nelle biforcazioni. Il trombo si estende fino all'ultimo collaterale a monte e al primo collaterale a valle.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trombosi su placca (47%)</div>
+        <div class="card-content">
+          <strong>Sintomi precedenti</strong> (storia di claudicatio). Meno grave (circoli collaterali già sviluppati).<br>
+          Ateroma che cresce fino ad occludere l'arteria.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Ostruzione estrinseca (5%)</div>
+        <div class="card-content">Traumi (femore scomposto che taglia la femorale superficiale), dissecazioni aortiche, trombofilie.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Le 6P dell'ischemia acuta</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Segni e sintomi clinici</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Pain — dolore (acido lattico)</span>
+            <span class="pill">Pallore — mancanza di sangue</span>
+            <span class="pill">Pulselessness — assenza di polso</span>
+            <span class="pill">Paresthesia — ischemia del nervo</span>
+            <span class="pill">Paralysis — ischemia del nervo</span>
+            <span class="pill">Ipotermia — sangue non arriva</span>
+          </div>
+          <br>⚠️ <strong>Scalino termico</strong>: cambio netto di temperatura in un punto preciso (non graduale). L'occlusione è un po' più in alto dello scalino cutaneo. Es: occlusione iliaca esterna/femorale comune → scalino a mezza coscia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia del danno tissutale</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tessuti colpiti per primi</div>
+        <div class="card-content"><strong>Nervi e muscoli</strong>. Ossa e cute hanno tolleranza elevatissima all'ischemia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Timeline</div>
+        <div class="card-content">
+          <strong>&lt;6 ore</strong>: processi abbastanza reversibili.<br>
+          <strong>6-12 ore</strong>: margine di recupero.<br>
+          <strong>&gt;12 ore</strong>: processi <strong>irreversibili</strong> → necrosi → bypass inutile se nervo necrotico.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Embolectomia (Fogarty) 🟢</div>
+        <div class="card-content">Catetere con palloncino gonfiabile → inserito oltre il coagulo → gonfiato → ritirato rimuovendo il coagulo. A livello biforcazione femorale, in anestesia locale. Segno di successo: sangue refluo alla rimozione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Bypass 🟢</div>
+        <div class="card-content">Se l'embolectomia non è possibile.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tromboaspirazione (endovascolare) 🟢</div>
+        <div class="card-content">Standard di cura per ictus da occlusione cerebrale media. Ora applicato anche agli arti e all'embolia polmonare. Catetere + vuoto aspirante.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trombolisi 🟢</div>
+        <div class="card-content">
+          <strong>Endovenosa</strong>: per ictus ischemico.<br>
+          <strong>Endoarteriosa</strong>: per bypass trombizzato (infusione overnight di urochinasi/tPA).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Arteriopatia Cronica -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #5 · Arteriopatia Cronica</div>
+    <div class="lesson-title">Arteriopatia Obliterante Arti Inferiori (AOAI)</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Classificazione di Leriche-Fontaine</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Stadio 1</div>
+        <div class="card-content">Asintomatico. Stenocclusione presente ma circoli collaterali compensano. Rilevabile con ecodoppler (ricerca per diabete o polso pedidio assente).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stadio 2 — Claudicatio intermittens</div>
+        <div class="card-content">
+          Dolore alla deambulazione che scompare con il riposo (acido lattico lavato via).<br>
+          "Malattia delle vetrine".<br>
+          <strong>2A</strong>: cammina &gt;200 m prima del dolore.<br>
+          <strong>2B</strong>: cammina &lt;200 m → indicazione a operare (Europa). USA: invalidante per lo stile di vita.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stadio 3</div>
+        <div class="card-content">Dolore a <strong>riposo</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stadio 4 — Ischemia critica</div>
+        <div class="card-content">Lesioni trofiche, necrosi, gangrena. 1/4 muore di cardiopatia ischemica a 1 anno. 1/4 subirà amputazione di coscia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Topografia del dolore e sede dell'occlusione</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Claudicatio: localizzazione → sede stenosi</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Solo glutea → ipogastrica</span>
+            <span class="pill">Solo coscia → femorale profonda</span>
+            <span class="pill">Solo surale → poplitea o femorale superficiale</span>
+            <span class="pill">Coscia + surale → femorale comune</span>
+            <span class="pill">Glutea + coscia + surale → iliaca comune</span>
+            <span class="pill">Bilaterale tutto → aorta (Sindrome di Leriche)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sindrome di Leriche</div>
+    <div class="highlight">
+      Occlusione cronica dell'aorta addominale. Colpisce uomini 40-60aa, forti fumatori, sedentari. Clinica molto sfumata (spesso misconosciuta, vanno dall'ortopedico).<br>
+      Triade: <strong>claudicatio bilaterale</strong> (glutea + coscia + surale) + <strong>assenza polsi femorali</strong> + <strong>disfunzione erettile</strong> (uomini).<br>
+      Trattamento: bypass aorto-bifemorale.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Diagnosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">ABI — Ankle-Brachial Index</div>
+        <div class="card-content">
+          Normale: &gt;0.90 · Claudicatio: 0.50-0.90 · Dolore a riposo: 0.21-0.49 · Lesioni trofiche: &lt;0.21.<br>
+          Obbligatorio nei paesi scandinavi. Esame banale con doppler portatile.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Esami strumentali</div>
+        <div class="card-content">
+          <strong>I livello</strong>: ecodoppler arti inferiori.<br>
+          <strong>II livello</strong>: angioTAC o angiorisonanza.<br>
+          L'angiografia diagnostica è abbandonata.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Complicanze -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Ch. Cardiovascolare #5 · Complicanze</div>
+    <div class="lesson-title">Sindrome da Rivascolarizzazione & Compartimentale</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sindrome da rivascolarizzazione (Crush Syndrome)</div>
+    <div class="highlight">
+      Paradosso: la rivascolarizzazione massiva provoca immissione in circolo di <strong>tossine muscolari</strong> (rabdomiolisi).<br>
+      Cascata: <strong>acidosi metabolica</strong> → <strong>iperkaliemia</strong> (aritmie maligne → morte) → <strong>ARDS</strong> → <strong>insufficienza renale acuta</strong> (mioglobina occlude tubuli renali).<br>
+      Rottura AAA = ischemia bilaterale massiva → 50% dei sopravvissuti alla chirurgia muore in TI per MOF (insufficienza multi-organo: epatica, renale, cardiaca, respiratoria).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sindrome compartimentale post-rivascolarizzazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Meccanismo</div>
+        <div class="card-content">
+          Ischemia → edema muscolare → bypass → sangue arriva → muscolo si gonfia dentro la fascia → pressione &gt; pressione arteriole → nuova ischemia → edema → circolo vizioso.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Trattamento — Fasciotomia 🟢</div>
+        <div class="card-content">
+          Incisione con bisturi delle fasce → ferita lasciata aperta → muscolo ernia fuori.<br>
+          Dopo alcuni giorni il muscolo si detende → chirurgo plastico trapianta cute e chiude.<br>
+          Senza fasciotomia → necrosi del nervo ischiatico popliteo esterno → <strong>equinismo del piede</strong> permanente.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Amputazione — livelli</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Livelli di amputazione</div>
+        <div class="card-content">
+          <strong>Coscia</strong>: più complessa per il paziente.<br>
+          <strong>Gamba</strong>: più difficile chirurgicamente (poco tessuto muscolare).<br>
+          <strong>Avampiede transmetatarsale</strong>: mantiene il calcagno → mantiene appoggio plantare.<br>
+          <strong>Dita del piede</strong>: impatto quasi zero funzionalmente.<br>
+          ⚠️ Nel giovane politraumatizzato: arto amputato + protesi moderna &gt; arto attaccato ma plegico.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 8 — Interstiziopatie Polmonari</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #3d8b6a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #3d8b6a; } nav button.s2 { --c: #2a6496; } nav button.s3 { --c: #c94040; } nav button.s4 { --c: #b07d2a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #3d8b6a; } .s2 { --c: #2a6496; } .s3 { --c: #c94040; } .s4 { --c: #b07d2a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Lezione 8</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Classificazione</button>
+    <button class="s2"        onclick="show('s2',this)">FPI — Patogenesi</button>
+    <button class="s3"        onclick="show('s3',this)">Clinica & Anamnesi</button>
+    <button class="s4"        onclick="show('s4',this)">Funzionalità & Diagnosi</button>
+  </nav>
+</header>
+
+<!-- S1: Classificazione -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Prof. Luppi</div>
+    <div class="lesson-title">Interstiziopatie Polmonari (ILD)</div>
+    <div class="lesson-meta">11/11/2022 · ~200 patologie, ~30% malattie respiratorie</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione — pneumopatie infiltrative diffuse</div>
+    <div class="highlight">
+      Gruppo eterogeneo di malattie del <strong>parenchima polmonare profondo</strong>. Colpiscono la <strong>barriera emato-alveolare</strong> (pneumociti tipo 2, interstizio, vasi). Caratteristiche comuni: iperplasia pneumociti tipo 2, infiammazione cronica, rimodellamento, fibrosi progressiva.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Classificazione</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Correlate all'esposizione (causa nota)</div>
+        <div class="card-content">
+          <strong>Ambiente di lavoro:</strong>
+          <ul>
+            <li>Silicosi (minatori)</li>
+            <li>Asbestosi (ferrovieri, capannoni coibentati)</li>
+          </ul>
+          <strong>Ambientali/hobby:</strong> alveoliti allergiche estrinseche (polmonite da ipersensibilità) — polmone del contadino, allevatore di uccelli, formaggiaio.<br>
+          <strong>Farmaci:</strong> <em>www.pneumotox.com</em> — statine, amiodarone, metotressato ecc.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Polmoniti interstiziali idiopatiche (IIP)</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>IPF (FPI)</strong>: fibrosi polmonare idiopatica. Peggior prognosi (aspettativa 3 anni). Fumo indotta.</li>
+            <li><strong>NSIP</strong>: non specifica, migliore prognosi</li>
+            <li><strong>AIP</strong>: acuta, mortale, ARDS (sindrome da distress respiratorio acuto), richiede intubazione</li>
+            <li><strong>RBILD</strong> (bronchiolite respiratoria): fumo, può regredire con l'astensione</li>
+            <li><strong>DIP</strong>: desquamativa, fumo, può regredire</li>
+            <li><strong>COP</strong>: organizzativa criptogenetica, trattabile con cortisone</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Correlate a patologia autoimmune</div>
+        <div class="card-content">
+          Sclerodermia, artrite reumatoide, sindrome di Sjögren, anticorpi anti-sintetasi, <em>Lupus Eritematoso Sistemico</em>.<br>
+          La presenza contemporanea di malattia autoimmune + interstiziopatia <strong>abbassa significativamente</strong> la sopravvivenza.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sarcoidosi</div>
+        <div class="card-content">Prototipo delle granulomatosi polmonari (→ vedi Lezione 9).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altre</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Vasculiti/emorragia alveolare diffusa</span>
+            <span class="pill">Istiocitosi a cellule di Langerhans</span>
+            <span class="pill">Polmonite eosinofila</span>
+            <span class="pill">Neurofibromatosi</span>
+            <span class="pill">LEM (linfangioleiomiomatosi)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3–4. Granulomatosi (malattia da comparsa di granulomi multipli) — cause</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Agenti infettivi</div>
+        <div class="card-content">
+          <strong>Micobatteri</strong>: TBC (granuloma caseoso), micobatteriosi (non caseoso).<br>
+          <strong>Funghi</strong>: istoplasmosi (endemica Nord–Sud America), coccidioidomicosi.<br>
+          <strong>Batteri</strong>: brucellosi, tularemia, sifilide (Treponema), Chlamydia.<br>
+          <strong>Parassiti</strong>: leishmaniosi, toxoplasmosi.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Esposizione professionale/ambientale</div>
+        <div class="card-content">
+          Polmoniti da ipersensibilità, berilliosi (computer, strumenti elettronici), metalli (titanio, alluminio, zirconio), talco, metotressato.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Altre condizioni</div>
+        <div class="card-content">
+          Neoplasie (linfoma, tumor-related granulomas), patologie autoimmuni (granulomatosi di Wegener o poliangioite granulomatosa, granulomatosi eosinofila con poliangioite o sindrome di Churg-Strauss, cirrosi biliare primitiva) sarcoidosi.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: FPI Patogenesi -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Patogenesi FPI</div>
+    <div class="lesson-title">Fibrosi Polmonare Idiopatica — Patogenesi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5–9. Patogenesi FPI (dal 2011)</div>
+    <div class="highlight">
+      Non più malattia infiammatoria ma da <strong>processo riparativo eccessivo</strong>. Un insulto ignoto colpisce i pneumociti tipo 2 → wound clot → <strong>attivazione aberrante cellule epiteliali</strong> → richiamo fibroblasti → esagerato processo riparativo. Protagonisti: cellule Mesenchimali, Mediatori, Matrice (<strong>M&M's</strong>). Ipercoagulabilità importante.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">7. Miofibroblasti (cellula chiave)</div>
+        <div class="card-content">
+          Si differenzia dal fibroblasto grazie a stimoli derivanti dall'attivazione epiteliale. Fattore chiave: <strong>TGF-β</strong>.<br>
+          Si comporta come cellula neoplastica: si riproduce in modo incontrollato, produce elevate quantità di collagene qualitativamente diverso.<br>
+          Formazione di <strong>foci fibroblastici</strong> al limite tra polmone sano e fibrotico ("fronte di fuoco"). Più foci = peggiore prognosi.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">7.2 Origine miofibroblasti</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Fibroblasti residenti</strong> locali</li>
+            <li><strong>Transizione epitelio-mesenchimale (EMT)</strong>: pneumociti → fibroblasti → miofibroblasti</li>
+            <li><strong>Fibrociti dal midollo</strong>: cell mesenchimali midollari → fibroblasti (x azione CLCX-12) → miofibroblasti
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">8. Mediatori chiave</div>
+        <div class="card-content">
+          <div class="pills">
+          Citochine, chemochine e fattori di crescita prodotti dalle cellule epiteliali.
+        </div>
+<span class="pill">EGF</span>
+            <span class="pill">IL-1 · IL-8</span>
+            <span class="pill">TNF-α · MIP-1α</span>
+            <span class="pill">CTGF</span>
+            <span class="pill">PDGF</span>
+          </div>
+      </div>
+      <div class="card">
+        <div class="card-label">9. Matrice extracellulare (ECM)</div>
+        <div class="card-content">
+          <li><strong>Proteine fibrillari</strong>: collagene, elastina.<br>
+          <li><strong>Proteoglicani</strong>: decorina, biglicano, lumicano, fibronectina.<br>
+          <li><strong>Glicosaminoglicani</strong>: acido ialuronico.<br>
+          Nel polmone fibrotico tutto è riarrangiato con confusione (vs compartimentato nel polmone normale).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Anatomia patologica — UIP pattern</div>
+        <div class="card-content">
+          UIP = <em>Usual Interstitial Pneumonia</em>. Pattern istologico della IPF.<br>
+          <strong>Polmone honeycombing</strong>: aree bianche fibrotiche visibili macro.<br>
+          <strong>Eterogeneità spaziale</strong>: alternanza polmone sano/fibrotico.<br>
+          <strong>Nuclei di miofibroblasti</strong>: vs fibroblasti nel polmone normale.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Clinica -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Clinica & Anamnesi</div>
+    <div class="lesson-title">Presentazione Clinica delle ILD</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10–10.6 Anamnesi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">10.1 Storia familiare</div>
+        <div class="card-content">
+          Forme familiari di FPI: 3–5% (insorgenza ~50 anni, prima delle sporadiche a 60–65).<br>
+          Familiarità anche nelle patologie autoimmuni.<br>
+          Sindrome di Von Recklinghausen coesiste con linfoangiomatosi.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10.2 Tabagismo</div>
+        <div class="card-content">
+          <strong>Fattore di rischio</strong> per: istiocitosi di Langerhans, proteinasi alveolare, FPI, asbestosi, sindrome di Goodpasture.<br>
+          <strong>Fattore protettivo</strong> per: sarcoidosi, polmonite da ipersensibilità.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10.3–10.4 Origine e hobby</div>
+        <div class="card-content">
+          Viaggi recenti: istoplasmosi simile a sarcoidosi.<br>
+          Hobby: es. tagliare la balsa (legno tenero) → polmonite da ipersensibilità.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10.5 Farmaci</div>
+        <div class="card-content">
+          <strong>Statine</strong> e <strong>amiodarone</strong> (antiaritmico) sono tra i più comuni. In caso di assunzione si somministra anche cortisone per ridurre l'infiammazione.<br>
+          Consultare <em>www.pneumotox.com</em>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10.6 Anamnesi patologica remota</div>
+        <div class="card-content">
+          <strong>Radioterapia toracica per cancro</strong> → polmone da raggi.<br>
+          <strong>Disordini immunologici</strong> (es. sclerodermia) → prima manifestazione può essere ILD (prima della diagnosi autoimmune).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">11. Esame obiettivo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Segni principali</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Rantoli crepitanti a velcro</strong> alle basi (sensibile ma poco specifico; già presenti in fase sub-critica)</li>
+            <li>Localizzazione cutanea (eritema nodoso in sarcoidosi, lupus pernio)</li>
+            <li>Deformità articolari (artrite reumatoide)</li>
+            <li>Clubbing digitale (dita a bacchetta + unghie a vetrino) — segno di ipossiemia cronica, non specifico di ILD</li>
+            <li><strong>Cuore polmonare</strong>: ILD → PH secondaria → ipertrofia VD</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">12. Esami ematici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Esami utili</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Funzione epatica e renale</span>
+            <span class="pill">VES (flogosi)</span>
+            <span class="pill">Ipergammaglobulinemia</span>
+            <span class="pill">LDH</span>
+            <span class="pill">ACE (angiotensin converting enzyme)</span>
+            <span class="pill">Test reumatologici: ADA, RF, ANCA, anticitrullina, antisitetasi</span>
+            <span class="pill">Precipitine sieriche</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Funzionalità -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 8 · Funzionalità & Diagnosi</div>
+    <div class="lesson-title">Funzionalità Ventilatoria e Pattern Diagnostico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">13. Funzione ventilatoria</div>
+    <div class="highlight">
+      Le ILD danno un'<strong>insufficienza ventilatoria di tipo restrittivo</strong> (flusso aumentato a tutti i volumi polmonari, TLC ridotta). Opposto dell'ostruttivo.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">FVC — marker di estensione</div>
+        <div class="card-content">
+          <strong>FVC ridotta</strong>: dà idea dell'entità dell'estensione della malattia. Non correla con alterazioni anatomopatologiche.<br>
+          Un calo del <strong>10% di FVC</strong> correla con aumento della mortalità.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">DLCO — marker unità alveolo-capillare</div>
+        <div class="card-content">
+          Capacità di diffusione del CO. <strong>La sua riduzione riflette una perdita di funzionamento dell'unità alveolo-capillare</strong>.<br>
+          Nelle fasi iniziali: DLCO ridotta con FVC normale → DLCO più sensibile.<br>
+          Se DLCO molto compromessa e FVC normale → sospetto PH.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">14. Emogasanalisi e test da sforzo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">EGA a riposo</div>
+        <div class="card-content">
+          PaO2 ridotta, tendenza all'insufficienza respiratoria <strong>tipo 1</strong> (ispessimento barriera emato-alveolare → CO2 passa meglio grazie a maggiore solubilità). Nelle fasi avanzate → tipo 2.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Test del cammino 6MWT</div>
+        <div class="card-content">
+          FR, FC, saturazione, distanza percorsa. Aumento FR e FC come compenso dell'ipossiemia. Più la situazione è grave, peggiore la desaturazione con l'esercizio.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">DLCO — classificazione di gravità</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Livelli di riduzione DLCO</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">&gt;140%: aumentata</span>
+            <span class="pill">81–140%: normale</span>
+            <span class="pill">76–80%: limite inferiore</span>
+            <span class="pill">61–75%: lieve riduzione</span>
+            <span class="pill">41–60%: moderata riduzione</span>
+            <span class="pill">&lt;40%: riduzione severa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

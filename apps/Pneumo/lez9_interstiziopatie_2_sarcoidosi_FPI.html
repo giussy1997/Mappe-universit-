@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 9 — Interstiziopatie II: Sarcoidosi & FPI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #7b4fa6; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #7b4fa6; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #7b4fa6; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Lezione 9</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Diagnosi ILD — livelli</button>
+    <button class="s2"        onclick="show('s2',this)">Sarcoidosi</button>
+    <button class="s3"        onclick="show('s3',this)">FPI — Diagnosi & iter</button>
+    <button class="s4"        onclick="show('s4',this)">Trattamento</button>
+  </nav>
+</header>
+
+<!-- S1: Diagnosi ILD -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Prof. Luppi</div>
+    <div class="lesson-title">Interstiziopatie Polmonari — Seconda Parte</div>
+    <div class="lesson-meta">11/11/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Sintomatologia ILD</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi respiratori</div>
+        <div class="card-content"><div class="pills"><span class="pill">Tosse secca</span><span class="pill">Dispnea</span></div></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi generali</div>
+        <div class="card-content"><div class="pills"><span class="pill">Stanchezza</span><span class="pill">Febbre</span><span class="pill">Dolori articolari</span><span class="pill">Calo ponderale</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.1 Primo livello diagnostico</div>
+    <div class="highlight">
+      Strumenti: <strong>storia clinica dettagliata + test di funzionalità ventilatoria + TAC del torace ad alta risoluzione (HRCT)</strong>. Per alcune patologie questi 3 elementi sono sufficienti per la diagnosi.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pneumoconiosi (1° livello)</div>
+        <div class="card-content">Patologie professionali da polveri inorganiche (asbestosi, silice). Diagnosi: TC compatibile + insufficienza ventilatoria restrittiva + storia di esposizione ad asbesto (spesso decennale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Asbestosi</div>
+        <div class="card-content">
+          Fibrosi + <strong>inspessimento pleurico (placche)</strong> — permette di differenziare dall'IPF. Latenza di decenni. Eterogenea: placche benigne, inspessimento pleurico diffuso, mesotelioma maligno, adenocarcinoma polmonare (favorito da tabacco).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Silicosi</div>
+        <div class="card-content">Irreversibile, da cristalli di silice. 15–20 anni di esposizione. Pattern: <strong>micronoduli bilaterali</strong>. Silicomi: macronoduli da confluenza di micronoduli.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.2 Secondo livello — broncoscopia</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">2.2.1 Broncoscopia — utilità</div>
+        <div class="card-content">
+          <ul>
+            <li>Identificare <strong>infezione occulta</strong> (Pneumocystis jirovecii in immunodepressi)</li>
+            <li>Diagnosi di <strong>sarcoidosi</strong> (granulomi peribronciali → facili da biopsiare)</li>
+            <li>Conta cellulare del polmone profondo (polmonite da ipersensibilità, eosinofila)</li>
+          </ul>
+          Non efficace per diagnosi di FPI.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Probabilità diagnosi istologica (biopsia)</div>
+        <div class="card-content">
+          <strong>Pallino verde</strong>: biopsia transbronchiale sufficiente (granulomatosi, tumori maligni, alcune infezioni).<br>
+          <strong>Pallino giallo</strong>: talvolta biopsia TB, valutare caso per caso.<br>
+          <strong>Pallino rosso</strong>: biopsia chirurgica obbligatoria (UIP/NSIP/LIP/COP, vasculiti, small airways).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.2.2 Connective Tissue Disease (CTD) + ILD</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Anticorpi guida</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">RF, CCP → Artrite reumatoide</span>
+            <span class="pill">ANA → SSc, SLE, UCTD</span>
+            <span class="pill">SSA, SSB → Sjögren</span>
+            <span class="pill">Jo-1, CPK, aldolasi → Miosite, α-sintetasi</span>
+            <span class="pill">RNP → MCTD</span>
+            <span class="pill">Scl-70 → SSc</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.3 Terzo livello — biopsia chirurgica</div>
+    <div class="highlight">
+      <strong>Biopsia polmonare chirurgica</strong>: dopo broncoscopia non diagnostica e CTD esclusa. Situazione tipica: FPI (caratterizzata da brevissima aspettativa di vita → diagnosi fondamentale per prognosi).
+    </div>
+  </div>
+</div>
+
+<!-- S2: Sarcoidosi -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Sarcoidosi</div>
+    <div class="lesson-title">Sarcoidosi</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2.2.1 Sarcoidosi</div>
+    <div class="highlight">
+      Patologia infiammatoria sistemica. Lesione anatomopatologica caratteristica: <strong>granulomi ben formati non caseificanti</strong> a causa ignota. Quadro clinico e prognosi estremamente variabili — casi spontaneamente regrediti, casi progressivi.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Localizzazioni principali</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Linfonodi mediastinici</strong>, polmone, cute, occhi (più frequenti)</li>
+            <li>Localizzazione <strong>cardiaca</strong> al tessuto di conduzione → <em>morte improvvisa</em>, fibrillazione ventricolare → ipercalcemia (calcoli)</li>
+            <li>Renale, linfonodi non toracici, midollo osseo, milza</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi principali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Febbre</span>
+            <span class="pill">Calo ponderale</span>
+            <span class="pill">Problemi oculari (uveite → scotomi)</span>
+            <span class="pill">Eritema nodoso</span>
+            <span class="pill">Dolore muscolare e toracico</span>
+            <span class="pill">Dispnea e tosse</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Classificazione di Scadding (RX torace)</div>
+        <div class="card-content">
+          <strong>Stadio I</strong>: linfoadenomegalie ilari bilaterali<br>
+          <strong>Stadio II</strong>: linfoadenomegalie + micronoduli<br>
+          <strong>Stadio III</strong>: micronoduli bilaterali<br>
+          <strong>Stadio IV</strong>: fibrosi (potenzialmente evolutivo)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Diagnosi</div>
+        <div class="card-content">
+          Isolamento e identificazione di un <strong>granuloma non caseificante</strong>. Sede preferita: cute, linfonodi, bronchi (tramite broncoscopia).<br>
+          Istopatologia: vallo fibrotico + cellule giganti + linfociti.<br>
+          BAL: <strong>rapporto CD4/CD8 &gt;3,5</strong> in adeguato contesto clinico → diagnosi ad elevatissima probabilità.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: FPI Diagnosi -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · FPI — Diagnosi</div>
+    <div class="lesson-title">Fibrosi Polmonare Idiopatica — Iter Diagnostico</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">UIP pattern — criteri</div>
+    <div class="highlight">
+      <strong>UIP</strong> (Usual Interstitial Pneumonia) è il miglior modello istologico di IPF ma non la stessa patologia. Il pattern UIP può essere correlato anche a CTD-ILD, patologie da farmaci, asbestosi, forme familiari.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Elementi per pattern UIP alla TAC</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Aspetto reticolare</strong></li>
+            <li>Pattern <strong>honeycombing</strong></li>
+            <li><strong>Gradiente apico-basale</strong></li>
+            <li>Patologia <strong>mantellare (periferica)</strong> almeno nelle fasi iniziali</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Iter diagnostico IPF (LG 2011)</div>
+        <div class="card-content">
+          <div class="flow">
+            <div class="flow-step">Escludere cause note</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">TAC HRCT</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Pattern UIP?</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">MDD</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">BAL/Biopsia chirurgica</div>
+          </div>
+          Gold standard diagnostico: <strong>discussione multidisciplinare (MDD)</strong> tra radiologo, pneumologo, anatomopatologo.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Prognosi comparata (curva di sopravvivenza)</div>
+        <div class="card-content">
+          <strong>UIP/IPF</strong>: sopravvivenza media ~3 anni (altamente progressiva).<br>
+          <strong>NSIP</strong>: sopravvivenza significativamente migliore.<br>
+          → La diagnosi precisa è <strong>strettamente correlata alla prognosi</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Trattamento -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 9 · Trattamento</div>
+    <div class="lesson-title">Trattamento Sarcoidosi e FPI</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento Sarcoidosi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Approccio terapeutico</div>
+        <div class="card-content">
+          Il <strong>50% va in remissione spontanea</strong>. L'altro 50% viene trattato con <strong>steroidi</strong>.<br>
+          Se steroidi non funzionano → aggiungere <strong>immunosoppressore</strong>.<br>
+          Se entrambi falliscono → <strong>inibitore di TNF-alfa</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Trattamento FPI — farmaci antifibrotici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pirfenidone</div>
+        <div class="card-content">
+          Meccanismo non ben noto. Riduce il <strong>declino funzionale di FVC</strong> in modo statisticamente significativo. Inibisce FGF, VEGF, PDGF.<br>
+          Effetti collaterali: <strong>epatotossicità e fotosensibilità</strong>. Primo in commercio; diventerà generico nel 2023.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Nintedanib</div>
+        <div class="card-content">
+          Farmaco oncologico reimpiegato. Inibisce 3 recettori dotati di attività tirosino-chinasica (FGF, VEGF, PDGF).<br>
+          Effetti collaterali: <strong>epatotossicità e diarrea</strong>. Outcomes primari sovrapponibili al Pirfenidone.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Immunosoppressori in FPI</div>
+        <div class="card-content">
+          Non c'è evidenza relativa alla somministrazione di immunosoppressori per IPF; riscontrati casi di tossicità. Non indicati.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

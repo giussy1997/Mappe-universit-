@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 10 — OSAS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --card: #fffef9; --border: #d4ccc0; --c: #b07d2a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #b07d2a; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #2a6496; } nav button.s4 { --c: #3d8b6a; } nav button.s5 { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .s1 { --c: #b07d2a; } .s2 { --c: #c94040; } .s3 { --c: #2a6496; } .s4 { --c: #3d8b6a; } .s5 { --c: #7b4fa6; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Lezione 10</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & Fisiopatologia</button>
+    <button class="s2"        onclick="show('s2',this)">Sintomi & Fattori di rischio</button>
+    <button class="s3"        onclick="show('s3',this)">Tipi di apnea & Gravità</button>
+    <button class="s4"        onclick="show('s4',this)">Diagnosi</button>
+    <button class="s5"        onclick="show('s5',this)">Terapia</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Prof. Monzani</div>
+    <div class="lesson-title">OSAS — Sindrome delle Apnee Ostruttive del Sonno</div>
+    <div class="lesson-meta">06/12/2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione</div>
+    <div class="highlight">
+      Patologia da <strong>instabilità delle vie aeree superiori</strong> (rinofaringe → corde vocali) durante il sonno. Episodi intermittenti di riduzione (ipopnea) o interruzione (apnea) del respiro. Accompagnati da: <strong>russamento, desaturazione SpO2, microrisvegli</strong> che frammentano il sonno → ipersonolenza diurna + aumentato rischio cardiovascolare.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fisiopatologia — 4 meccanismi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">1. Collassabilità</div>
+        <div class="card-content">Tendenza delle vie aeree a chiudersi. Solo 1/3 dei fattori che determinano le apnee.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2. Responsività della muscolatura</div>
+        <div class="card-content">Alcune persone non compensano adeguatamente le perturbazioni con i muscoli delle alte VR → apnee più lunghe con peggiore saturazione.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">3. Soglia di arousal</div>
+        <div class="card-content">Sensibilità del SNC alla desaturazione. <strong>Bassa soglia</strong>: si svegliano facilmente (molte apnee brevi). <strong>Alta soglia</strong>: si svegliano con pressioni negative maggiori (apnee lunghe, poche, desaturazioni profonde).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">4. Loop gain</div>
+        <div class="card-content">Risposta del sistema a una perturbazione. Alto loop gain → drive respiratorio brillante e instabile → iperventilano → riducono CO2 → stimolano nuova apnea → <strong>respiro periodico</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori aggravanti</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Peggiorano le apnee</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Obesità (rischio ×30)</span>
+            <span class="pill">Alcol serale</span>
+            <span class="pill">Anestesia orofaringea</span>
+            <span class="pill">Ipnotici e sedativi (benzodiazepine, oppiacei → riducono drive resp.)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Sintomi -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Sintomi</div>
+    <div class="lesson-title">Sintomi, Fattori di rischio e Impatto</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Sintomi notturni e diurni</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Russamento</div>
+        <div class="card-content">Sintomo cardine. Caratteristiche: <strong>intermittente</strong> (silenzio = apnea; ripresa rumorosa), persistente da ≥6 mesi. La ripresa è rumorosa e fragorosa.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Chocking</div>
+        <div class="card-content">Risveglio improvviso con fame d'aria, sensazione di soffocamento. DD: crisi asmatica, laringospasmo, reflusso GEF, attacchi di panico, epilessia.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi notturni</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Apnee riferite dal partner</span>
+            <span class="pill">Sudorazione notturna</span>
+            <span class="pill">Nicturia (specie maschi &gt;60 aa)</span>
+            <span class="pill">Enuresi (bambini)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sintomi diurni</div>
+        <div class="card-content">
+          <strong>Stanchezza e eccessiva sonnolenza diurna</strong> — parametri difficili da misurare.<br>
+          <strong>Scala di Epworth</strong>: 8 domande, punteggio 0–24; <strong>&gt;11 patologico</strong>.<br>
+          Sonno non ristoratore, xerostomia, cefalea al risveglio (&gt;15 volte/mese), alterazioni psichiche, disturbi sessuali.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Fattori di rischio — esame obiettivo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Principali fattori</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Obesità</strong></li>
+            <li><strong>Circonferenza collo &gt;41 cm (uomo) / 43 cm (donna)</strong></li>
+            <li>Alterazioni cranio-facciali (mandibola piccola, osso ioide basso)</li>
+            <li><strong>Anatomia cavo orale</strong>: tonsille kissing, macroglossia, impronta dentaria laterale</li>
+            <li>Classificazione di Mallampati: tanto più si va verso 4 tanto maggiore il rischio di apnee</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sesso e età</div>
+        <div class="card-content">
+          Prevalenza <strong>M:F = 2:1</strong> fino alla menopausa (poi si equilibra). Il progesterone nella donna è fattore protettivo.<br>
+          Incidenza aumenta con l'età (massima intorno ai 60–70 anni), ma i numeri aumentano già dai 50 anni.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4.1–4.2 Impatto delle OSAS</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Impatto cardiovascolare</div>
+        <div class="card-content">
+          Fattore di rischio indipendente per: <strong>ipertensione arteriosa, FA, cardiopatia ischemica, scompenso, ictus</strong>.<br>
+          Frammentazione del sonno + ipossia intermittente → aterosclerosi + resistenza insulinica.<br>
+          Mortalità media a 5–8 anni del 6%, sale al 10% nei soggetti più giovani. OSAS è la patologia più prevalente negli ipertesi farmaco-resistenti.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Impatto sociale</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Rapporto di coppia</strong>: rischio aumentato di divorzio</li>
+            <li><strong>Infortuni sul lavoro</strong>: fino 13% riconducibili ai DRS</li>
+            <li><strong>Incidenti alla guida</strong>: legge italiana 2014 — chi sospetta OSAS deve essere valutato prima del rinnovo patente</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Comorbidità associate</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Diabete tipo 2</span>
+            <span class="pill">Neoplasie (AHI &gt;15–30)</span>
+            <span class="pill">Demenza e Alzheimer</span>
+          </div>
+          Ipossia intermittente → stimola neoangiogenesi → rischio diffusione metastasi.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Tipi di apnea -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Tipi di apnea & Gravità</div>
+    <div class="lesson-title">Classificazione delle Apnee e Gravità OSAS</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6–8. Tipi di apnea</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Apnea ostruttiva</div>
+        <div class="card-content">Movimenti toraco-addominali <strong>in controfase</strong>. Ossimetria: cala in ritardo, risale rapidamente ("dente di sega"). Comune.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Apnea centrale</div>
+        <div class="card-content">No movimenti toraco-addominali. Ossimetria: cala e risale più lentamente. Tipica del <strong>respiro di Cheyne-Stokes</strong> (scompenso cardiaco).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Apnee miste</div>
+        <div class="card-content">Iniziano come centrali, terminano come ostruttive. In pazienti con alto loop gain: CO2 blocca centro respiratorio → vie aeree collassano → apnea ostruttiva.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">5. Sindrome ipoventilazione-obesità (OHS)</div>
+        <div class="card-content">
+          Caratterizzata da: <strong>obesità + ipercapnia diurna (PaCO2 &gt;45 mmHg)</strong>. 80% dei casi OHS sono anche apnoici. Meccanismo: volumi ridotti + resistenze aumentate per obesità → drive ridotto per ipercapnia.<br>
+          31% dei pazienti obesi ospedalizzati ha ipoventilazione associata ad ipercapnia.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">9. Gravità delle apnee — AHI</div>
+    <div class="highlight">
+      <strong>AHI (Apnea Hypopnea Index)</strong>: n° apnee+ipopnee per ora di sonno.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Classificazione AHI</div>
+        <div class="card-content">
+          <strong>Normale</strong>: &lt;5<br>
+          <strong>Lieve</strong>: 5–15 (parafisiologico fino a 5)<br>
+          <strong>Moderato</strong>: 15–30<br>
+          <strong>Grave</strong>: &gt;30<br>
+          <strong>Molto severo</strong>: &gt;60<br>
+          (bambini: già 5 apnee/ora hanno significato patologico)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gravità da saturazione</div>
+        <div class="card-content">
+          <strong>Lieve</strong>: media saturazioni &gt;90%<br>
+          <strong>Moderata</strong>: media saturazioni &lt;90%<br>
+          <strong>Grave</strong>: media saturazioni &lt;85%
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">10. Definizione OSAS (LG 2014)</div>
+        <div class="card-content">
+          ≥<strong>15 eventi respiratori/ora</strong> di sonno<br>
+          OPPURE ≥<strong>5 eventi</strong> associati ad almeno una di: sonnolenza, sonno non ristoratore, risvegli con choking, russamento, diagnosi cardiovascolare precedente, disturbi umore, diabete.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ipopnea — definizione</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Criteri (LG americane 2016)</div>
+        <div class="card-content">
+          Riduzione del flusso aereo ≥<strong>30%</strong> rispetto al basale per almeno <strong>10 secondi</strong>, associata a desaturazione ≥3% o a un arousal. Criterio italiano: ≥30% per 10 sec + desaturazione ≥4%.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Diagnosi -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Diagnosi</div>
+    <div class="lesson-title">Diagnosi di OSAS</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Strumenti diagnostici</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Tipo 1 — Polisonnografia videosorvegliata</div>
+        <div class="card-content">Studio più completo. Laboratorio, monitoraggio continuo con videosorveglianza. Registra anche canali neurologici (EEG, EOG, EMG mentoniero, tibiale).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo 2 — Polisonnografia completa domiciliare</div>
+        <div class="card-content">No videosorveglianza operatore. Eseguibile a domicilio.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo 3 — Monitoraggio cardiorespiratorio (MCR) ★</div>
+        <div class="card-content">
+          Attualmente più in uso nella pratica clinica. Parametri: flusso aereo (nasocanula/cardiocopia), movimenti torace e addome, posizione corporea, saturazione, FC. Manca dei canali neurologici.<br>
+          <strong>LG italiane</strong>: può essere usato come esame di prima istanza nei pazienti con quadro clinico suggestivo per OSAS (alta probabilità pretest, no gravi comorbidità).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Tipo 4 — Ossimetria</div>
+        <div class="card-content">Solo saturazione. Non sufficiente per diagnosi autonoma. Utile solo come screening.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Polisonnografia irrinunciabile</strong> quando: quadro clinico ricco di segni e sintomi (eccessiva sonnolenza), risultati dubbi con MCR, sospetto OHS o apnee centrali significative.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Lettura del tracciato MCR</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Come si identifica un'apnea</div>
+        <div class="card-content">
+          Riduzione del flusso aereo ≥90% per ≥10 secondi. Poi:<br>
+          <strong>Ostruttiva</strong>: movimenti toraco-addominali presenti e in controfase.<br>
+          <strong>Centrale</strong>: torace e addome fermi.<br>
+          Analisi automatica → poi <strong>analisi manuale obbligatoria</strong> (scoring 5 min/5 min o 10 min/10 min).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Terapia -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 10 · Terapia</div>
+    <div class="lesson-title">Terapia per OSAS</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">11. Indicazioni al trattamento</div>
+    <div class="highlight">
+      Trattare quando: <strong>AHI &gt;15</strong> oppure <strong>AHI &gt;5</strong> con sintomatologia significativa o comorbidità cardiovascolari. Finalità: migliorare sintomi e qualità della vita, ridurre morbilità/mortalità cardiovascolare, ridurre incidenti, ridurre costi sanitari.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Terapia igienico-comportamentale (sempre)</div>
+    <div class="cards">
+      <div class="card wide">
+        <div class="card-label">Modifiche dello stile di vita</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Smettere di fumare</span>
+            <span class="pill">Evitare pasti pesanti a sera</span>
+            <span class="pill">Dimagrimento</span>
+            <span class="pill">Mantenere attività fisica</span>
+            <span class="pill">Pervietà nasale</span>
+            <span class="pill">Evitare alcol serale</span>
+            <span class="pill">Evitare sedativi/ipnotici</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">11.1 CPAP — terapia di prima scelta</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Come funziona la CPAP</div>
+        <div class="card-content">
+          Compressore che soffia aria attraverso un tubo collegato a maschera nasale. <strong>Sostegno pneumatico</strong> che agisce sulla parte collassabile delle alte VR (faringe e ipofaringe) tra i segmenti rigidi (naso e trachea).<br>
+          Efficace solo quando mantenuta. Rivalutazione se il paziente perde 10% del peso.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scelta maschera (punto critico)</div>
+        <div class="card-content">Si parte con una mascherina nasale leggera. Vari tipi: piccola superficie impatto, copre solo naso, copre naso + bocca, senza appoggio frontale. <strong>La scelta della maschera più adatta garantisce la compliance</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Efficacia CPAP</div>
+        <div class="card-content">
+          <strong>Riduce eventi cardiovascolari fatali e non fatali</strong> (grafici di sopravvivenza significativi). Per effetto significativo: ≥<strong>4 ore/notte per almeno 6 notti/7</strong>.<br>
+          Compliance problematica: 30% rifiuta, 25% interrompe entro 1 anno. Costo ~500–600€.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">11.2 Terapie alternative alla CPAP</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Calo di peso</div>
+        <div class="card-content">Sempre consigliato. Da solo spesso insufficiente nel lungo periodo. Chirurgia bariatrica in casi selezionati → calo ponderale significativo e duraturo.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Terapia posizionale</div>
+        <div class="card-content">Per apnee solo in posizione supina. Sistemi meccanici (pallina da tennis sul pigiama), cuscini preformati, sistemi elettronici (Night Shift/Balance) con actigrafo e vibrazioni.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">MAD — Dispositivi avanzamento mandibolare</div>
+        <div class="card-content">Bite che agganciano arcata inferiore e superiore, inducono protrusione anteriore della mandibola. Indicati soprattutto nelle forme <strong>lievi e moderate</strong>. Da personale qualificato: rischio di complicanze dentali e articolari.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Chirurgia</div>
+        <div class="card-content">
+          <strong>ORL</strong>: da interventi semplici (livello nasale) a più complessi (faringe + basilingua).<br>
+          <strong>Maxillo-facciale</strong>: protrusione mandibolare. Molto difficile in post-op. Solo casi selezionati. Passato: degradazione palato molle (oggi rimediata).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

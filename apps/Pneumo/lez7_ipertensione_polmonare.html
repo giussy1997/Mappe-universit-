@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lezione 7 — Ipertensione Polmonare</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f5f0e8; --ink: #1a1410; --muted: #7a6e62; --accent1: #c94040; --accent2: #2a6496; --accent3: #3d8b6a; --accent4: #b07d2a; --accent5: #7b4fa6; --card: #fffef9; --border: #d4ccc0; --c: #2a6496; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  header { background: var(--ink); padding: 18px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  header h1 { font-family: 'Playfair Display', serif; color: #f5f0e8; font-size: 1.1rem; letter-spacing: .04em; margin-bottom: 14px; opacity: .85; }
+  nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: #c9bfaf; font-family: 'Source Sans 3', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 8px 16px 10px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s; }
+  nav button.active, nav button:hover { color: #f5f0e8; border-bottom-color: currentColor; }
+  nav button.s1 { --c: #2a6496; } nav button.s2 { --c: #c94040; } nav button.s3 { --c: #3d8b6a; } nav button.s4 { --c: #b07d2a; } nav button.s5 { --c: #7b4fa6; }
+  nav button.active { color: var(--c) !important; border-color: var(--c) !important; }
+  .page { display: none; padding: 28px 20px 60px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  .lesson-header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .lesson-tag { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; line-height: 1.2; color: var(--ink); }
+  .lesson-meta { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+  .section { margin-bottom: 20px; }
+  .section-title { font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c); margin-bottom: 10px; padding: 6px 12px; background: color-mix(in srgb, var(--c) 8%, transparent); border-left: 3px solid var(--c); border-radius: 0 4px 4px 0; }
+  .cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); transform: translateY(-1px); }
+  .card-label { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin-bottom: 6px; }
+  .card-content { font-size: .86rem; line-height: 1.55; color: var(--ink); }
+  .card-content ul { padding-left: 14px; margin-top: 4px; }
+  .card-content li { margin-bottom: 3px; }
+  .card-content strong { color: var(--c); }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .pill { background: color-mix(in srgb, var(--c) 12%, #fff); border: 1px solid color-mix(in srgb, var(--c) 30%, #fff); color: color-mix(in srgb, var(--c) 90%, #000); font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .highlight { background: color-mix(in srgb, var(--c) 6%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--c) 35%, transparent); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; font-size: .84rem; line-height: 1.55; }
+  .highlight strong { color: var(--c); }
+  .wide { grid-column: 1 / -1; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+  .flow-step { background: color-mix(in srgb, var(--c) 10%, #fff); border: 1px solid color-mix(in srgb, var(--c) 25%, #fff); color: var(--ink); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+  .flow-arrow { color: var(--c); font-size: 1rem; font-weight: 700; }
+  .s1 { --c: #2a6496; } .s2 { --c: #c94040; } .s3 { --c: #3d8b6a; } .s4 { --c: #b07d2a; } .s5 { --c: #7b4fa6; }
+  @media (max-width: 480px) { .lesson-title { font-size: 1.4rem; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Malattie dell'Apparato Respiratorio — Lezione 7</h1>
+  <nav>
+    <button class="s1 active" onclick="show('s1',this)">Definizione & Classificazione</button>
+    <button class="s2"        onclick="show('s2',this)">Gruppi clinici</button>
+    <button class="s3"        onclick="show('s3',this)">Clinica & Diagnosi</button>
+    <button class="s4"        onclick="show('s4',this)">Esami strumentali</button>
+    <button class="s5"        onclick="show('s5',this)">Catetere cardiaco destro</button>
+  </nav>
+</header>
+
+<!-- S1: Definizione -->
+<div id="s1" class="page active s1">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Prof. Paciocco</div>
+    <div class="lesson-title">Ipertensione Polmonare</div>
+    <div class="lesson-meta">09/11/2022 · Linee guida ESC/ERS 2022</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Definizione</div>
+    <div class="highlight">
+      Patologia del circolo polmonare (cuore dx, arterie polmonari, arteriole, capillari). Può essere <strong>primitiva o secondaria</strong>. Problemi al circolo portale e sclerosi sistemica sono cause di PH secondaria.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Definizione emodinamica (nuove LG 2022)</div>
+        <div class="card-content">
+          <strong>PAPm ≥ 20 mmHg</strong> (abbassato da 25 a 20 nelle LG 2022, su base statistica: 14 mmHg + 2SD = 19 mmHg).<br>
+          Misurata tramite <strong>cateterismo cardiaco destro</strong> (gold standard).
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">PAWP — Wedge pressure</div>
+        <div class="card-content">
+          Pressione di incuneamento capillare polmonare.<br>
+          <strong>≤ 15 mmHg</strong>: PH pre-capillare<br>
+          <strong>&gt; 15 mmHg</strong>: PH post-capillare<br>
+          Discrimina la causa: vascolare polmonare vs cardiaca sinistra.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">PVR — Resistenze vascolari polmonari</div>
+        <div class="card-content">
+          Parametro derivato, misurato in <strong>Wood units (WU)</strong>.<br>
+          ≤1: basse · 1–3: normali · <strong>&gt;3: elevate</strong><br>
+          Criterio PAH: PVR &gt;3 WU + PAPm ≥20 + PAWP ≤15.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Fisiopatologia — circolo polmonare</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Da capacitivo a resistivo</div>
+        <div class="card-content">
+          Fisiologicamente il circolo polmonare è <strong>capacitivo</strong> (basse resistenze). Se le resistenze aumentano → circolo resistivo → ventricolo dx si ipertrofizza → <em>dilata</em> nel lungo termine → cuore polmonare.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">PH pre- vs post-capillare</div>
+        <div class="card-content">
+          <strong>Pre-capillare</strong> (PAWP ≤15): farmaci specifici per la patologia vascolare polmonare → PAH drugs.<br>
+          <strong>Post-capillare isolata</strong> (DPG &lt;7): no terapie specifiche; terapia la causa cardiaca (es. diuretico).<br>
+          <strong>Combinata</strong>: PVR &gt;3 → farmaci PAH utili.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Gruppi clinici -->
+<div id="s2" class="page s2">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Classificazione clinica</div>
+    <div class="lesson-title">5 Gruppi Clinici di Ipertensione Polmonare</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Classificazione in 5 gruppi</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Gruppo 1 — PAH (Ipertensione Arteriosa Polmonare)</div>
+        <div class="card-content">
+          Unico gruppo con farmaci specifici per la patologia vascolare polmonare.<br>
+          <strong>Sottogruppi:</strong>
+          <ul>
+            <li>PAH idiopatica/ereditaria (gene <em>BMPR2</em>): penetranza incompleta, rischio 25% nelle prole, 50% nei genitori</li>
+            <li>PAH associate: <strong>sclerodermia</strong> (30% rischio), <strong>HIV</strong> (&lt;0,1% oggi con triplice terapia), patologie epatiche croniche/portale, cardiopatie congenite</li>
+            <li>PAH da farmaci: <em>anfetamine, fenfluramina</em>, farmaci sui recettori tirosin-chinasici (Dasatinib), Mitomicina-C, Ciclofosfamide</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 2 — PH da cardiopatia sinistra</div>
+        <div class="card-content">Cardiopatia ischemica, dilatativa, valvolare, ipertensiva, ipertrofica del ventricolo sx. Agiscono in modo retrogrado sul circolo polmonare.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 3 — PH da patologie polmonari croniche</div>
+        <div class="card-content">BPCO, enfisema, interstiziopatie, OSAS, sarcoidosi. Distruzione parenchima → PH.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 4 — IPCTE (tromboembolia cronica)</div>
+        <div class="card-content">PH cronica tromboembolica. PH almeno 6 mesi dopo embolia acuta, o embolia polmonare asintomatica.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Gruppo 5 — Miscellanee</div>
+        <div class="card-content">Patologie non chiaramente classificabili: leucemie/linfomi, anemia falciforme. Non si sa se trattare con farmaci gruppo 1 o altri.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Fattori di rischio HP</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Cofattori aggravanti</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Invecchiamento</span>
+            <span class="pill">Diabete</span>
+            <span class="pill">Obesità</span>
+            <span class="pill">Insufficienza renale</span>
+            <span class="pill">Fibrillazione atriale</span>
+            <span class="pill">Interstiziopatie</span>
+          </div>
+          La sclerodermia può dare interessamento arteriolare (farmaci specifici PAH) o postcapillare (WEDGE &gt;15, no farmaci PAH).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: Clinica -->
+<div id="s3" class="page s3">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Clinica</div>
+    <div class="lesson-title">Clinica e Diagnosi di HP</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Sintomi di HAP</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Sintomi principali</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Dispnea (75–80%)</span>
+            <span class="pill">Astenia</span>
+            <span class="pill">Palpitazioni (30%)</span>
+            <span class="pill">Lipotimia e sincope (bambini)</span>
+          </div>
+          <strong>Fenomeno di Raynaud</strong>: vasocostrizione periferica al contatto con freddo → falangi bianche 5–10 min → fase cianotica. Tipico delle connettivopatie.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">9. Segni all'esame obiettivo</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Segni cardiaci</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Aumento II tono</strong> al II spazio parasternale sx</li>
+            <li><strong>Soffio da rigurgito tricuspidale meso-telesistolico</strong> (2/6–3/6): ventricolo dx dilatato → rigurgito → onda V giugulare visibile</li>
+            <li>Comparsa III e IV tono</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Segni di scompenso dx avanzato</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Turgore giugulare</strong> (30–45°): onde A e V pulsanti</li>
+            <li><strong>Epatomegalia</strong></li>
+            <li><strong>Edemi declivi e ascite</strong> — segni quasi terminali</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">11. Limiti della diagnosi</div>
+    <div class="highlight">
+      Sintomi aspecifici → diagnosi avviene mediamente <strong>12–24 mesi dall'inizio dei sintomi</strong> (compenso anatomopatologico delle camere destre). Classificazione funzionale WHO 1–4 basata sulla dispnea.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">15. Screening</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Categorie a rischio</div>
+        <div class="card-content">
+          <strong>PAH ereditaria (BMPR2)</strong>: screening nei fratelli/sorelle e figli con ecocardiogramma annuale.<br>
+          <strong>Sclerodermici</strong> (30% rischio a 10 anni): <em>Protocollo DETECT</em> — esami di funzionalità respiratoria + NT-proBNP → se &gt;200 punti → ecocardiogramma.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: Esami strumentali -->
+<div id="s4" class="page s4">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Esami strumentali</div>
+    <div class="lesson-title">Diagnosi Strumentale di HP</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10. Radiografia del torace</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Reperti radiologici</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Cardiomegalia</strong>: rapporto aia cardiaca/torace &gt;0,5</li>
+            <li>Diametro arteria discendente ant. dx &gt;18 mm (uomo) / &gt;17 mm (donna)</li>
+            <li>Diametro arteria polmonare principale sx &gt;16 mm (uomo)</li>
+            <li><em>Pruning vessels periferico</em>: arteriole 3a-4a generazione amputate</li>
+          </ul>
+          Metodica poco usata oggi (preferita TAC).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10.2 TC torace</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Reperti TC diagnostici</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>VD/VS &gt; 0,9</strong>: sospetto diagnostico rafforzato (specificità 100%)</li>
+            <li>Rapporto aorta ascendente/tronco comune arteria polmonare <strong>&gt;1</strong></li>
+            <li>Diametro assoluto arteria polmonare <strong>&gt;29 mm</strong> (specificità 90%, sensibilità alta)</li>
+            <li>Rapporto arterie lobari/calibro bronchioli &gt;1: specificità 100%</li>
+          </ul>
+          Permette anche di escludere tutte le patologie del gruppo 3.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10.3 ECG</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Pattern ECG in HP</div>
+        <div class="card-content">
+          Simile all'embolia polmonare acuta:
+          <ul>
+            <li><strong>S1Q3T3</strong></li>
+            <li>Alta R in V1, onde T negative V1–V2–V3 (ipertrofia VD)</li>
+            <li>Deviazione assiale destra</li>
+            <li>Scarsa progressione onda R in V2–V3</li>
+            <li><em>Blocco di branca destra</em> (aspetto M in V1–V2)</li>
+            <li><strong>P polmonare o P a campana</strong> in D2–D3</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10.4 Ecocardiogramma (esame di scelta)</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Proiezioni eco</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Parasternale dx</span>
+            <span class="pill">Parasternale sx (II–IV)</span>
+            <span class="pill">Apicale 4 camere (V spazio)</span>
+            <span class="pill">Sottocostale</span>
+            <span class="pill">Soprasternale</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Probabilità ecocardiografica di PH</div>
+        <div class="card-content">
+          Basata su velocità di picco del rigurgito tricuspidale:<br>
+          <strong>≤2,8 m/s + no PH signs</strong>: Bassa<br>
+          <strong>≤2,8 m/s + PH signs</strong>: Intermedia<br>
+          <strong>2,9–3,4 m/s ± PH signs</strong>: Intermedia<br>
+          <strong>&gt;3,4 m/s</strong>: Alta
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">12. Funzionalità respiratoria e biomarcatori</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Spirometria</div>
+        <div class="card-content">Paziente con HP presenta <strong>minima riduzione della FVC</strong> (capacità vitale forzata).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Emogasanalisi</div>
+        <div class="card-content">Simile all'embolia polmonare acuta: <strong>abbassamento pCO2, alcalosi respiratoria</strong> (PCO2 &lt;32–35 mmHg, pH &gt;7,45). Nei casi gravi registra anche abbassamento PO2 (PO2 &lt;50–60 mmHg).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Test del cammino (6MWT)</div>
+        <div class="card-content">Paziente cammina 6 min registrando FR, FC, saturazione e distanza. Il paziente con HP <strong>cammina meno del sano e va più in contro a desaturazione</strong>.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">DLCO</div>
+        <div class="card-content">Indice di diffusione alveolo-capillare. <strong>DLCO ridotta</strong> in HP.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Biomarcatori ematici</div>
+        <div class="card-content">
+          <strong>D-dimero</strong>: per gruppo 4 (IPCTE).<br>
+          <strong>NT-proBNP</strong>: biomarcatore di scompenso ventricolare. Il lato destro secerne di più rispetto al controlaterale → maggiore sensibilità per valutare HP.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Scintigrafia V/Q</div>
+        <div class="card-content">
+          Esame cardine per <strong>embolia polmonare cronica</strong> (gruppo 4). Meno usata nell'acuta (TAC con mezzo di contrasto preferita).<br>
+          <strong>Positiva</strong>: immagine segmentaria con zona nera (minus di flusso).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Catetere cardiaco destro -->
+<div id="s5" class="page s5">
+  <div class="lesson-header">
+    <div class="lesson-tag">Lezione 7 · Catetere cardiaco destro</div>
+    <div class="lesson-title">RHC — Cateterismo Cardiaco Destro</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">16. Cateterismo cardiaco destro con catetere di Swan-Ganz (gold standard diagnostico)</div>
+    <div class="highlight">
+      L'<strong>ecocardiogramma</strong> dà il sospetto clinico. La <strong>certezza</strong> viene solo dal cateterismo cardiaco destro (esame invasivo). Funziona sul principio dei <strong>vasi comunicanti</strong>.
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Parametri misurati</div>
+        <div class="card-content">
+          <ul>
+            <li>Pressione atrio dx: 0–5 mmHg (fisiologica); &gt;8 patologica</li>
+            <li>Pressione ventricolo sx: sistolica 15–30; diastolica 0–8 mmHg</li>
+            <li>Pressione arteria polmonare: sistolica max 30 mmHg; diastolica 4–15 mmHg</li>
+            <li><strong>WEDGE pressure</strong>: 4–15 mmHg; &gt;20 mmHg patologica</li>
+            <li><strong>Gittata cardiaca (CO)</strong>: 4,5–5 L/min (donna), 5–6 L/min (uomo)</li>
+            <li><strong>PVR</strong>: derivata da PAP–WEDGE/CO</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Parametri derivati</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Indice cardiaco (CI)</strong>: CO/BSA → valori normali 2,8–4 l/min/m²</li>
+            <li><strong>Resistenza vascolare sistemica</strong>: normale 900–1400 dyne</li>
+            <li><strong>RVEF (frazione eiezione VD)</strong>: 40–60%</li>
+            <li><strong>Gradiente transpolmonare</strong>: PAP media - WEDGE; non deve superare 12 mmHg</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Vie di accesso (RHC)</div>
+        <div class="card-content">
+          <strong>Giugulare interna</strong>: 90% (preferita perché i dispositivi ecocardiografici minimizzano il rischio)<br>
+          <strong>Femorale interna</strong>: 9,9% (in pazienti scoagulati, antiaggreggati, collo piccolo)<br>
+          <strong>Succlavia</strong>: 0,1%
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Complicanze RHC (rare, 1/10.000)</div>
+        <div class="card-content">
+          <div class="pills">
+            <span class="pill">Ematoma</span>
+            <span class="pill">Pneumotorace</span>
+            <span class="pill">Ipotensione sistemica</span>
+            <span class="pill">Tachiaritmia (TPSV)</span>
+            <span class="pill">Tamponamento cardiaco</span>
+            <span class="pill">Embolia gassosa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
